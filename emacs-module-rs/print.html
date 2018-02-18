@@ -1,0 +1,435 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>User Guide for emacs-module-rs</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <base href="">
+
+        <link rel="stylesheet" href="book.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <link rel="shortcut icon" href="favicon.png">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme -->
+        
+
+        
+
+        <!-- Fetch Clipboard.js from CDN but have a local fallback -->
+        <script src="https://cdn.jsdelivr.net/clipboard.js/1.6.1/clipboard.min.js"></script>
+        <script>
+            if (typeof Clipboard == 'undefined') {
+                document.write(unescape("%3Cscript src='clipboard.min.js'%3E%3C/script%3E"));
+            }
+        </script>
+
+    </head>
+    <body class="light">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { } 
+            if (theme === null || theme === undefined) { theme = 'light'; }
+            document.body.className = theme;
+            document.querySelector('html').className = theme;
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            document.querySelector('html').classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <ol class="chapter"><li class="affix"><a href="overview.html">Overview</a></li><li><a href="hello.html"><strong aria-hidden="true">1.</strong> Hello, Emacs!</a></li><li><a href="functions.html"><strong aria-hidden="true">2.</strong> Writing Functions</a></li><li><a href="calling-lisp.html"><strong aria-hidden="true">3.</strong> Calling Lisp Functions</a></li><li><a href="type-conversions.html"><strong aria-hidden="true">4.</strong> Type Conversions</a></li><li><a href="custom-types.html"><strong aria-hidden="true">5.</strong> Custom Types</a></li><li><a href="errors.html"><strong aria-hidden="true">6.</strong> Error Handling</a></li><li><a href="testing.html"><strong aria-hidden="true">7.</strong> Testing</a></li><li><a href="reloading.html"><strong aria-hidden="true">8.</strong> Live Reloading</a></li></ol>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light <span class="default">(default)</span></button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                        </div>
+
+                        <h1 class="menu-title">User Guide for emacs-module-rs</h1>
+
+                        <div class="right-buttons">
+                            <a href="print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <a class="header" href="print.html#overview" id="overview"><h1>Overview</h1></a>
+<p><code>emacs-module-rs</code> provides high-level Rust binding for Emacs's dynamic module support, and tools that make writing modules easier. It currently supports stable Rust, Emacs 25, OS X and Ubuntu.</p>
+<a class="header" href="print.html#setting-up" id="setting-up"><h2>Setting up</h2></a>
+<ul>
+<li>
+<p>Install the Rust toolchain with <a href="https://www.rustup.rs/">rustup</a>.</p>
+</li>
+<li>
+<p>Make sure that your Emacs was compiled with module support. Check that <code>module-file-suffix</code> is not <code>nil</code>, and the function <code>module-load</code> is defined.</p>
+</li>
+</ul>
+<a class="header" href="print.html#hello-emacs" id="hello-emacs"><h1>Hello, Emacs!</h1></a>
+<p>Create a new project:</p>
+<pre><code class="language-bash">cargo new greeting
+cd greeting
+</code></pre>
+<p>Modify <code>Cargo.toml</code>:</p>
+<pre><code class="language-toml">[lib]
+crate-type = [&quot;cdylib&quot;]
+
+[dependencies]
+emacs = &quot;0.4.0&quot;
+</code></pre>
+<p>Write code in <code>src/lib.rs</code>:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+#[macro_use]
+extern crate emacs;
+
+use emacs::{Env, Result, Value};
+
+// Emacs won't load the module without this.
+emacs_plugin_is_GPL_compatible!();
+
+// Declare and define the init function, which Emacs will call when it loads the module.
+emacs_module_init!(init);
+fn init(env: &amp;Env) -&gt; Result&lt;Value&gt; {
+    env.message(&quot;Hello, Emacs!&quot;)?;
+    env.provide(&quot;greeting&quot;)
+}
+#}</code></pre></pre>
+<p>Build the module and create a symlink with <code>.so</code> extension so that Emacs can recognize it:</p>
+<pre><code class="language-bash">cargo build
+cd target/debug
+# If you are on Linux, it would be libgreeting.so
+ln -s libgreeting.dylib greeting.so
+</code></pre>
+<p>Add <code>target/debug</code> to your Emacs's <code>load-path</code>, then load the module:</p>
+<pre><code class="language-emacs-lisp">(require 'greeting)
+</code></pre>
+<p>The minibuffer should display the message &quot;Hello, Emacs!&quot;.</p>
+<a class="header" href="print.html#writing-functions" id="writing-functions"><h1>Writing Functions</h1></a>
+<p>You can write Rust functions to be called by Lisp code. These functions must have the signature of <code>fn(&amp;CallEnv) -&gt; Result&lt;T&gt;</code>, where <code>T</code> is any type that implements <code>IntoLisp</code> trait:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+fn inc(env: &amp;CallEnv) -&gt; Result&lt;i64&gt; {
+    let x: i64 = env.parse_arg(0)?;
+    Ok(x + 1)
+}
+
+fn sum(env: &amp;CallEnv) -&gt; Result&lt;Value&gt; {
+    let x: f64 = env.parse_arg(0)?;
+    let y: f64 = env.parse_arg(1)?;
+    (x + y).into_lisp(env)
+}
+#}</code></pre></pre>
+<a class="header" href="print.html#getting-arguments" id="getting-arguments"><h2>Getting arguments</h2></a>
+<p>To get a typed argument, use <code>env.parse_arg(i)</code>:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+let path: String = env.parse_arg(0)?;
+let count: i64 = env.parse_arg(1)?;
+#}</code></pre></pre>
+<p>To get an argument as <code>Value</code>, use <code>env.get_arg(i)</code>. This is useful in case you want to use it as a return value or delay the conversion to Rust until necessary:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+fn get_or_default(env: &amp;CallEnv) -&gt; Result&lt;Value&gt; {
+    let map: &amp;HashMap&lt;String, String&gt; = env.parse_arg(0)?;
+    let key: &amp;str = env.parse_arg(1)?;
+    match m.get(key) {
+        Some(v) =&gt; Ok(v.into_lisp(env)?),
+        None =&gt; env.get_arg(2),
+    }
+}
+#}</code></pre></pre>
+<p>To get all arguments as a <code>Vec&lt;Value&gt;</code>, use <code>env.args()</code>.</p>
+<a class="header" href="print.html#exporting-named-functions" id="exporting-named-functions"><h2>Exporting named functions</h2></a>
+<p>To allow Lisp code to call these functions by name, use <code>emacs_export_funtions!</code>:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+fn inc(env: &amp;CallEnv) -&gt; Result&lt;i64&gt; {
+    env.parse_arg::&lt;i64&gt;(0)? + 1
+}
+
+fn dec(env: &amp;CallEnv) -&gt; Result&lt;i64&gt; {
+    env.parse_arg::&lt;i64&gt;(0)? - 1
+}
+
+// This should be put inside the init function.
+emacs_export_functions! {
+    env, &quot;math-&quot;, {
+        &quot;inc&quot; =&gt; (inc, 1..1, &quot;Return NUMBER plus one.&quot;),
+        &quot;dec&quot; =&gt; (dec, 1..1, &quot;Return NUMBER minus one.&quot;),
+    }
+}
+#}</code></pre></pre>
+<pre><code class="language-emacs-lisp">(math-inc 5) ; 6
+(math-inc 5 7) ; 'wrong-number-of-arguments
+(math-dec &quot;5&quot;) ; 'wrong-type-argument
+</code></pre>
+<a class="header" href="print.html#returning-anonymous-lambdas" id="returning-anonymous-lambdas"><h2>Returning anonymous lambdas</h2></a>
+<p>TODO</p>
+<a class="header" href="print.html#calling-lisp-functions" id="calling-lisp-functions"><h1>Calling Lisp Functions</h1></a>
+<p>Frequently-used Lisp functions are exposed as methods on <code>env</code>:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+env.intern(&quot;defun&quot;)?;
+
+env.message(&quot;Hello&quot;)?;
+
+env.type_of(5.into_lisp(env)?)?;
+
+env.provide(&quot;my-module&quot;)?;
+#}</code></pre></pre>
+<p>To call arbitrary Lisp functions, use <code>env.call(&amp;str, &amp;[Value])</code>:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+// (list &quot;1&quot; 2)
+env.call(&quot;list&quot;, &amp;[
+    &quot;1&quot;.into_lisp(env)?,
+    2.into_lisp(env)?,
+])?;
+
+// (add-hook 'text-mode-hook 'variable-pitch-mode)
+env.call(&quot;add-hook&quot;, &amp;[
+    env.intern(&quot;text-mode-hook&quot;)?,
+    env.intern(&quot;variable-pitch-mode&quot;)?,
+])?;
+#}</code></pre></pre>
+<a class="header" href="print.html#type-conversions" id="type-conversions"><h1>Type Conversions</h1></a>
+<p>The type <code>Value</code> represents Lisp values:</p>
+<ul>
+<li>They can be copied around, but cannot outlive the <code>env</code> they come from.</li>
+<li>They are &quot;proxy values&quot;: only useful when converted to Rust values, or as arguments when calling Lisp functions.</li>
+</ul>
+<a class="header" href="print.html#converting-a-lisp-value-to-rust" id="converting-a-lisp-value-to-rust"><h2>Converting a Lisp <code>Value</code> to Rust</h2></a>
+<p>This is enabled for types that implement <code>FromLisp</code> trait. Most built-in types are supported. Note that conversion may fail, so the return type is <code>Result&lt;T&gt;</code>.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+let i: i64 = value.into_rust()?; // error if Lisp value is not an integer
+let f: f64 = value.into_rust()?; // error if Lisp value is nil
+
+let s = value.into_rust::&lt;String&gt;()?;
+let s: Option&lt;&amp;str&gt; = value.into_rust()?; // None if Lisp value is nil
+#}</code></pre></pre>
+<a class="header" href="print.html#converting-a-rust-value-to-lisp" id="converting-a-rust-value-to-lisp"><h2>Converting a Rust value to Lisp</h2></a>
+<p>This is enabled for types that implement <code>IntoLisp</code> trait. Most built-in types are supported. Note that conversion may fail, so the return type is <code>Result&lt;Value&gt;</code>.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+&quot;abc&quot;.into_lisp(env)?;
+&quot;a\0bc&quot;.into_lisp(env)?; // NulError (Lisp string cannot contain null byte)
+
+5.into_lisp(env)?;
+65.3.into_lisp(env)?;
+
+().into_lisp(env)?; // nil
+true.into_lisp(env)?; // t
+false.into_lisp(env)?; // nil
+#}</code></pre></pre>
+<a class="header" href="print.html#embedding-rust-values-in-lisp" id="embedding-rust-values-in-lisp"><h1>Embedding Rust values in Lisp</h1></a>
+<p>If a type implements <code>Transfer</code>, its <code>Box</code>-wrapped values can be moved into Lisp, to be owned by the GC.</p>
+<p>Lisp code sees these as opaque &quot;embedded user pointers&quot; (whose printed representations look like<code>#&lt;user-ptr ...&gt;</code>). For these values to be useful, a Rust module needs to export additional functions to manipulate them.</p>
+<p>Since these values are owned by the GC, Rust code can only safely access them through immutable references. To make them useful, interior mutability is usually needed. Therefore <code>Transfer</code> is implemented for <code>RefCell</code>, <code>Mutex</code>, and <code>RwLock</code>. Note that currently, only <code>RefCell</code> is useful, since a GC-integrated equivalent of <code>Arc</code> has not been implemented.</p>
+<p>For example, a module that allows Emacs to use Rust's <code>HashMap</code> may look like this:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+use std::cell::RefCell;
+use std::collections::HashMap;
+
+fn init(env: &amp;Env) -&gt; Result&lt;Value&gt; {
+    type Map = RefCell&lt;HashMap&lt;String, String&gt;&gt;;
+
+    fn make(_: &amp;CallEnv) -&gt; Result&lt;Map&gt; {
+        Ok(RefCell::new(HashMap::new()))
+    }
+
+    fn get(env: &amp;CallEnv) -&gt; Result&lt;Value&gt; {
+        let map: &amp;Map = env.parse_arg(0)?;
+        let key: String = env.parse_arg(1)?;
+        map.borrow().get(&amp;key).into_lisp(env)
+    }
+
+    fn set(env: &amp;CallEnv) -&gt; Result&lt;Option&lt;String&gt;&gt; {
+        let map: &amp;Map = env.parse_arg(0)?;
+        let key: String = env.parse_arg(1)?;
+        let value: String = env.parse_arg(2)?;
+        Ok(map.borrow_mut().insert(key,value))
+    }
+
+    emacs_export_functions! {
+        env, format!(&quot;rs-hash-map/&quot;, *MODULE_PREFIX), {
+            &quot;make&quot; =&gt; (make, 0..0),
+            &quot;get&quot;  =&gt; (get,  2..2),
+            &quot;set&quot;  =&gt; (set,  3..3),
+        }
+    }
+
+    env.provide(&quot;rs-hash-map&quot;)
+}
+#}</code></pre></pre>
+<pre><code class="language-emacs-lisp">(let ((m (rs-hash-map/make)))
+  (rs-hash-map/get m &quot;a&quot;)     ; -&gt; nil
+
+  (rs-hash-map/set m &quot;a&quot; &quot;1&quot;) ; -&gt; nil
+  (rs-hash-map/get m &quot;a&quot;)     ; -&gt; &quot;1&quot;
+
+  (rs-hash-map/set m &quot;a&quot; &quot;2&quot;) ; -&gt; &quot;1&quot;
+  (rs-hash-map/get m &quot;a&quot;))    ; -&gt; &quot;2&quot;
+</code></pre>
+<a class="header" href="print.html#error-handling" id="error-handling"><h1>Error Handling</h1></a>
+<p>Emacs Lisp's error handling mechanism uses non-local exits. Rust uses <code>Result</code> enum. <code>emacs-module-rs</code> converts between the 2 at the Rust-Lisp boundaries (more precisely, Rust-C).</p>
+<p>TODO: Expand this section.</p>
+<a class="header" href="print.html#handling-errors-from-lisp-functions" id="handling-errors-from-lisp-functions"><h2>Handling errors from Lisp functions</h2></a>
+<p>TODO</p>
+<a class="header" href="print.html#returning-errors-to-lisp" id="returning-errors-to-lisp"><h2>Returning errors to Lisp</h2></a>
+<p>TODO</p>
+<a class="header" href="print.html#panics" id="panics"><h2>Panics</h2></a>
+<p>Unwinding from Rust into C is undefined behavior. <code>emacs-module-rs</code> prevents that by using <code>catch_unwind</code> at the Rust-to-C boundary, converting a panic into a Lisp's<code>signal</code> of type <code>'panic</code>.</p>
+<a class="header" href="print.html#testing" id="testing"><h1>Testing</h1></a>
+<p>TODO</p>
+<a class="header" href="print.html#live-reloading" id="live-reloading"><h1>Live Reloading</h1></a>
+<p>TODO</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+
+                
+            </nav>
+
+        </div>
+
+
+        <!-- Local fallback for Font Awesome -->
+        <script>
+            if (getComputedStyle(document.querySelector(".fa")).fontFamily !== "FontAwesome") {
+                var link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.type = 'text/css';
+                link.href = '_FontAwesome/css/font-awesome.css';
+                document.head.insertBefore(link, document.head.firstChild)
+            }
+        </script>
+
+        
+        <!-- Livereload script (if served using the cli tool) -->
+        <script type="text/javascript">
+            var socket = new WebSocket("ws://localhost:3001");
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload(true); // force reload from server (not from cache)
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+        
+
+        
+
+        
+
+        
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                window.print();
+            })
+        </script>
+        
+
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS script -->
+        
+
+    </body>
+</html>
