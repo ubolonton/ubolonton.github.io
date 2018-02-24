@@ -142,12 +142,14 @@ cd greeting
 crate-type = [&quot;cdylib&quot;]
 
 [dependencies]
+libc = &quot;0.2.36&quot;
 emacs = &quot;0.5.0&quot;
 </code></pre>
 <p>Write code in <code>src/lib.rs</code>:</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
+extern crate libc;
 #[macro_use]
 extern crate emacs;
 
