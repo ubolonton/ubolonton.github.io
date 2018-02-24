@@ -156,11 +156,16 @@ fn init(env: &amp;Env) -&gt; Result&lt;Value&gt; {
 <p>Build the module and create a symlink with <code>.so</code> extension so that Emacs can recognize it:</p>
 <pre><code class="language-bash">cargo build
 cd target/debug
-# If you are on Linux, it would be libgreeting.so
+
+# If you are on Linux
+ln -s libgreeting.so greeting.so
+
+# If you are on OS X
 ln -s libgreeting.dylib greeting.so
 </code></pre>
 <p>Add <code>target/debug</code> to your Emacs's <code>load-path</code>, then load the module:</p>
-<pre><code class="language-emacs-lisp">(require 'greeting)
+<pre><code class="language-emacs-lisp">(add-to-list 'load-path &quot;/path/to/target/debug&quot;)
+(require 'greeting)
 </code></pre>
 <p>The minibuffer should display the message &quot;Hello, Emacs!&quot;.</p>
 
