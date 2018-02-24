@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Error Handling - User Guide for emacs-module-rs</title>
+        <title>Error Handling - emacs-module-rs 0.5.0</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -99,7 +99,7 @@
                             </ul>
                         </div>
 
-                        <h1 class="menu-title">User Guide for emacs-module-rs</h1>
+                        <h1 class="menu-title">emacs-module-rs 0.5.0</h1>
 
                         <div class="right-buttons">
                             <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -121,14 +121,55 @@
                 <div id="content" class="content">
                     <main>
                         <a class="header" href="errors.html#error-handling" id="error-handling"><h1>Error Handling</h1></a>
-<p>Emacs Lisp's error handling mechanism uses non-local exits. Rust uses <code>Result</code> enum. <code>emacs-module-rs</code> converts between the 2 at the Rust-Lisp boundaries (more precisely, Rust-C).</p>
-<p>TODO: Expand this section.</p>
-<a class="header" href="errors.html#handling-errors-from-lisp-functions" id="handling-errors-from-lisp-functions"><h2>Handling errors from Lisp functions</h2></a>
-<p>TODO</p>
-<a class="header" href="errors.html#returning-errors-to-lisp" id="returning-errors-to-lisp"><h2>Returning errors to Lisp</h2></a>
-<p>TODO</p>
-<a class="header" href="errors.html#panics" id="panics"><h2>Panics</h2></a>
-<p>Unwinding from Rust into C is undefined behavior. <code>emacs-module-rs</code> prevents that by using <code>catch_unwind</code> at the Rust-to-C boundary, converting a panic into a Lisp's<code>signal</code> of type <code>'panic</code>.</p>
+<p>Emacs Lisp's <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Handling-Errors.html">error handling mechanism</a> uses <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Nonlocal-Exits.html">non-local exits</a>. Rust uses <code>Result</code> enum. <code>emacs-module-rs</code> converts between the 2 at the Rust-Lisp boundaries (more precisely, Rust-C).</p>
+<p>The chosen error type is the <code>Error</code> struct from <a href="https://github.com/withoutboats/failure"><code>failure</code> crate</a>:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+pub type Result&lt;T&gt; = result::Result&lt;T, failure::Error&gt;;
+#}</code></pre></pre>
+<a class="header" href="errors.html#handling-lisp-errors-in-rust" id="handling-lisp-errors-in-rust"><h2>Handling Lisp errors in Rust</h2></a>
+<p>When calling a Lisp function, it's usually a good idea to propagate signaled errors with the <code>?</code> operator, letting higher level (Lisp) code handle them. If you want to handle a specific error, you can use <code>error.downcast_ref</code>:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+match env.call(&quot;insert&quot;, &amp;[some_text]) {
+    Err(error) =&gt; {
+        // Handle `buffer-read-only` error.
+        if let Some(&amp;Signal { ref symbol, .. }) = error.downcast_ref::&lt;ErrorKind&gt;() {
+            let buffer_read_only = env.intern(&quot;buffer-read-only&quot;)?;
+            // `symbol` is a `TempValue` that must be converted to `Value`.
+            let symbol = unsafe { Ok(symbol.value(env)) };
+            if env.eq(symbol, buffer_read_only) {
+                env.message(&quot;This buffer is not writable!&quot;)?;
+                return Ok(())
+            }
+        }
+        // Propagate other errors.
+        Err(error)
+    },
+    v =&gt; v,
+}
+#}</code></pre></pre>
+<p>Note the use of <code>unsafe</code> to extract the error symbol as a <code>Value</code>. The reason is that, <code>ErrorKind::Signal</code> is marked <code>Send+Sync</code>, for compatibility with <code>failure</code>, while <code>Value</code> is lifetime-bound by <code>env</code>. The <code>unsafe</code> contract here requires the error being handled (and its <code>TempValue</code>) to come from this <code>env</code>, not from another thread, or from a global/thread-local storage.</p>
+<a class="header" href="errors.html#handling-rust-errors-in-lisp" id="handling-rust-errors-in-lisp"><h2>Handling Rust errors in Lisp</h2></a>
+<p>In addition to <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Standard-Errors.html">standard errors</a>, Rust module functions can signal Rust-specific errors, which can also be handled by <code>condition-case</code>:</p>
+<ul>
+<li><code>rust-error</code>: The message is <code>Rust error</code>. This covers all generic Rust-originated errors.</li>
+<li><code>rust-wrong-type-user-ptr</code>: The message is <code>Wrong type user-ptr</code>. This happens when Rust code is passed a <code>user-ptr</code> of a type it's not expecting. It is a sub-type of <code>rust-error</code>.
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+// May signal if `value` holds a different type of hash map,
+// or is a `user-ptr` defined in a non-Rust module.
+let r: &amp;RefCell&lt;HashMap&lt;String, String&gt;&gt; = value.into_rust()?;
+#}</code></pre></pre>
+</li>
+</ul>
+<a class="header" href="errors.html#panics" id="panics"><h3>Panics</h3></a>
+<p>Unwinding from Rust into C is undefined behavior. <code>emacs-module-rs</code> prevents that by using <code>catch_unwind</code> at the Rust-to-C boundary, converting a panic into a Lisp's error signal of type <code>rust-panic</code>. Note that it is <strong>not a sub-type</strong> of <code>rust-error</code>.</p>
+<a class="header" href="errors.html#catching-values-thrown-by-lisp" id="catching-values-thrown-by-lisp"><h2>Catching values thrown by Lisp</h2></a>
+<p>This is similar to handling Lisp errors. The only difference is <code>ErrorKind::Throw</code> being used instead of <code>ErrorKind::Signal</code>.</p>
 
                     </main>
 

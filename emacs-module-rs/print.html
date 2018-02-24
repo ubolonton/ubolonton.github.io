@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>User Guide for emacs-module-rs</title>
+        <title>emacs-module-rs 0.5.0</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -99,7 +99,7 @@
                             </ul>
                         </div>
 
-                        <h1 class="menu-title">User Guide for emacs-module-rs</h1>
+                        <h1 class="menu-title">emacs-module-rs 0.5.0</h1>
 
                         <div class="right-buttons">
                             <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -121,7 +121,8 @@
                 <div id="content" class="content">
                     <main>
                         <a class="header" href="print.html#overview" id="overview"><h1>Overview</h1></a>
-<p><code>emacs-module-rs</code> provides high-level Rust binding for Emacs's dynamic module support, and tools that make writing modules easier. It currently supports stable Rust, Emacs 25, OS X and Ubuntu.</p>
+<p><code>emacs-module-rs</code> provides high-level Rust binding and tools to write Emacs's dynamic modules. It is easy to use if you know either Rust or Emacs.</p>
+<p>It currently supports stable Rust, Emacs 25, OS X and Linux.</p>
 <a class="header" href="print.html#setting-up" id="setting-up"><h2>Setting up</h2></a>
 <ul>
 <li>
@@ -141,7 +142,7 @@ cd greeting
 crate-type = [&quot;cdylib&quot;]
 
 [dependencies]
-emacs = &quot;0.4.0&quot;
+emacs = &quot;0.5.0&quot;
 </code></pre>
 <p>Write code in <code>src/lib.rs</code>:</p>
 <pre><pre class="playpen"><code class="language-rust">
@@ -173,7 +174,7 @@ ln -s libgreeting.dylib greeting.so
 </code></pre>
 <p>The minibuffer should display the message &quot;Hello, Emacs!&quot;.</p>
 <a class="header" href="print.html#writing-functions" id="writing-functions"><h1>Writing Functions</h1></a>
-<p>You can write Rust functions to be called by Lisp code. These functions must have the signature of <code>fn(&amp;CallEnv) -&gt; Result&lt;T&gt;</code>, where <code>T</code> is any type that implements <code>IntoLisp</code> trait:</p>
+<p>You can write Rust functions to be called by Lisp code. These functions must have the signature <code>fn(&amp;CallEnv) -&gt; Result&lt;T&gt;</code>, where <code>T</code> is any type that implements the <code>IntoLisp</code> trait:</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
@@ -270,7 +271,7 @@ env.call(&quot;add-hook&quot;, &amp;[
 <p>The type <code>Value</code> represents Lisp values:</p>
 <ul>
 <li>They can be copied around, but cannot outlive the <code>env</code> they come from.</li>
-<li>They are &quot;proxy values&quot;: only useful when converted to Rust values, or as arguments when calling Lisp functions.</li>
+<li>They are &quot;proxy values&quot;: only useful when converted to Rust values, or used as arguments when calling Lisp functions.</li>
 </ul>
 <a class="header" href="print.html#converting-a-lisp-value-to-rust" id="converting-a-lisp-value-to-rust"><h2>Converting a Lisp <code>Value</code> to Rust</h2></a>
 <p>This is enabled for types that implement <code>FromLisp</code> trait. Most built-in types are supported. Note that conversion may fail, so the return type is <code>Result&lt;T&gt;</code>.</p>
@@ -300,7 +301,7 @@ false.into_lisp(env)?; // nil
 #}</code></pre></pre>
 <a class="header" href="print.html#embedding-rust-values-in-lisp" id="embedding-rust-values-in-lisp"><h1>Embedding Rust values in Lisp</h1></a>
 <p>If a type implements <code>Transfer</code>, its <code>Box</code>-wrapped values can be moved into Lisp, to be owned by the GC.</p>
-<p>Lisp code sees these as opaque &quot;embedded user pointers&quot; (whose printed representations look like<code>#&lt;user-ptr ...&gt;</code>). For these values to be useful, a Rust module needs to export additional functions to manipulate them.</p>
+<p>Lisp code sees these as opaque &quot;embedded user pointers&quot; (whose printed representations look like<code>#&lt;user-ptr ...&gt;</code>). For these values to be usable, a Rust module needs to export additional functions to manipulate them.</p>
 <p>Since these values are owned by the GC, Rust code can only safely access them through immutable references. To make them useful, interior mutability is usually needed. Therefore <code>Transfer</code> is implemented for <code>RefCell</code>, <code>Mutex</code>, and <code>RwLock</code>. Note that currently, only <code>RefCell</code> is useful, since a GC-integrated equivalent of <code>Arc</code> has not been implemented.</p>
 <p>For example, a module that allows Emacs to use Rust's <code>HashMap</code> may look like this:</p>
 <pre><pre class="playpen"><code class="language-rust">
@@ -350,18 +351,80 @@ fn init(env: &amp;Env) -&gt; Result&lt;Value&gt; {
   (rs-hash-map/get m &quot;a&quot;))    ; -&gt; &quot;2&quot;
 </code></pre>
 <a class="header" href="print.html#error-handling" id="error-handling"><h1>Error Handling</h1></a>
-<p>Emacs Lisp's error handling mechanism uses non-local exits. Rust uses <code>Result</code> enum. <code>emacs-module-rs</code> converts between the 2 at the Rust-Lisp boundaries (more precisely, Rust-C).</p>
-<p>TODO: Expand this section.</p>
-<a class="header" href="print.html#handling-errors-from-lisp-functions" id="handling-errors-from-lisp-functions"><h2>Handling errors from Lisp functions</h2></a>
-<p>TODO</p>
-<a class="header" href="print.html#returning-errors-to-lisp" id="returning-errors-to-lisp"><h2>Returning errors to Lisp</h2></a>
-<p>TODO</p>
-<a class="header" href="print.html#panics" id="panics"><h2>Panics</h2></a>
-<p>Unwinding from Rust into C is undefined behavior. <code>emacs-module-rs</code> prevents that by using <code>catch_unwind</code> at the Rust-to-C boundary, converting a panic into a Lisp's<code>signal</code> of type <code>'panic</code>.</p>
+<p>Emacs Lisp's <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Handling-Errors.html">error handling mechanism</a> uses <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Nonlocal-Exits.html">non-local exits</a>. Rust uses <code>Result</code> enum. <code>emacs-module-rs</code> converts between the 2 at the Rust-Lisp boundaries (more precisely, Rust-C).</p>
+<p>The chosen error type is the <code>Error</code> struct from <a href="https://github.com/withoutboats/failure"><code>failure</code> crate</a>:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+pub type Result&lt;T&gt; = result::Result&lt;T, failure::Error&gt;;
+#}</code></pre></pre>
+<a class="header" href="print.html#handling-lisp-errors-in-rust" id="handling-lisp-errors-in-rust"><h2>Handling Lisp errors in Rust</h2></a>
+<p>When calling a Lisp function, it's usually a good idea to propagate signaled errors with the <code>?</code> operator, letting higher level (Lisp) code handle them. If you want to handle a specific error, you can use <code>error.downcast_ref</code>:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+match env.call(&quot;insert&quot;, &amp;[some_text]) {
+    Err(error) =&gt; {
+        // Handle `buffer-read-only` error.
+        if let Some(&amp;Signal { ref symbol, .. }) = error.downcast_ref::&lt;ErrorKind&gt;() {
+            let buffer_read_only = env.intern(&quot;buffer-read-only&quot;)?;
+            // `symbol` is a `TempValue` that must be converted to `Value`.
+            let symbol = unsafe { Ok(symbol.value(env)) };
+            if env.eq(symbol, buffer_read_only) {
+                env.message(&quot;This buffer is not writable!&quot;)?;
+                return Ok(())
+            }
+        }
+        // Propagate other errors.
+        Err(error)
+    },
+    v =&gt; v,
+}
+#}</code></pre></pre>
+<p>Note the use of <code>unsafe</code> to extract the error symbol as a <code>Value</code>. The reason is that, <code>ErrorKind::Signal</code> is marked <code>Send+Sync</code>, for compatibility with <code>failure</code>, while <code>Value</code> is lifetime-bound by <code>env</code>. The <code>unsafe</code> contract here requires the error being handled (and its <code>TempValue</code>) to come from this <code>env</code>, not from another thread, or from a global/thread-local storage.</p>
+<a class="header" href="print.html#handling-rust-errors-in-lisp" id="handling-rust-errors-in-lisp"><h2>Handling Rust errors in Lisp</h2></a>
+<p>In addition to <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Standard-Errors.html">standard errors</a>, Rust module functions can signal Rust-specific errors, which can also be handled by <code>condition-case</code>:</p>
+<ul>
+<li><code>rust-error</code>: The message is <code>Rust error</code>. This covers all generic Rust-originated errors.</li>
+<li><code>rust-wrong-type-user-ptr</code>: The message is <code>Wrong type user-ptr</code>. This happens when Rust code is passed a <code>user-ptr</code> of a type it's not expecting. It is a sub-type of <code>rust-error</code>.
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+// May signal if `value` holds a different type of hash map,
+// or is a `user-ptr` defined in a non-Rust module.
+let r: &amp;RefCell&lt;HashMap&lt;String, String&gt;&gt; = value.into_rust()?;
+#}</code></pre></pre>
+</li>
+</ul>
+<a class="header" href="print.html#panics" id="panics"><h3>Panics</h3></a>
+<p>Unwinding from Rust into C is undefined behavior. <code>emacs-module-rs</code> prevents that by using <code>catch_unwind</code> at the Rust-to-C boundary, converting a panic into a Lisp's error signal of type <code>rust-panic</code>. Note that it is <strong>not a sub-type</strong> of <code>rust-error</code>.</p>
+<a class="header" href="print.html#catching-values-thrown-by-lisp" id="catching-values-thrown-by-lisp"><h2>Catching values thrown by Lisp</h2></a>
+<p>This is similar to handling Lisp errors. The only difference is <code>ErrorKind::Throw</code> being used instead of <code>ErrorKind::Signal</code>.</p>
 <a class="header" href="print.html#testing" id="testing"><h1>Testing</h1></a>
-<p>TODO</p>
+<p>You can define tests using <a href="https://www.gnu.org/software/emacs/manual/html_node/ert/index.html">ert</a>, then use a bash script to load the module and run the tests. Examples:</p>
+<ul>
+<li>emacs-module-rs's own <a href="https://github.com/ubolonton/emacs-module-rs/blob/master/test-module/src/test.el">tests</a> and <a href="https://github.com/ubolonton/emacs-module-rs/blob/master/bin/test.sh">script</a>.</li>
+<li>magit-libgit2's <a href="https://github.com/ubolonton/magit-libgit2/blob/master/elisp/magit-libgit2-test.el">tests</a> and <a href="https://github.com/ubolonton/magit-libgit2/blob/master/bin/test.sh">script</a>.</li>
+</ul>
+<p>Continuous testing during development can be done using <code>cargo-watch</code>:</p>
+<pre><code class="language-bash">cargo watch -x 'build --all' -s bin/test.sh
+</code></pre>
+<p>A future version will have tighter integration with either <code>cargo</code> or <a href="https://github.com/cask/cask">Cask</a>.</p>
 <a class="header" href="print.html#live-reloading" id="live-reloading"><h1>Live Reloading</h1></a>
-<p>TODO</p>
+<p>Live code reloading is very useful during development. However, Emacs does not support unloading modules. Live reloading thus requires a custom module loader, e.g. <a href="https://crates.io/crates/emacs-rs-module">emacs-rs-module</a>, which is itself a dynamic module.</p>
+<p>To use it, load it in Emacs:</p>
+<pre><code class="language-emacs-lisp">(require 'rs-module)
+</code></pre>
+<p>Then use it to load other modules instead of <code>require</code> or <code>module-load</code>:</p>
+<pre><code class="language-emacs-lisp">;; Will unload the old version of the module first.
+(rs-module/load &quot;full/path/to/module.so&quot;)
+</code></pre>
+<p><code>cargo</code> doesn't support installing dynamic libs yet, so you have to include <code>emacs-rs-module</code> as a dev dependency to compile it on your own:</p>
+<pre><code class="language-toml">[dev-dependencies]
+emacs-rs-module = { version = &quot;0.5.0&quot; }
+</code></pre>
+<p><a href="https://github.com/ubolonton/magit-libgit2#interactive-development">magit-libgit2</a> is an example of how to set this all up, to have live-reloading on-save.</p>
+<p>A future version will have tighter integration with <code>cargo</code>.</p>
 
                     </main>
 

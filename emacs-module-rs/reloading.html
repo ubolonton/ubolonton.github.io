@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Live Reloading - User Guide for emacs-module-rs</title>
+        <title>Live Reloading - emacs-module-rs 0.5.0</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -99,7 +99,7 @@
                             </ul>
                         </div>
 
-                        <h1 class="menu-title">User Guide for emacs-module-rs</h1>
+                        <h1 class="menu-title">emacs-module-rs 0.5.0</h1>
 
                         <div class="right-buttons">
                             <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -121,7 +121,20 @@
                 <div id="content" class="content">
                     <main>
                         <a class="header" href="reloading.html#live-reloading" id="live-reloading"><h1>Live Reloading</h1></a>
-<p>TODO</p>
+<p>Live code reloading is very useful during development. However, Emacs does not support unloading modules. Live reloading thus requires a custom module loader, e.g. <a href="https://crates.io/crates/emacs-rs-module">emacs-rs-module</a>, which is itself a dynamic module.</p>
+<p>To use it, load it in Emacs:</p>
+<pre><code class="language-emacs-lisp">(require 'rs-module)
+</code></pre>
+<p>Then use it to load other modules instead of <code>require</code> or <code>module-load</code>:</p>
+<pre><code class="language-emacs-lisp">;; Will unload the old version of the module first.
+(rs-module/load &quot;full/path/to/module.so&quot;)
+</code></pre>
+<p><code>cargo</code> doesn't support installing dynamic libs yet, so you have to include <code>emacs-rs-module</code> as a dev dependency to compile it on your own:</p>
+<pre><code class="language-toml">[dev-dependencies]
+emacs-rs-module = { version = &quot;0.5.0&quot; }
+</code></pre>
+<p><a href="https://github.com/ubolonton/magit-libgit2#interactive-development">magit-libgit2</a> is an example of how to set this all up, to have live-reloading on-save.</p>
+<p>A future version will have tighter integration with <code>cargo</code>.</p>
 
                     </main>
 

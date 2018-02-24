@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Writing Functions - User Guide for emacs-module-rs</title>
+        <title>Writing Functions - emacs-module-rs 0.5.0</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -99,7 +99,7 @@
                             </ul>
                         </div>
 
-                        <h1 class="menu-title">User Guide for emacs-module-rs</h1>
+                        <h1 class="menu-title">emacs-module-rs 0.5.0</h1>
 
                         <div class="right-buttons">
                             <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -121,7 +121,7 @@
                 <div id="content" class="content">
                     <main>
                         <a class="header" href="functions.html#writing-functions" id="writing-functions"><h1>Writing Functions</h1></a>
-<p>You can write Rust functions to be called by Lisp code. These functions must have the signature of <code>fn(&amp;CallEnv) -&gt; Result&lt;T&gt;</code>, where <code>T</code> is any type that implements <code>IntoLisp</code> trait:</p>
+<p>You can write Rust functions to be called by Lisp code. These functions must have the signature <code>fn(&amp;CallEnv) -&gt; Result&lt;T&gt;</code>, where <code>T</code> is any type that implements the <code>IntoLisp</code> trait:</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {

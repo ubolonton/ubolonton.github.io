@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Testing - User Guide for emacs-module-rs</title>
+        <title>Testing - emacs-module-rs 0.5.0</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -99,7 +99,7 @@
                             </ul>
                         </div>
 
-                        <h1 class="menu-title">User Guide for emacs-module-rs</h1>
+                        <h1 class="menu-title">emacs-module-rs 0.5.0</h1>
 
                         <div class="right-buttons">
                             <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -121,7 +121,15 @@
                 <div id="content" class="content">
                     <main>
                         <a class="header" href="testing.html#testing" id="testing"><h1>Testing</h1></a>
-<p>TODO</p>
+<p>You can define tests using <a href="https://www.gnu.org/software/emacs/manual/html_node/ert/index.html">ert</a>, then use a bash script to load the module and run the tests. Examples:</p>
+<ul>
+<li>emacs-module-rs's own <a href="https://github.com/ubolonton/emacs-module-rs/blob/master/test-module/src/test.el">tests</a> and <a href="https://github.com/ubolonton/emacs-module-rs/blob/master/bin/test.sh">script</a>.</li>
+<li>magit-libgit2's <a href="https://github.com/ubolonton/magit-libgit2/blob/master/elisp/magit-libgit2-test.el">tests</a> and <a href="https://github.com/ubolonton/magit-libgit2/blob/master/bin/test.sh">script</a>.</li>
+</ul>
+<p>Continuous testing during development can be done using <code>cargo-watch</code>:</p>
+<pre><code class="language-bash">cargo watch -x 'build --all' -s bin/test.sh
+</code></pre>
+<p>A future version will have tighter integration with either <code>cargo</code> or <a href="https://github.com/cask/cask">Cask</a>.</p>
 
                     </main>
 
