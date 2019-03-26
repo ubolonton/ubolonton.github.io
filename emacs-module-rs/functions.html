@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Writing Functions - emacs-module-rs 0.5.2</title>
+        <title>Writing Functions - emacs-module-rs 0.6.0</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -102,7 +102,7 @@
                             
                         </div>
 
-                        <h1 class="menu-title">emacs-module-rs 0.5.2</h1> 
+                        <h1 class="menu-title">emacs-module-rs 0.6.0</h1> 
 
                         <div class="right-buttons">
                             <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -146,7 +146,7 @@ fn inc(env: &amp;CallEnv) -&gt; Result&lt;i64&gt; {
     Ok(x + 1)
 }
 
-fn sum(env: &amp;CallEnv) -&gt; Result&lt;Value&gt; {
+fn sum(env: &amp;CallEnv) -&gt; Result&lt;Value&lt;'_&gt;&gt; {
     let x: f64 = env.parse_arg(0)?;
     let y: f64 = env.parse_arg(1)?;
     (x + y).into_lisp(env)
@@ -164,7 +164,7 @@ let count: i64 = env.parse_arg(1)?;
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
-fn get_or_default(env: &amp;CallEnv) -&gt; Result&lt;Value&gt; {
+fn get_or_default(env: &amp;CallEnv) -&gt; Result&lt;Value&lt;'_&gt;&gt; {
     let map: &amp;HashMap&lt;String, String&gt; = env.parse_arg(0)?;
     let key: &amp;str = env.parse_arg(1)?;
     match m.get(key) {
@@ -173,7 +173,7 @@ fn get_or_default(env: &amp;CallEnv) -&gt; Result&lt;Value&gt; {
     }
 }
 #}</code></pre></pre>
-<p>To get all arguments as a <code>Vec&lt;Value&gt;</code>, use <code>env.args()</code>.</p>
+<p>To get all arguments as a <code>Vec&lt;Value&lt;'_&gt;&gt;</code>, use <code>env.args()</code>.</p>
 <a class="header" href="#exporting-named-functions" id="exporting-named-functions"><h2>Exporting named functions</h2></a>
 <p>To allow Lisp code to call these functions by name, use <code>emacs_export_funtions!</code>:</p>
 <pre><pre class="playpen"><code class="language-rust">
@@ -188,7 +188,7 @@ fn dec(env: &amp;CallEnv) -&gt; Result&lt;i64&gt; {
 }
 
 // This should be put inside the init function.
-emacs_export_functions! {
+emacs::emacs_export_functions! {
     env, &quot;math-&quot;, {
         &quot;inc&quot; =&gt; (inc, 1..1, &quot;Return NUMBER plus one.&quot;),
         &quot;dec&quot; =&gt; (dec, 1..1, &quot;Return NUMBER minus one.&quot;),
@@ -239,6 +239,21 @@ emacs_export_functions! {
 
         </div>
 
+        
+        <!-- Livereload script (if served using the cli tool) -->
+        <script type="text/javascript">
+            var socket = new WebSocket("ws://localhost:3001");
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload(true); // force reload from server (not from cache)
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
         
 
         

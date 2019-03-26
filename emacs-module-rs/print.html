@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>emacs-module-rs 0.5.2</title>
+        <title>emacs-module-rs 0.6.0</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -102,7 +102,7 @@
                             
                         </div>
 
-                        <h1 class="menu-title">emacs-module-rs 0.5.2</h1> 
+                        <h1 class="menu-title">emacs-module-rs 0.6.0</h1> 
 
                         <div class="right-buttons">
                             <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -158,25 +158,22 @@ cd greeting
 crate-type = [&quot;cdylib&quot;]
 
 [dependencies]
-libc = &quot;0.2&quot;
-emacs = &quot;0.5.2&quot;
+libc = &quot;0.2.34&quot;
+emacs = &quot;0.6.0&quot;
 </code></pre>
 <p>Write code in <code>src/lib.rs</code>:</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
-extern crate libc;
-#[macro_use]
-extern crate emacs;
-
+use emacs;
 use emacs::{Env, Result, Value};
 
 // Emacs won't load the module without this.
-emacs_plugin_is_GPL_compatible!();
+emacs::emacs_plugin_is_GPL_compatible!();
 
 // Declare and define the init function, which Emacs will call when it loads the module.
-emacs_module_init!(init);
-fn init(env: &amp;Env) -&gt; Result&lt;Value&gt; {
+emacs::emacs_module_init!(init);
+fn init(env: &amp;Env) -&gt; Result&lt;Value&lt;'_&gt;&gt; {
     env.message(&quot;Hello, Emacs!&quot;)?;
     env.provide(&quot;greeting&quot;)
 }
@@ -206,7 +203,7 @@ fn inc(env: &amp;CallEnv) -&gt; Result&lt;i64&gt; {
     Ok(x + 1)
 }
 
-fn sum(env: &amp;CallEnv) -&gt; Result&lt;Value&gt; {
+fn sum(env: &amp;CallEnv) -&gt; Result&lt;Value&lt;'_&gt;&gt; {
     let x: f64 = env.parse_arg(0)?;
     let y: f64 = env.parse_arg(1)?;
     (x + y).into_lisp(env)
@@ -224,7 +221,7 @@ let count: i64 = env.parse_arg(1)?;
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
-fn get_or_default(env: &amp;CallEnv) -&gt; Result&lt;Value&gt; {
+fn get_or_default(env: &amp;CallEnv) -&gt; Result&lt;Value&lt;'_&gt;&gt; {
     let map: &amp;HashMap&lt;String, String&gt; = env.parse_arg(0)?;
     let key: &amp;str = env.parse_arg(1)?;
     match m.get(key) {
@@ -233,7 +230,7 @@ fn get_or_default(env: &amp;CallEnv) -&gt; Result&lt;Value&gt; {
     }
 }
 #}</code></pre></pre>
-<p>To get all arguments as a <code>Vec&lt;Value&gt;</code>, use <code>env.args()</code>.</p>
+<p>To get all arguments as a <code>Vec&lt;Value&lt;'_&gt;&gt;</code>, use <code>env.args()</code>.</p>
 <a class="header" href="#exporting-named-functions" id="exporting-named-functions"><h2>Exporting named functions</h2></a>
 <p>To allow Lisp code to call these functions by name, use <code>emacs_export_funtions!</code>:</p>
 <pre><pre class="playpen"><code class="language-rust">
@@ -248,7 +245,7 @@ fn dec(env: &amp;CallEnv) -&gt; Result&lt;i64&gt; {
 }
 
 // This should be put inside the init function.
-emacs_export_functions! {
+emacs::emacs_export_functions! {
     env, &quot;math-&quot;, {
         &quot;inc&quot; =&gt; (inc, 1..1, &quot;Return NUMBER plus one.&quot;),
         &quot;dec&quot; =&gt; (dec, 1..1, &quot;Return NUMBER minus one.&quot;),
@@ -308,7 +305,7 @@ let s = value.into_rust::&lt;String&gt;()?;
 let s: Option&lt;&amp;str&gt; = value.into_rust()?; // None if Lisp value is nil
 #}</code></pre></pre>
 <a class="header" href="#converting-a-rust-value-to-lisp" id="converting-a-rust-value-to-lisp"><h2>Converting a Rust value to Lisp</h2></a>
-<p>This is enabled for types that implement <code>IntoLisp</code> trait. Most built-in types are supported. Note that conversion may fail, so the return type is <code>Result&lt;Value&gt;</code>.</p>
+<p>This is enabled for types that implement <code>IntoLisp</code> trait. Most built-in types are supported. Note that conversion may fail, so the return type is <code>Result&lt;Value&lt;'_&gt;&gt;</code>.</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
@@ -332,15 +329,16 @@ false.into_lisp(env)?; // nil
 #fn main() {
 use std::cell::RefCell;
 use std::collections::HashMap;
+use emacs;
 
-fn init(env: &amp;Env) -&gt; Result&lt;Value&gt; {
+fn init(env: &amp;Env) -&gt; Result&lt;Value&lt;'_&gt;&gt; {
     type Map = RefCell&lt;HashMap&lt;String, String&gt;&gt;;
 
     fn make(_: &amp;CallEnv) -&gt; Result&lt;Map&gt; {
         Ok(RefCell::new(HashMap::new()))
     }
 
-    fn get(env: &amp;CallEnv) -&gt; Result&lt;Value&gt; {
+    fn get(env: &amp;CallEnv) -&gt; Result&lt;Value&lt;'_&gt;&gt; {
         let map: &amp;Map = env.parse_arg(0)?;
         let key: String = env.parse_arg(1)?;
         map.borrow().get(&amp;key).into_lisp(env)
@@ -353,7 +351,7 @@ fn init(env: &amp;Env) -&gt; Result&lt;Value&gt; {
         Ok(map.borrow_mut().insert(key,value))
     }
 
-    emacs_export_functions! {
+    emacs::emacs_export_functions! {
         env, &quot;rs-hash-map/&quot;, {
             &quot;make&quot; =&gt; (make, 0..0),
             &quot;get&quot;  =&gt; (get,  2..2),
@@ -470,6 +468,21 @@ emacs-rs-module = { version = &quot;0.5.0&quot; }
 
         </div>
 
+        
+        <!-- Livereload script (if served using the cli tool) -->
+        <script type="text/javascript">
+            var socket = new WebSocket("ws://localhost:3001");
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload(true); // force reload from server (not from cache)
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
         
 
         

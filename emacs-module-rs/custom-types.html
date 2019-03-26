@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Custom Types - emacs-module-rs 0.5.2</title>
+        <title>Custom Types - emacs-module-rs 0.6.0</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -102,7 +102,7 @@
                             
                         </div>
 
-                        <h1 class="menu-title">emacs-module-rs 0.5.2</h1> 
+                        <h1 class="menu-title">emacs-module-rs 0.6.0</h1> 
 
                         <div class="right-buttons">
                             <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -146,15 +146,16 @@
 #fn main() {
 use std::cell::RefCell;
 use std::collections::HashMap;
+use emacs;
 
-fn init(env: &amp;Env) -&gt; Result&lt;Value&gt; {
+fn init(env: &amp;Env) -&gt; Result&lt;Value&lt;'_&gt;&gt; {
     type Map = RefCell&lt;HashMap&lt;String, String&gt;&gt;;
 
     fn make(_: &amp;CallEnv) -&gt; Result&lt;Map&gt; {
         Ok(RefCell::new(HashMap::new()))
     }
 
-    fn get(env: &amp;CallEnv) -&gt; Result&lt;Value&gt; {
+    fn get(env: &amp;CallEnv) -&gt; Result&lt;Value&lt;'_&gt;&gt; {
         let map: &amp;Map = env.parse_arg(0)?;
         let key: String = env.parse_arg(1)?;
         map.borrow().get(&amp;key).into_lisp(env)
@@ -167,7 +168,7 @@ fn init(env: &amp;Env) -&gt; Result&lt;Value&gt; {
         Ok(map.borrow_mut().insert(key,value))
     }
 
-    emacs_export_functions! {
+    emacs::emacs_export_functions! {
         env, &quot;rs-hash-map/&quot;, {
             &quot;make&quot; =&gt; (make, 0..0),
             &quot;get&quot;  =&gt; (get,  2..2),
@@ -225,6 +226,21 @@ fn init(env: &amp;Env) -&gt; Result&lt;Value&gt; {
 
         </div>
 
+        
+        <!-- Livereload script (if served using the cli tool) -->
+        <script type="text/javascript">
+            var socket = new WebSocket("ws://localhost:3001");
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload(true); // force reload from server (not from cache)
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
         
 
         
