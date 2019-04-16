@@ -142,8 +142,13 @@
                     <main>
                         <a class="header" href="#overview" id="overview"><h1>Overview</h1></a>
 <p><code>emacs-module-rs</code> provides high-level Rust binding and tools to write Emacs's dynamic modules. It is easy to use if you know either Rust or Emacs.</p>
-<p>It currently supports stable Rust, Emacs 25/26, macOS, and Linux.</p>
-<p><strong>Note</strong>: There seems to be a bug with Emacs 26 on Ubuntu 16.04 (Xenial) that prevents it from loading any dynamic modules (even those written in C). See <a href="https://github.com/ubolonton/emacs-module-rs/issues/1">issue #2</a>.</p>
+<p>It currently supports stable Rust, Emacs 25/26, macOS/Linux.</p>
+<a class="header" href="#known-issues" id="known-issues"><h2>Known issues</h2></a>
+<p>There is a bug (see <a href="https://github.com/ubolonton/emacs-module-rs/issues/1">issue #1</a>) with Emacs 26 on Linux that prevents it from loading any dynamic modules (even those written in C), if:</p>
+<ul>
+<li>Emacs is built without thread support.</li>
+<li>The OS is Ubuntu 16.04 (Xenial).</li>
+</ul>
 <a class="header" href="#setting-up" id="setting-up"><h2>Setting up</h2></a>
 <ul>
 <li>Install the Rust toolchain with <a href="https://www.rustup.rs/">rustup</a>.</li>
@@ -155,7 +160,10 @@
 cd greeting
 </code></pre>
 <p>Modify <code>Cargo.toml</code>:</p>
-<pre><code class="language-toml">[lib]
+<pre><code class="language-toml">[package]
+edition = &quot;2018&quot;
+
+[lib]
 crate-type = [&quot;cdylib&quot;]
 
 [dependencies]

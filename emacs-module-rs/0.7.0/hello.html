@@ -146,7 +146,10 @@
 cd greeting
 </code></pre>
 <p>Modify <code>Cargo.toml</code>:</p>
-<pre><code class="language-toml">[lib]
+<pre><code class="language-toml">[package]
+edition = &quot;2018&quot;
+
+[lib]
 crate-type = [&quot;cdylib&quot;]
 
 [dependencies]
