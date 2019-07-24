@@ -1,0 +1,702 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>emacs-module-rs 0.10.2</title>
+        
+        <meta name="robots" content="noindex" />
+        
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body class="light">
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            document.body.className = theme;
+            document.querySelector('html').className = theme + ' js';
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="affix"><a href="overview.html">Overview</a></li><li><a href="hello.html"><strong aria-hidden="true">1.</strong> Hello, Emacs!</a></li><li><a href="module.html"><strong aria-hidden="true">2.</strong> Declaring a Module</a></li><li><a href="functions.html"><strong aria-hidden="true">3.</strong> Writing Functions</a></li><li><a href="calling-lisp.html"><strong aria-hidden="true">4.</strong> Calling Lisp Functions</a></li><li><a href="type-conversions.html"><strong aria-hidden="true">5.</strong> Type Conversions</a></li><li><a href="custom-types.html"><strong aria-hidden="true">6.</strong> Custom Types</a></li><li><a href="errors.html"><strong aria-hidden="true">7.</strong> Error Handling</a></li><li><a href="testing.html"><strong aria-hidden="true">8.</strong> Testing</a></li><li><a href="reloading.html"><strong aria-hidden="true">9.</strong> Live Reloading</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            
+                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            
+                        </div>
+
+                        <h1 class="menu-title">emacs-module-rs 0.10.2</h1>
+
+                        <div class="right-buttons">
+                            <a href="print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#overview" id="overview">Overview</a></h1>
+<p><code>emacs-module-rs</code> provides high-level Rust binding and tools to write Emacs's dynamic modules. It is easy to use if you know either Rust or Emacs.</p>
+<p>It currently supports stable Rust 1.36+, Emacs 25/26, macOS/Linux.</p>
+<h2><a class="header" href="#known-issues" id="known-issues">Known Issues</a></h2>
+<p>There is a bug (see <a href="https://github.com/ubolonton/emacs-module-rs/issues/1">issue #1</a>) with Emacs 26 on Linux that prevents it from loading any dynamic modules (even those written in C), if:</p>
+<ul>
+<li>Emacs is built without thread support.</li>
+<li>The OS is Ubuntu 16.04 (Xenial).</li>
+</ul>
+<h2><a class="header" href="#setting-up" id="setting-up">Setting up</a></h2>
+<ul>
+<li>Install the Rust toolchain with <a href="https://www.rustup.rs/">rustup</a>.</li>
+<li>Make sure that your Emacs was compiled with module support. Check that <code>module-file-suffix</code> is not <code>nil</code>, and the function <code>module-load</code> is defined.</li>
+</ul>
+<h1><a class="header" href="#hello-emacs" id="hello-emacs">Hello, Emacs!</a></h1>
+<p>Create a new project:</p>
+<pre><code class="language-bash">cargo new greeting
+cd greeting
+</code></pre>
+<p>Modify <code>Cargo.toml</code>:</p>
+<pre><code class="language-toml">[package]
+edition = &quot;2018&quot;
+
+[lib]
+crate-type = [&quot;cdylib&quot;]
+
+[dependencies]
+emacs = &quot;0.10.2&quot;
+</code></pre>
+<p>Write code in <code>src/lib.rs</code>:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+use emacs::{defun, Env, Result, Value};
+
+// Emacs won't load the module without this.
+emacs::plugin_is_GPL_compatible!();
+
+// Register the initialization hook that Emacs will call when it loads the module.
+#[emacs::module]
+fn init(env: &amp;Env) -&gt; Result&lt;Value&lt;'_&gt;&gt; {
+    env.message(&quot;Done loading!&quot;)
+}
+
+// Define a function callable by Lisp code.
+#[defun]
+fn say_hello(env: &amp;Env, name: String) -&gt; Result&lt;Value&lt;'_&gt;&gt; {
+    env.message(&amp;format!(&quot;Hello, {}!&quot;, name))
+}
+#}</code></pre></pre>
+<p>Build the module and create a symlink with <code>.so</code> extension so that Emacs can recognize it:</p>
+<pre><code class="language-bash">cargo build
+cd target/debug
+
+# If you are on Linux
+ln -s libgreeting.so greeting.so
+
+# If you are on macOS
+ln -s libgreeting.dylib greeting.so
+</code></pre>
+<p>Add <code>target/debug</code> to your Emacs's <code>load-path</code>, then load the module:</p>
+<pre><code class="language-emacs-lisp">(add-to-list 'load-path &quot;/path/to/target/debug&quot;)
+(require 'greeting)
+(greeting-say-hello &quot;Emacs&quot;)
+</code></pre>
+<p>The minibuffer should display the message <code>Hello, Emacs!</code>.</p>
+<h1><a class="header" href="#declaring-a-module" id="declaring-a-module">Declaring a Module</a></h1>
+<p>Each dynamic module must have an initialization function, marked by the attribute macro <code>#[emacs::module]</code>. The function's type must be <code>fn(&amp;Env) -&gt; Result&lt;()&gt;</code>.</p>
+<p>In addition, in order to be loadable by Emacs, the module must be declared GPL-compatible.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+emacs::plugin_is_GPL_compatible!();
+
+#[emacs::module]
+fn init(env: &amp;Env) -&gt; Result&lt;()&gt; {
+    // This is run when Emacs loads the module.
+    // More concretely, it is run after all the functions it defines are exported,
+    // but before `(provide 'feature-name)` is (automatically) called.
+    Ok(())
+}
+#}</code></pre></pre>
+<h2><a class="header" href="#options" id="options">Options</a></h2>
+<ul>
+<li>
+<p><code>name</code>: By default, the name of the feature provided by the module is the crate's name (with <code>_</code> replaced by <code>-</code>). There is no need to explicitly call <code>provide</code> inside the initialization function. This option allows the function's name, or a string, to be used instead.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+// Putting `rs` in crate's name is discouraged so we use the function's name
+// instead. The feature will be `rs-module-helper`.
+#[emacs::module(name(fn))]
+fn rs_module_helper(_: &amp;Env) -&gt; Result&lt;()&gt; { Ok(()) }
+#}</code></pre></pre>
+</li>
+<li>
+<p><code>defun_prefix</code> and <code>separator</code>: Function names in Emacs are conventionally prefixed with the feature name followed by <code>-</code>. These 2 options allow a different prefix and separator to be used.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+// Use `/` as the separator that goes after feature name, like some other packages.
+#[emacs::module(separator = &quot;/&quot;)]
+fn init(_: &amp;Env) -&gt; Result&lt;()&gt; { Ok(()) }
+#}</code></pre></pre>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+// The whole package contains other Lisp files, so the module is named
+// `tree-sitter-dyn`. But we want functions to be `tree-sitter-something`,
+// not `tree-sitter-dyn-something`.
+#[emacs::module(name = &quot;tree-sitter-dyn&quot;, defun_prefix = &quot;tree-sitter&quot;)]
+fn init(_: &amp;Env) -&gt; Result&lt;()&gt; { Ok(()) }
+#}</code></pre></pre>
+</li>
+<li>
+<p><code>mod_in_name</code>: Whether to put module path in <a href="./functions.html#naming">function names</a>. Default to <code>true</code>. This can also be overridden for each individual function, by an option of the same name on <code>#[defun]</code>.</p>
+</li>
+</ul>
+<p><strong>Note</strong>: Often time, there's no initialization logic needed. A future version of this crate will support putting <code>#![emacs::module]</code> on the crate, without having to define a no-op function. See Rust's <a href="https://github.com/rust-lang/rust/issues/54726">issue #54726</a>.</p>
+<h1><a class="header" href="#writing-functions" id="writing-functions">Writing Functions</a></h1>
+<p>You can use the attribute macro <code>#[defun]</code> to export Rust functions to the Lisp runtime, so that Lisp code can call them. The exporting process happens when the module is loaded, even if the definitions are inside another function that is never called, or inside a private module.</p>
+<h2><a class="header" href="#input-parameters" id="input-parameters">Input Parameters</a></h2>
+<p>Each parameter must be one of the following:</p>
+<ul>
+<li>An owned value of a type that implements <code>FromLisp</code>. This is for simple data types that have an equivalent in Lisp.
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+/// This docstring will appear in Lisp too!
+#[defun]
+fn inc(x: i64) -&gt; Result&lt;i64&gt; {
+    Ok(x + 1)
+}
+#}</code></pre></pre>
+</li>
+<li>A shared/mutable reference. This gives access to data structures that other module functions have created and embedded in the Lisp runtime (through <code>user-ptr</code> objects).
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+#[defun]
+fn stash_pop(repo: &amp;mut git2::Repository) -&gt; Result&lt;()&gt; {
+    repo.stash_pop(0, None)?;
+    Ok(())
+}
+#}</code></pre></pre>
+</li>
+<li>A Lisp <code>Value</code>, or one of its &quot;sub-types&quot; (e.g. <code>Vector</code>). This allows holding off the conversion to Rust data structures until necessary, or working with values that don't have a meaningful representation in Rust, like Lisp lambdas.
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+#[defun]
+fn maybe_call(lambda: Value) -&gt; Result&lt;()&gt; {
+    if some_hidden_native_logic() {
+        lambda.env.call(&quot;funcall&quot;, &amp;[lambda])?;
+    }
+    Ok(())
+}
+
+#[defun(user_ptr)]
+fn to_rust_vec_string(input: Vector) -&gt; Result&lt;Vec&lt;String&gt;&gt; {
+    let mut vec = vec![];
+    for i in 0..input.size()? {
+        vec.push(input.get(i)?.into_rust()?);
+    }
+    Ok(vec)
+}
+#}</code></pre></pre>
+</li>
+<li>An <code>&amp;Env</code>. This enables interaction with the Lisp runtime. It does not appear in the function's Lisp signature. This is unnecessary if there is already another parameter with type <code>Value</code>, which allows accessing the runtime through <code>Value.env</code>.
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+// Note that the function takes an owned `String`, not a reference, which would
+// have been understood as a `user-ptr` object containing a Rust string.
+#[defun]
+fn hello(env: &amp;Env, name: String) -&gt; Result&lt;Value&lt;'_&gt;&gt; {
+    env.message(format!(&quot;Hello, {}!&quot;, name))
+}
+#}</code></pre></pre>
+</li>
+</ul>
+<h2><a class="header" href="#return-value" id="return-value">Return Value</a></h2>
+<p>The return type must be <code>Result&lt;T&gt;</code>, where <code>T</code> is one of the following:</p>
+<ul>
+<li>A type that implements <code>IntoLisp</code>. This is for simple data types that have an equivalent in Lisp.
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+/// Return the path to the .git dir.
+/// Return `nil' if the given path is not in a repo,
+/// or if the .git path is not valid utf-8.
+#[defun]
+fn dot_git_path(path: String) -&gt; Result&lt;Option&lt;String&gt;&gt; {
+    Ok(git2::Repository::discover(&amp;path).ok().and_then(|repo| {
+        repo.path().to_str().map(|s| s.to_owned())
+    }))
+}
+#}</code></pre></pre>
+</li>
+<li>An arbitrary type. This allows embedding a native data structure in a <code>user-ptr</code> object, for read-write use cases. It requires <code>user_ptr</code> option to be specified. If the data is to be shared with background Rust threads, <code>user_ptr(rwlock)</code> or <code>user_ptr(mutex)</code> must be used instead.
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+#[defun(user_ptr)]
+fn repo(path: String) -&gt; Result&lt;git2::Repository&gt; {
+    Ok(git2::Repository::discover(&amp;path)?)
+}
+#}</code></pre></pre>
+</li>
+<li>A type that implements <code>Transfer</code>. This allows embedding a native data structure in a <code>user-ptr</code> object, for read-only use cases. It requires <code>user_ptr(direct)</code> option to be specified.</li>
+<li><code>Value</code>, or one of its &quot;sub-types&quot; (e.g. <code>Vector</code>). This is mostly useful for returning an input parameter unchanged.</li>
+</ul>
+<p>See <a href="./custom-types.html">Custom Types</a> for more details on embedding Rust data structures in Lisp's <code>user-ptr</code> objects.</p>
+<h2><a class="header" href="#naming" id="naming">Naming</a></h2>
+<p>By default, the function's Lisp name has the form <code>&lt;feature-prefix&gt;[mod-prefix]&lt;base-name&gt;</code>.</p>
+<ul>
+<li><code>feature-prefix</code> is the feature name followed by <code>-</code>. This can be customized by the <code>name</code>, <code>defun_prefix</code>, and <code>separator</code> <a href="./module.html#options">options</a> on <code>#[emacs::module]</code>.</li>
+<li><code>mod-prefix</code> is constructed from the function's Rust module path (with <code>_</code> and <code>::</code> replaced by <code>-</code>). This can be turned off crate-wide, or for individual function, using the option <code>mod_in_name</code>.</li>
+<li><code>base-name</code> is the function's Rust name (with <code>_</code> replaced by <code>-</code>). This can be overridden with the option <code>name</code>.</li>
+</ul>
+<p>Examples:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+// Assuming crate's name is `native_parallelism`.
+
+#[emacs::module(separator = &quot;/&quot;)]
+fn init(_: &amp;Env) -&gt; Result&lt;()&gt; { Ok(()) }
+
+mod shared_state {
+    mod thread {
+        // Ignore the nested mod's.
+        // (native-parallelism/make-thread &quot;name&quot;)
+        #[defun(mod_in_name = false)]
+        fn make_thread(name: String) -&gt; Result&lt;Value&lt;'_&gt;&gt; {
+            ..
+        }
+    }
+
+    mod process {
+        // (native-parallelism/shared-state-process-launch &quot;bckgrnd&quot;)
+        #[defun]
+        fn launch(name: String) -&gt; Result&lt;Value&lt;'_&gt;&gt; {
+            ..
+        }
+
+        // Specify a name explicitly, since Rust identifier cannot contain `:`.
+        // (native-parallelism/process:pool &quot;http-client&quot; 2 8)
+        #[defun(mod_in_name = false, name = &quot;process:pool&quot;)]
+        fn pool(name: String, min: i64, max: i64) -&gt; Result&lt;Value&lt;'_&gt;&gt; {
+            ..
+        }
+    }
+}
+#}</code></pre></pre>
+<h1><a class="header" href="#calling-lisp-functions" id="calling-lisp-functions">Calling Lisp Functions</a></h1>
+<p>Frequently-used Lisp functions are exposed as methods on <code>env</code>:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+env.intern(&quot;defun&quot;)?;
+
+env.message(&quot;Hello&quot;)?;
+
+env.type_of(5.into_lisp(env)?)?;
+
+env.provide(&quot;my-module&quot;)?;
+#}</code></pre></pre>
+<p>To call arbitrary Lisp functions, use <code>env.call(&amp;str, &amp;[Value])</code>:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+// (list &quot;1&quot; 2)
+env.call(&quot;list&quot;, &amp;[
+    &quot;1&quot;.into_lisp(env)?,
+    2.into_lisp(env)?,
+])?;
+
+// (add-hook 'text-mode-hook 'variable-pitch-mode)
+env.call(&quot;add-hook&quot;, &amp;[
+    env.intern(&quot;text-mode-hook&quot;)?,
+    env.intern(&quot;variable-pitch-mode&quot;)?,
+])?;
+#}</code></pre></pre>
+<h1><a class="header" href="#type-conversions" id="type-conversions">Type Conversions</a></h1>
+<p>The type <code>Value</code> represents Lisp values:</p>
+<ul>
+<li>They can be copied around, but cannot outlive the <code>Env</code> they come from.</li>
+<li>They are &quot;proxy values&quot;: only useful when converted to Rust values, or used as arguments when calling Lisp functions.</li>
+</ul>
+<p>Lisp vectors are represented by the type <code>Vector</code>, which can be considered a &quot;sub-type&quot; of <code>Value</code>.</p>
+<h2><a class="header" href="#converting-a-lisp-value-to-rust" id="converting-a-lisp-value-to-rust">Converting a Lisp <code>Value</code> to Rust</a></h2>
+<p>This is enabled for types that implement <code>FromLisp</code>. Most built-in types are supported. Note that conversion may fail, so the return type is <code>Result&lt;T&gt;</code>.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+let i: i64 = value.into_rust()?; // error if Lisp value is not an integer
+let f: f64 = value.into_rust()?; // error if Lisp value is nil
+
+let s = value.into_rust::&lt;String&gt;()?;
+let s: Option&lt;&amp;str&gt; = value.into_rust()?; // None if Lisp value is nil
+#}</code></pre></pre>
+<p>By default, no utf-8 validation is done when converting strings. This can be enabled through a feature:</p>
+<pre><code class="language-toml">[dependencies.emacs]
+features = [&quot;utf-8-validation&quot;]
+</code></pre>
+<h2><a class="header" href="#converting-a-rust-value-to-lisp" id="converting-a-rust-value-to-lisp">Converting a Rust Value to Lisp</a></h2>
+<p>This is enabled for types that implement <code>IntoLisp</code>. Most built-in types are supported. Note that conversion may fail, so the return type is <code>Result&lt;Value&lt;'_&gt;&gt;</code>.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+&quot;abc&quot;.into_lisp(env)?;
+&quot;a\0bc&quot;.into_lisp(env)?; // NulError (Lisp string cannot contain null byte)
+
+5.into_lisp(env)?;
+65.3.into_lisp(env)?;
+
+().into_lisp(env)?; // nil
+true.into_lisp(env)?; // t
+false.into_lisp(env)?; // nil
+#}</code></pre></pre>
+<h2><a class="header" href="#integer-conversion" id="integer-conversion">Integer conversion</a></h2>
+<p>Integer conversion is lossless by default, which means that a module will signal an &quot;out of range&quot; <code>rust-error</code> in cases such as:</p>
+<ul>
+<li>A <code>#[defun]</code> expecting <code>u8</code> gets passed <code>-1</code>.</li>
+<li>A <code>#[defun]</code> returning <code>u64</code> returns a value larger than <code>i64::max_value()</code>.</li>
+</ul>
+<p>To disable this behavior, use the <code>lossy-integer-conversion</code> feature:</p>
+<pre><code class="language-toml">[dependencies.emacs]
+features = [&quot;lossy-integer-conversion&quot;]
+</code></pre>
+<h1><a class="header" href="#embedding-rust-values-in-lisp" id="embedding-rust-values-in-lisp">Embedding Rust Values in Lisp</a></h1>
+<p>Speeding up Emacs is one of the goals of dynamic modules. Too many back-and-forth conversions between Rust's data structures and Lisp's can defeat the purpose. The solution to this is embedding Rust data structures in opaque <code>user-ptr</code> Lisp objects.</p>
+<p>If a type implements <code>Transfer</code>, its heap-allocated (<code>Box</code>-wrapped) values can be moved into the Lisp runtime, where the GC will become its owner.</p>
+<p>Lisp code sees these as opaque &quot;embedded user pointers&quot;, whose printed representation is something like <code>#&lt;user-ptr ptr=0x102e10b60 finalizer=0x103c9c390&gt;</code>. For these values to be useful, a Rust module needs to export additional functions to manipulate them.</p>
+<p>Since these values are owned by the GC, Rust code can only safely access them through immutable references. Therefore, interior mutability is usually needed. As a result, <code>Transfer</code> is implemented for the smart pointer types <code>RefCell</code>, <code>Mutex</code>, <code>RwLock</code>, <code>Rc</code>, and <code>Arc</code>.</p>
+<p>To return an embedded value, a function needs to be exported with a <code>user_ptr</code> option:</p>
+<ul>
+<li><code>user_ptr</code>: Embedding through a <code>RefCell</code>. This is suitable for common use cases, where module functions can borrow the underlying data back for read/write. It is safe because Lisp threads are subjected to the GIL. <code>BorrowError</code>/<code>BorrowMutError</code> may be signaled at runtime, depending on how module functions call back into the Lisp runtime.</li>
+<li><code>user_ptr(rwlock)</code>, <code>user_ptr(mutex)</code>: Embedding through a <code>RwLock</code>/<code>Mutex</code>. This is suitable for sharing data between module functions (on Lisp threads, with <code>Env</code> access) and pure Rust code (on background threads, without access to an <code>Env</code>).</li>
+<li><code>user_ptr(direct)</code>: Embedding a <code>Transfer</code> value directly. This is suitable for immutable data that will only be read back (not written to) by module functions (writing requires <code>unsafe</code> access, and is discouraged).</li>
+</ul>
+<p>As an example, a module that allows Emacs to use Rust's <code>HashMap</code> may look like this:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+use std::collections::HashMap;
+use emacs::{defun, Env, Result, Value};
+
+#[emacs::module(name = &quot;rs-hash-map&quot;, separator = &quot;/&quot;)]
+fn init(env: &amp;Env) -&gt; Result&lt;()&gt; {
+    type Map = HashMap&lt;String, String&gt;;
+
+    #[defun(user_ptr)]
+    fn make() -&gt; Result&lt;Map&gt; {
+        Ok(Map::new())
+    }
+
+    #[defun]
+    fn get(map: &amp;Map, key: String) -&gt; Result&lt;Option&lt;&amp;String&gt;&gt; {
+        Ok(map.get(&amp;key))
+    }
+
+    #[defun]
+    fn set(map: &amp;mut Map, key: String, value: String) -&gt; Result&lt;Option&lt;String&gt;&gt; {
+        Ok(map.insert(key,value))
+    }
+
+    Ok(())
+}
+#}</code></pre></pre>
+<pre><code class="language-emacs-lisp">(let ((m (rs-hash-map/make)))
+  (rs-hash-map/get m &quot;a&quot;)     ; -&gt; nil
+
+  (rs-hash-map/set m &quot;a&quot; &quot;1&quot;) ; -&gt; nil
+  (rs-hash-map/get m &quot;a&quot;)     ; -&gt; &quot;1&quot;
+
+  (rs-hash-map/set m &quot;a&quot; &quot;2&quot;) ; -&gt; &quot;1&quot;
+  (rs-hash-map/get m &quot;a&quot;))    ; -&gt; &quot;2&quot;
+</code></pre>
+<p><strong>Notes</strong>:</p>
+<ul>
+<li><code>Value.into_rust()</code> has a runtime type check, which fails with the error <code>'rust-wrong-type-user-ptr</code> if the value is a <code>user-ptr</code> object of a different type.</li>
+<li>Input parameters with reference types are interpreted as <code>RefCell</code>-embedded <code>user-ptr</code> objects. For other kinds of embedding, you will have to use a <code>Value</code> parameter, and acquire the reference manually, since locking strategy (including deadlock avoidance/detection) should be module-specific.
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+use std::sync::RwLock;
+
+#[defun(user_ptr(rwlock))]
+fn make() -&gt; Result&lt;Map&gt; {
+    Ok(Map::new())
+}
+
+#[defun]
+fn process(v: Value&lt;'_&gt;) -&gt; Result&lt;Value&lt;'_&gt;&gt; {
+    let lock: &amp;RwLock&lt;Map&gt; = v.into_rust()?;
+    let map = lock.try_read().map_err(|_| failure::err_msg(&quot;map is busy&quot;))?;
+    Ok(map.get(&amp;key).into_lisp(v.env)?)
+}
+#}</code></pre></pre>
+</li>
+</ul>
+<h1><a class="header" href="#error-handling" id="error-handling">Error Handling</a></h1>
+<p>Emacs Lisp's <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Handling-Errors.html">error handling mechanism</a> uses <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Nonlocal-Exits.html">non-local exits</a>. Rust uses <code>Result</code> enum. <code>emacs-module-rs</code> converts between the 2 at the Rust-Lisp boundaries (more precisely, Rust-C).</p>
+<p>The chosen error type is the <code>Error</code> struct from <a href="https://github.com/withoutboats/failure"><code>failure</code> crate</a>:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+pub type Result&lt;T&gt; = result::Result&lt;T, failure::Error&gt;;
+#}</code></pre></pre>
+<h2><a class="header" href="#handling-lisp-errors-in-rust" id="handling-lisp-errors-in-rust">Handling Lisp Errors in Rust</a></h2>
+<p>When calling a Lisp function, it's usually a good idea to propagate signaled errors with the <code>?</code> operator, letting higher level (Lisp) code handle them. If you want to handle a specific error, you can use <code>error.downcast_ref</code>:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+match env.call(&quot;insert&quot;, &amp;[some_text]) {
+    Err(error) =&gt; {
+        // Handle `buffer-read-only` error.
+        if let Some(&amp;Signal { ref symbol, .. }) = error.downcast_ref::&lt;ErrorKind&gt;() {
+            let buffer_read_only = env.intern(&quot;buffer-read-only&quot;)?;
+            // `symbol` is a `TempValue` that must be converted to `Value`.
+            let symbol = unsafe { Ok(symbol.value(env)) };
+            if env.eq(symbol, buffer_read_only) {
+                env.message(&quot;This buffer is not writable!&quot;)?;
+                return Ok(())
+            }
+        }
+        // Propagate other errors.
+        Err(error)
+    },
+    v =&gt; v,
+}
+#}</code></pre></pre>
+<p>Note the use of <code>unsafe</code> to extract the error symbol as a <code>Value</code>. The reason is that, <code>ErrorKind::Signal</code> is marked <code>Send+Sync</code>, for compatibility with <code>failure</code>, while <code>Value</code> is lifetime-bound by <code>env</code>. The <code>unsafe</code> contract here requires the error being handled (and its <code>TempValue</code>) to come from this <code>env</code>, not from another thread, or from a global/thread-local storage.</p>
+<h3><a class="header" href="#catching-values-thrown-by-lisp" id="catching-values-thrown-by-lisp">Catching Values Thrown by Lisp</a></h3>
+<p>This is similar to handling Lisp errors. The only difference is <code>ErrorKind::Throw</code> being used instead of <code>ErrorKind::Signal</code>.</p>
+<h2><a class="header" href="#handling-rust-errors-in-lisp" id="handling-rust-errors-in-lisp">Handling Rust errors in Lisp</a></h2>
+<p>In addition to <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Standard-Errors.html">standard errors</a>, Rust module functions can signal Rust-specific errors, which can also be handled by <code>condition-case</code>:</p>
+<ul>
+<li><code>rust-error</code>: The message is <code>Rust error</code>. This covers all generic Rust-originated errors.</li>
+<li><code>rust-wrong-type-user-ptr</code>: The message is <code>Wrong type user-ptr</code>. This happens when Rust code is passed a <code>user-ptr</code> of a type it's not expecting. It is a sub-type of <code>rust-error</code>.
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+// May signal if `value` holds a different type of hash map,
+// or is a `user-ptr` defined in a non-Rust module.
+let r: &amp;RefCell&lt;HashMap&lt;String, String&gt;&gt; = value.into_rust()?;
+#}</code></pre></pre>
+</li>
+</ul>
+<h3><a class="header" href="#panics" id="panics">Panics</a></h3>
+<p>Unwinding from Rust into C is undefined behavior. <code>emacs-module-rs</code> prevents that by using <code>catch_unwind</code> at the Rust-to-C boundary to convert a panic into a Lisp's signal/throw of the appropriate type:</p>
+<ul>
+<li>Normally the panic is converted into a Lisp's error signal of the type <code>rust-panic</code>. Note that it is <strong>not a sub-type</strong> of <code>rust-error</code>.</li>
+<li>If the panic value is an <code>ErrorKind</code>, it is converted to the corresponding signal/throw, as if a <code>Result</code> was returned. This allows propagating Lisp's non-local exits through contexts where <code>Result</code> is not appropriate, e.g. callbacks whose types are dictated by 3rd-party libraries, such as <code>tree-sitter</code>.</li>
+</ul>
+<h1><a class="header" href="#testing" id="testing">Testing</a></h1>
+<p>You can define tests using <a href="https://www.gnu.org/software/emacs/manual/html_node/ert/index.html">ert</a>, then use a bash script to load the module and run the tests. Examples:</p>
+<ul>
+<li>emacs-module-rs's own <a href="https://github.com/ubolonton/emacs-module-rs/blob/master/test-module/tests/main.el">tests</a> and <a href="https://github.com/ubolonton/emacs-module-rs/blob/master/bin/test.sh">script</a>.</li>
+<li>magit-libgit2's <a href="https://github.com/ubolonton/magit-libgit2/blob/master/elisp/magit-libgit2-test.el">tests</a> and <a href="https://github.com/ubolonton/magit-libgit2/blob/master/bin/test.sh">script</a>.</li>
+</ul>
+<p>Continuous testing during development can be done using <code>cargo-watch</code>:</p>
+<pre><code class="language-bash">cargo watch -x 'build --all' -s bin/test.sh
+</code></pre>
+<p>A future version will have tighter integration with either <code>cargo</code> or <a href="https://github.com/cask/cask">Cask</a>.</p>
+<h1><a class="header" href="#live-reloading" id="live-reloading">Live Reloading</a></h1>
+<p><strong>Note</strong>: This doesn't work on macOS 10.13+ (High Sierra and up). See Rust's <a href="https://github.com/rust-lang/rust/issues/28794#issuecomment-368693049">issue #28794</a>.</p>
+<p>Live code reloading is very useful during development. However, Emacs does not support unloading modules. Live reloading thus requires a custom module loader, e.g. <a href="https://crates.io/crates/emacs-rs-module">emacs-rs-module</a>, which is itself a dynamic module.</p>
+<p>To use it, load it in Emacs:</p>
+<pre><code class="language-emacs-lisp">(require 'rs-module)
+</code></pre>
+<p>Then use it to load other modules instead of <code>require</code> or <code>module-load</code>:</p>
+<pre><code class="language-emacs-lisp">;; Will unload the old version of the module first.
+(rs-module/load &quot;full/path/to/module.so&quot;)
+</code></pre>
+<p><code>cargo</code> doesn't support installing dynamic libs yet, so you have to include <code>emacs-rs-module</code> as a dev dependency to compile it on your own:</p>
+<pre><code class="language-toml">[dev-dependencies]
+emacs-rs-module = { version = &quot;0.7.0&quot; }
+</code></pre>
+<p><a href="https://github.com/ubolonton/magit-libgit2#interactive-development">magit-libgit2</a> is an example of how to set this all up, to have live-reloading on-save.</p>
+<p>A future version will have tighter integration with <code>cargo</code>.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+        <!-- Google Analytics Tag -->
+        <script type="text/javascript">
+            var localAddrs = ["localhost", "127.0.0.1", ""];
+
+            // make sure we don't activate google analytics if the developer is
+            // inspecting the book locally...
+            if (localAddrs.indexOf(document.location.hostname) === -1) {
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+                ga('create', 'UA-138609797-1', 'auto');
+                ga('send', 'pageview');
+            }
+        </script>
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+        
+        <script type="text/javascript">
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+        
+        
+
+    </body>
+</html>
