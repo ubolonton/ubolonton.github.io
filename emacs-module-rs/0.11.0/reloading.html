@@ -29,6 +29,8 @@
 
         <!-- Custom theme stylesheets -->
         
+        <link rel="stylesheet" href="custom.css">
+        
 
         
     </head>
@@ -162,8 +164,8 @@ emacs-rs-module = { version = &quot;0.7.0&quot; }
 <p>A future version will have tighter integration with <code>cargo</code>.</p>
 <p><strong>Notes</strong>:</p>
 <ul>
-<li>It mainly works on Linux, but potentially because Linux's dynamic loading system is unsafe (i.e. UB-ridden).</li>
-<li>It doesn't work on macOS 10.13+ (High Sierra and up). See Rust's <a href="https://github.com/rust-lang/rust/issues/28794#issuecomment-368693049">issue #28794</a>.</li>
+<li>It mainly works on Linux, but potentially because Linux's dynamic loading system is unsafe (i.e. ridden with UB traps).</li>
+<li>It doesn't work on macOS 10.13+ (High Sierra and up), because macOS doesn't unload dynamic libraries that use TLS (thread-local storage), for safety reason. See Rust's <a href="https://github.com/rust-lang/rust/issues/28794#issuecomment-368693049">issue #28794</a>.</li>
 <li>It doesn't work on Windows, since loading the dll prevents writing to its file.</li>
 </ul>
 

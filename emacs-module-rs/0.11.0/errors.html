@@ -29,6 +29,8 @@
 
         <!-- Custom theme stylesheets -->
         
+        <link rel="stylesheet" href="custom.css">
+        
 
         
     </head>
@@ -161,7 +163,7 @@ pub type Result&lt;T&gt; = result::Result&lt;T, failure::Error&gt;;
 match env.call(&quot;insert&quot;, &amp;[some_text]) {
     Err(error) =&gt; {
         // Handle `buffer-read-only` error.
-        if let Some(&amp;Signal { ref symbol, .. }) = error.downcast_ref::&lt;ErrorKind&gt;() {
+        if let Some(Signal { symbol, .. }) = error.downcast_ref::&lt;ErrorKind&gt;() {
             let buffer_read_only = env.intern(&quot;buffer-read-only&quot;)?;
             // `symbol` is a `TempValue` that must be converted to `Value`.
             let symbol = unsafe { Ok(symbol.value(env)) };

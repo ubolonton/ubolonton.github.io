@@ -29,6 +29,8 @@
 
         <!-- Custom theme stylesheets -->
         
+        <link rel="stylesheet" href="custom.css">
+        
 
         
     </head>
@@ -182,7 +184,7 @@ features = [&quot;utf-8-validation&quot;]
 true.into_lisp(env)?; // t
 false.into_lisp(env)?; // nil
 #}</code></pre></pre>
-<h2><a class="header" href="#integer-conversion" id="integer-conversion">Integer conversion</a></h2>
+<h2><a class="header" href="#integer-conversion" id="integer-conversion">Integer Conversion</a></h2>
 <p>Integer conversion is lossless by default, which means that a module will signal an &quot;out of range&quot; <code>rust-error</code> in cases such as:</p>
 <ul>
 <li>A <code>#[defun]</code> expecting <code>u8</code> gets passed <code>-1</code>.</li>

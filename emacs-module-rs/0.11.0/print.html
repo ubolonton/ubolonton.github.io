@@ -31,6 +31,8 @@
 
         <!-- Custom theme stylesheets -->
         
+        <link rel="stylesheet" href="custom.css">
+        
 
         
     </head>
@@ -543,7 +545,7 @@ features = [&quot;utf-8-validation&quot;]
 true.into_lisp(env)?; // t
 false.into_lisp(env)?; // nil
 #}</code></pre></pre>
-<h2><a class="header" href="#integer-conversion" id="integer-conversion">Integer conversion</a></h2>
+<h2><a class="header" href="#integer-conversion" id="integer-conversion">Integer Conversion</a></h2>
 <p>Integer conversion is lossless by default, which means that a module will signal an &quot;out of range&quot; <code>rust-error</code> in cases such as:</p>
 <ul>
 <li>A <code>#[defun]</code> expecting <code>u8</code> gets passed <code>-1</code>.</li>
@@ -625,6 +627,78 @@ fn process(v: Value&lt;'_&gt;) -&gt; Result&lt;Value&lt;'_&gt;&gt; {
 #}</code></pre></pre>
 </li>
 </ul>
+<h2><a class="header" href="#lifetime-constrained-types" id="lifetime-constrained-types">Lifetime-constrained Types</a></h2>
+<p>When a type is constrained by a (non-static) lifetime, its value cannot be embedded unchanged. Before embedding, the lifetime must be <strong>soundly</strong> elided. In other words, static ownership must be correctly given up.</p>
+<p>The typical example is a struct holding a reference to another struct:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+pub struct Tree;
+
+pub struct Node&lt;'t&gt; {
+    pub tree: &amp;'t Tree,
+}
+
+impl Tree {
+    pub fn root_node(&amp;self) -&gt; Node&lt;'_&gt; {
+        ...
+    }
+}
+
+impl&lt;'t&gt; Node&lt;'t&gt; {
+    pub fn child(&amp;self) -&gt; Node&lt;'t&gt; {
+        ...
+    }
+}
+#}</code></pre></pre>
+<p>In this case, the lifetime can be elided by turning the static reference into a dynamic ref-counted pointer. The <a href="https://github.com/jpernst/rental">rental crate</a> provides a convenient way to do this:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+#[macro_use]
+extern crate rental;
+
+use std::{rc::Rc, marker::PhantomData};
+use emacs::{defun, Result};
+
+// PhantomData is need because map_suffix requires a type parameter.
+// See https://github.com/jpernst/rental/issues/35.
+pub struct PhantomNode&lt;'t, T&gt;(Node&lt;'t&gt;, PhantomData&lt;T&gt;);
+
+impl&lt;'t&gt; PhantomNode&lt;'t, ()&gt; {
+    fn child(&amp;self) -&gt; Self {
+        PhantomNode(self.0.child(), PhantomData)
+    }
+}
+
+rental! {
+    pub mod inner {
+        use std::rc::Rc;
+
+        // Self-referential struct that holds both
+        // the actual Node and the ref-counted Tree.
+        #[rental(map_suffix = &quot;T&quot;)]
+        pub struct RentingNode&lt;T: 'static&gt; {
+            tree: Rc&lt;super::Tree&gt;,
+            node: super::PhantomNode&lt;'tree, T&gt;
+        }
+    }
+}
+
+type RentingNode = inner::RentingNode&lt;()&gt;;
+
+#[defun(user_ptr)]
+fn root_node(tree: Value) -&gt; Result&lt;RentingNode&gt; {
+    let rc: &amp;Rc&lt;Tree&gt; = tree.into_rust()?;
+    Ok(RentingNode::new(rc.clone(), |tree| tree.root_node()))
+}
+
+#[defun(user_ptr)]
+fn child(node: &amp;RentingNode) -&gt; Result&lt;RentingNode&gt; {
+    node.map(|n| n.child())
+}
+#}</code></pre></pre>
+<p>Note that there's no <code>unsafe</code> involved directly, as the soundness proofs are already encapsulated in <code>rental</code> macros.</p>
 <h1><a class="header" href="#error-handling" id="error-handling">Error Handling</a></h1>
 <p>Emacs Lisp's <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Handling-Errors.html">error handling mechanism</a> uses <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Nonlocal-Exits.html">non-local exits</a>. Rust uses <code>Result</code> enum. <code>emacs-module-rs</code> converts between the 2 at the Rust-Lisp boundaries (more precisely, Rust-C).</p>
 <p>The chosen error type is the <code>Error</code> struct from <a href="https://github.com/withoutboats/failure"><code>failure</code> crate</a>:</p>
@@ -641,7 +715,7 @@ pub type Result&lt;T&gt; = result::Result&lt;T, failure::Error&gt;;
 match env.call(&quot;insert&quot;, &amp;[some_text]) {
     Err(error) =&gt; {
         // Handle `buffer-read-only` error.
-        if let Some(&amp;Signal { ref symbol, .. }) = error.downcast_ref::&lt;ErrorKind&gt;() {
+        if let Some(Signal { symbol, .. }) = error.downcast_ref::&lt;ErrorKind&gt;() {
             let buffer_read_only = env.intern(&quot;buffer-read-only&quot;)?;
             // `symbol` is a `TempValue` that must be converted to `Value`.
             let symbol = unsafe { Ok(symbol.value(env)) };
@@ -682,11 +756,11 @@ let r: &amp;RefCell&lt;HashMap&lt;String, String&gt;&gt; = value.into_rust()?;
 <h1><a class="header" href="#testing" id="testing">Testing</a></h1>
 <p>You can define tests using <a href="https://www.gnu.org/software/emacs/manual/html_node/ert/index.html">ert</a>, then use a bash script to load the module and run the tests. Examples:</p>
 <ul>
-<li>emacs-module-rs's own <a href="https://github.com/ubolonton/emacs-module-rs/blob/master/test-module/tests/main.el">tests</a> and <a href="https://github.com/ubolonton/emacs-module-rs/blob/master/bin/test.sh">script</a>.</li>
+<li>emacs-module-rs's own <a href="https://github.com/ubolonton/emacs-module-rs/blob/master/test-module/tests/main.el">tests</a> and <a href="https://github.com/ubolonton/emacs-module-rs/blob/master/bin/test">script</a>.</li>
 <li>emacs-tree-sitter's <a href="https://github.com/ubolonton/emacs-tree-sitter/blob/master/tree-sitter-tests.el">tests</a> and <a href="https://github.com/ubolonton/emacs-tree-sitter/blob/master/bin/test">script</a>.</li>
 </ul>
-<p>Continuous testing during development can be done using <code>cargo-watch</code>:</p>
-<pre><code class="language-bash">cargo watch -x 'build --all' -s bin/test.sh
+<p>For continuous testing during development, run this (requires <code>cargo-watch</code>):</p>
+<pre><code class="language-bash">bin/test watch
 </code></pre>
 <p>A future version will have tighter integration with either <code>cargo</code> or <a href="https://github.com/cask/cask">Cask</a>.</p>
 <h1><a class="header" href="#live-reloading" id="live-reloading">Live Reloading</a></h1>
@@ -706,8 +780,8 @@ emacs-rs-module = { version = &quot;0.7.0&quot; }
 <p>A future version will have tighter integration with <code>cargo</code>.</p>
 <p><strong>Notes</strong>:</p>
 <ul>
-<li>It mainly works on Linux, but potentially because Linux's dynamic loading system is unsafe (i.e. UB-ridden).</li>
-<li>It doesn't work on macOS 10.13+ (High Sierra and up). See Rust's <a href="https://github.com/rust-lang/rust/issues/28794#issuecomment-368693049">issue #28794</a>.</li>
+<li>It mainly works on Linux, but potentially because Linux's dynamic loading system is unsafe (i.e. ridden with UB traps).</li>
+<li>It doesn't work on macOS 10.13+ (High Sierra and up), because macOS doesn't unload dynamic libraries that use TLS (thread-local storage), for safety reason. See Rust's <a href="https://github.com/rust-lang/rust/issues/28794#issuecomment-368693049">issue #28794</a>.</li>
 <li>It doesn't work on Windows, since loading the dll prevents writing to its file.</li>
 </ul>
 

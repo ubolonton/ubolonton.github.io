@@ -29,6 +29,8 @@
 
         <!-- Custom theme stylesheets -->
         
+        <link rel="stylesheet" href="custom.css">
+        
 
         
     </head>
@@ -217,6 +219,78 @@ fn process(v: Value&lt;'_&gt;) -&gt; Result&lt;Value&lt;'_&gt;&gt; {
 #}</code></pre></pre>
 </li>
 </ul>
+<h2><a class="header" href="#lifetime-constrained-types" id="lifetime-constrained-types">Lifetime-constrained Types</a></h2>
+<p>When a type is constrained by a (non-static) lifetime, its value cannot be embedded unchanged. Before embedding, the lifetime must be <strong>soundly</strong> elided. In other words, static ownership must be correctly given up.</p>
+<p>The typical example is a struct holding a reference to another struct:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+pub struct Tree;
+
+pub struct Node&lt;'t&gt; {
+    pub tree: &amp;'t Tree,
+}
+
+impl Tree {
+    pub fn root_node(&amp;self) -&gt; Node&lt;'_&gt; {
+        ...
+    }
+}
+
+impl&lt;'t&gt; Node&lt;'t&gt; {
+    pub fn child(&amp;self) -&gt; Node&lt;'t&gt; {
+        ...
+    }
+}
+#}</code></pre></pre>
+<p>In this case, the lifetime can be elided by turning the static reference into a dynamic ref-counted pointer. The <a href="https://github.com/jpernst/rental">rental crate</a> provides a convenient way to do this:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+#[macro_use]
+extern crate rental;
+
+use std::{rc::Rc, marker::PhantomData};
+use emacs::{defun, Result};
+
+// PhantomData is need because map_suffix requires a type parameter.
+// See https://github.com/jpernst/rental/issues/35.
+pub struct PhantomNode&lt;'t, T&gt;(Node&lt;'t&gt;, PhantomData&lt;T&gt;);
+
+impl&lt;'t&gt; PhantomNode&lt;'t, ()&gt; {
+    fn child(&amp;self) -&gt; Self {
+        PhantomNode(self.0.child(), PhantomData)
+    }
+}
+
+rental! {
+    pub mod inner {
+        use std::rc::Rc;
+
+        // Self-referential struct that holds both
+        // the actual Node and the ref-counted Tree.
+        #[rental(map_suffix = &quot;T&quot;)]
+        pub struct RentingNode&lt;T: 'static&gt; {
+            tree: Rc&lt;super::Tree&gt;,
+            node: super::PhantomNode&lt;'tree, T&gt;
+        }
+    }
+}
+
+type RentingNode = inner::RentingNode&lt;()&gt;;
+
+#[defun(user_ptr)]
+fn root_node(tree: Value) -&gt; Result&lt;RentingNode&gt; {
+    let rc: &amp;Rc&lt;Tree&gt; = tree.into_rust()?;
+    Ok(RentingNode::new(rc.clone(), |tree| tree.root_node()))
+}
+
+#[defun(user_ptr)]
+fn child(node: &amp;RentingNode) -&gt; Result&lt;RentingNode&gt; {
+    node.map(|n| n.child())
+}
+#}</code></pre></pre>
+<p>Note that there's no <code>unsafe</code> involved directly, as the soundness proofs are already encapsulated in <code>rental</code> macros.</p>
 
                     </main>
 
