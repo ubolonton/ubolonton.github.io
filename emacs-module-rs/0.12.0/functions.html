@@ -1,0 +1,377 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Writing Functions - emacs-module-rs 0.12.0</title>
+        
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+        <link rel="stylesheet" href="custom.css">
+        
+
+        
+    </head>
+    <body class="light">
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            document.body.className = theme;
+            document.querySelector('html').className = theme + ' js';
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="affix"><a href="overview.html">Overview</a></li><li><a href="hello.html"><strong aria-hidden="true">1.</strong> Hello, Emacs!</a></li><li><a href="module.html"><strong aria-hidden="true">2.</strong> Declaring a Module</a></li><li><a href="functions.html" class="active"><strong aria-hidden="true">3.</strong> Writing Functions</a></li><li><a href="calling-lisp.html"><strong aria-hidden="true">4.</strong> Calling Lisp Functions</a></li><li><a href="type-conversions.html"><strong aria-hidden="true">5.</strong> Type Conversions</a></li><li><a href="custom-types.html"><strong aria-hidden="true">6.</strong> Custom Types</a></li><li><a href="errors.html"><strong aria-hidden="true">7.</strong> Error Handling</a></li><li><a href="testing.html"><strong aria-hidden="true">8.</strong> Testing</a></li><li><a href="reloading.html"><strong aria-hidden="true">9.</strong> Live Reloading</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            
+                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            
+                        </div>
+
+                        <h1 class="menu-title">emacs-module-rs 0.12.0</h1>
+
+                        <div class="right-buttons">
+                            <a href="print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#writing-functions" id="writing-functions">Writing Functions</a></h1>
+<p>You can use the attribute macro <code>#[defun]</code> to export Rust functions to the Lisp runtime, so that Lisp code can call them. The exporting process happens when the module is loaded, even if the definitions are inside another function that is never called, or inside a private module.</p>
+<h2><a class="header" href="#input-parameters" id="input-parameters">Input Parameters</a></h2>
+<p>Each parameter must be one of the following:</p>
+<ul>
+<li>An owned value of a type that implements <code>FromLisp</code>. This is for simple data types that have an equivalent in Lisp.
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+/// This docstring will appear in Lisp too!
+#[defun]
+fn inc(x: i64) -&gt; Result&lt;i64&gt; {
+    Ok(x + 1)
+}
+#}</code></pre></pre>
+</li>
+<li>A shared/mutable reference. This gives access to data structures that other module functions have created and embedded in the Lisp runtime (through <code>user-ptr</code> objects).
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+#[defun]
+fn stash_pop(repo: &amp;mut git2::Repository) -&gt; Result&lt;()&gt; {
+    repo.stash_pop(0, None)?;
+    Ok(())
+}
+#}</code></pre></pre>
+</li>
+<li>A Lisp <code>Value</code>, or one of its &quot;sub-types&quot; (e.g. <code>Vector</code>). This allows holding off the conversion to Rust data structures until necessary, or working with values that don't have a meaningful representation in Rust, like Lisp lambdas.
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+#[defun]
+fn maybe_call(lambda: Value) -&gt; Result&lt;()&gt; {
+    if some_hidden_native_logic() {
+        lambda.call([])?;
+    }
+    Ok(())
+}
+
+#[defun(user_ptr)]
+fn to_rust_vec_string(input: Vector) -&gt; Result&lt;Vec&lt;String&gt;&gt; {
+    let mut vec = vec![];
+    for i in 0..input.size()? {
+        vec.push(input.get(i)?.into_rust()?);
+    }
+    Ok(vec)
+}
+#}</code></pre></pre>
+</li>
+<li>An <code>&amp;Env</code>. This enables interaction with the Lisp runtime. It does not appear in the function's Lisp signature. This is unnecessary if there is already another parameter with type <code>Value</code>, which allows accessing the runtime through <code>Value.env</code>.
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+// Note that the function takes an owned `String`, not a reference, which would
+// have been understood as a `user-ptr` object containing a Rust string.
+#[defun]
+fn hello(env: &amp;Env, name: String) -&gt; Result&lt;Value&lt;'_&gt;&gt; {
+    env.message(format!(&quot;Hello, {}!&quot;, name))
+}
+#}</code></pre></pre>
+</li>
+</ul>
+<h2><a class="header" href="#return-value" id="return-value">Return Value</a></h2>
+<p>The return type must be <code>Result&lt;T&gt;</code>, where <code>T</code> is one of the following:</p>
+<ul>
+<li>A type that implements <code>IntoLisp</code>. This is for simple data types that have an equivalent in Lisp.
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+/// Return the path to the .git dir.
+/// Return `nil' if the given path is not in a repo,
+/// or if the .git path is not valid utf-8.
+#[defun]
+fn dot_git_path(path: String) -&gt; Result&lt;Option&lt;String&gt;&gt; {
+    Ok(git2::Repository::discover(&amp;path).ok().and_then(|repo| {
+        repo.path().to_str().map(|s| s.to_owned())
+    }))
+}
+#}</code></pre></pre>
+</li>
+<li>An arbitrary type. This allows embedding a native data structure in a <code>user-ptr</code> object, for read-write use cases. It requires <code>user_ptr</code> option to be specified. If the data is to be shared with background Rust threads, <code>user_ptr(rwlock)</code> or <code>user_ptr(mutex)</code> must be used instead.
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+#[defun(user_ptr)]
+fn repo(path: String) -&gt; Result&lt;git2::Repository&gt; {
+    Ok(git2::Repository::discover(&amp;path)?)
+}
+#}</code></pre></pre>
+</li>
+<li>A type that implements <code>Transfer</code>. This allows embedding a native data structure in a <code>user-ptr</code> object, for read-only use cases. It requires <code>user_ptr(direct)</code> option to be specified.</li>
+<li><code>Value</code>, or one of its &quot;sub-types&quot; (e.g. <code>Vector</code>). This is mostly useful for returning an input parameter unchanged.</li>
+</ul>
+<p>See <a href="./custom-types.html">Custom Types</a> for more details on embedding Rust data structures in Lisp's <code>user-ptr</code> objects.</p>
+<h2><a class="header" href="#naming" id="naming">Naming</a></h2>
+<p>By default, the function's Lisp name has the form <code>&lt;feature-prefix&gt;[mod-prefix]&lt;base-name&gt;</code>.</p>
+<ul>
+<li><code>feature-prefix</code> is the feature name followed by <code>-</code>. This can be customized by the <code>name</code>, <code>defun_prefix</code>, and <code>separator</code> <a href="./module.html#options">options</a> on <code>#[emacs::module]</code>.</li>
+<li><code>mod-prefix</code> is constructed from the function's Rust module path (with <code>_</code> and <code>::</code> replaced by <code>-</code>). This can be turned off crate-wide, or for individual function, using the option <code>mod_in_name</code>.</li>
+<li><code>base-name</code> is the function's Rust name (with <code>_</code> replaced by <code>-</code>). This can be overridden with the option <code>name</code>.</li>
+</ul>
+<p>Examples:</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+// Assuming crate's name is `native_parallelism`.
+
+#[emacs::module(separator = &quot;/&quot;)]
+fn init(_: &amp;Env) -&gt; Result&lt;()&gt; { Ok(()) }
+
+mod shared_state {
+    mod thread {
+        // Ignore the nested mod's.
+        // (native-parallelism/make-thread &quot;name&quot;)
+        #[defun(mod_in_name = false)]
+        fn make_thread(name: String) -&gt; Result&lt;Value&lt;'_&gt;&gt; {
+            ..
+        }
+    }
+
+    mod process {
+        // (native-parallelism/shared-state-process-launch &quot;bckgrnd&quot;)
+        #[defun]
+        fn launch(name: String) -&gt; Result&lt;Value&lt;'_&gt;&gt; {
+            ..
+        }
+
+        // Specify a name explicitly, since Rust identifier cannot contain `:`.
+        // (native-parallelism/process:pool &quot;http-client&quot; 2 8)
+        #[defun(mod_in_name = false, name = &quot;process:pool&quot;)]
+        fn pool(name: String, min: i64, max: i64) -&gt; Result&lt;Value&lt;'_&gt;&gt; {
+            ..
+        }
+    }
+}
+#}</code></pre></pre>
+<h2><a class="header" href="#documentation" id="documentation">Documentation</a></h2>
+<p><code>#[defun]</code> converts Rust's docstring into Lisp's docstring. It also automatically constructs and appends the <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Function-Documentation.html#Function-Documentation">function's signature</a> to the end of the docstring, so that help modes can correctly display it.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#fn main() {
+// `(fn X Y)` is automatically appended, so you don't have to manually do so.
+// In help modes, the signature will be (add X Y).
+
+/// Add 2 numbers.
+#[defun]
+fn add(x: usize, y: usize) -&gt; Result&lt;usize&gt; {
+    Ok(x + y)
+}
+#}</code></pre></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="module.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="calling-lisp.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a href="module.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="calling-lisp.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+        <!-- Google Analytics Tag -->
+        <script type="text/javascript">
+            var localAddrs = ["localhost", "127.0.0.1", ""];
+
+            // make sure we don't activate google analytics if the developer is
+            // inspecting the book locally...
+            if (localAddrs.indexOf(document.location.hostname) === -1) {
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+                ga('create', 'UA-138609797-1', 'auto');
+                ga('send', 'pageview');
+            }
+        </script>
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>
