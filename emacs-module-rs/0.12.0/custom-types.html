@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="sidebar-visible no-js">
+<html lang="en" class="sidebar-visible no-js light">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -34,11 +34,11 @@
 
         
     </head>
-    <body class="light">
+    <body>
         <!-- Provide site root to javascript -->
         <script type="text/javascript">
             var path_to_root = "";
-            var default_theme = "light";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "coal" : "light";
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
@@ -62,8 +62,11 @@
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            document.body.className = theme;
-            document.querySelector('html').className = theme + ' js';
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
@@ -79,8 +82,8 @@
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="affix"><a href="overview.html">Overview</a></li><li><a href="hello.html"><strong aria-hidden="true">1.</strong> Hello, Emacs!</a></li><li><a href="module.html"><strong aria-hidden="true">2.</strong> Declaring a Module</a></li><li><a href="functions.html"><strong aria-hidden="true">3.</strong> Writing Functions</a></li><li><a href="calling-lisp.html"><strong aria-hidden="true">4.</strong> Calling Lisp Functions</a></li><li><a href="type-conversions.html"><strong aria-hidden="true">5.</strong> Type Conversions</a></li><li><a href="custom-types.html" class="active"><strong aria-hidden="true">6.</strong> Custom Types</a></li><li><a href="errors.html"><strong aria-hidden="true">7.</strong> Error Handling</a></li><li><a href="testing.html"><strong aria-hidden="true">8.</strong> Testing</a></li><li><a href="reloading.html"><strong aria-hidden="true">9.</strong> Live Reloading</a></li></ol>
+            <div id="sidebar-scrollbox" class="sidebar-scrollbox">
+                <ol class="chapter"><li class="expanded affix "><a href="overview.html">Overview</a></li><li class="expanded "><a href="hello.html"><strong aria-hidden="true">1.</strong> Hello, Emacs!</a></li><li class="expanded "><a href="module.html"><strong aria-hidden="true">2.</strong> Declaring a Module</a></li><li class="expanded "><a href="functions.html"><strong aria-hidden="true">3.</strong> Writing Functions</a></li><li class="expanded "><a href="calling-lisp.html"><strong aria-hidden="true">4.</strong> Calling Lisp Functions</a></li><li class="expanded "><a href="type-conversions.html"><strong aria-hidden="true">5.</strong> Type Conversions</a></li><li class="expanded "><a href="custom-types.html" class="active"><strong aria-hidden="true">6.</strong> Custom Types</a></li><li class="expanded "><a href="errors.html"><strong aria-hidden="true">7.</strong> Error Handling</a></li><li class="expanded "><a href="testing.html"><strong aria-hidden="true">8.</strong> Testing</a></li><li class="expanded "><a href="reloading.html"><strong aria-hidden="true">9.</strong> Live Reloading</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -160,9 +163,9 @@
 </ul>
 <p>As an example, a module that allows Emacs to use Rust's <code>HashMap</code> may look like this:</p>
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-use std::collections::HashMap;
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>use std::collections::HashMap;
 use emacs::{defun, Env, Result, Value};
 
 #[emacs::module(name = &quot;rs-hash-map&quot;, separator = &quot;/&quot;)]
@@ -186,7 +189,8 @@ fn init(env: &amp;Env) -&gt; Result&lt;()&gt; {
 
     Ok(())
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <pre><code class="language-emacs-lisp">(let ((m (rs-hash-map/make)))
   (rs-hash-map/get m &quot;a&quot;)     ; -&gt; nil
 
@@ -201,9 +205,9 @@ fn init(env: &amp;Env) -&gt; Result&lt;()&gt; {
 <li><code>Value.into_rust()</code> has a runtime type check, which fails with the error <code>'rust-wrong-type-user-ptr</code> if the value is a <code>user-ptr</code> object of a different type.</li>
 <li>Input parameters with reference types are interpreted as <code>RefCell</code>-embedded <code>user-ptr</code> objects. For other kinds of embedding, you will have to use a <code>Value</code> parameter, and acquire the reference manually, since locking strategy (including deadlock avoidance/detection) should be module-specific.
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-use std::sync::RwLock;
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>use std::sync::RwLock;
 
 #[defun(user_ptr(rwlock))]
 fn make() -&gt; Result&lt;Map&gt; {
@@ -216,16 +220,17 @@ fn process(v: Value&lt;'_&gt;) -&gt; Result&lt;Value&lt;'_&gt;&gt; {
     let map = lock.try_read().map_err(|_| failure::err_msg(&quot;map is busy&quot;))?;
     Ok(map.get(&amp;key).into_lisp(v.env)?)
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 </li>
 </ul>
 <h2><a class="header" href="#lifetime-constrained-types" id="lifetime-constrained-types">Lifetime-constrained Types</a></h2>
 <p>When a type is constrained by a (non-static) lifetime, its value cannot be embedded unchanged. Before embedding, the lifetime must be <strong>soundly</strong> elided. In other words, static ownership must be correctly given up.</p>
 <p>The typical example is a struct holding a reference to another struct:</p>
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-pub struct Tree;
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>pub struct Tree;
 
 pub struct Node&lt;'t&gt; {
     pub tree: &amp;'t Tree,
@@ -242,12 +247,13 @@ impl&lt;'t&gt; Node&lt;'t&gt; {
         ...
     }
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <p>In this case, the lifetime can be elided by turning the static reference into a dynamic ref-counted pointer. The <a href="https://github.com/jpernst/rental">rental crate</a> provides a convenient way to do this:</p>
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-#[macro_use]
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>#[macro_use]
 extern crate rental;
 
 use std::{rc::Rc, marker::PhantomData};
@@ -289,7 +295,8 @@ fn root_node(tree: Value) -&gt; Result&lt;RentingNode&gt; {
 fn child(node: &amp;RentingNode) -&gt; Result&lt;RentingNode&gt; {
     node.map(|n| n.child())
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <p>Note that there's no <code>unsafe</code> involved directly, as the soundness proofs are already encapsulated in <code>rental</code> macros.</p>
 
                     </main>
@@ -347,6 +354,14 @@ fn child(node: &amp;RentingNode) -&gt; Result&lt;RentingNode&gt; {
                 ga('create', 'UA-138609797-1', 'auto');
                 ga('send', 'pageview');
             }
+        </script>
+        
+
+        
+        
+        
+        <script type="text/javascript">
+            window.playpen_copyable = true;
         </script>
         
 

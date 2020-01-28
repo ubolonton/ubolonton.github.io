@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="sidebar-visible no-js">
+<html lang="en" class="sidebar-visible no-js light">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -34,11 +34,11 @@
 
         
     </head>
-    <body class="light">
+    <body>
         <!-- Provide site root to javascript -->
         <script type="text/javascript">
             var path_to_root = "";
-            var default_theme = "light";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "coal" : "light";
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
@@ -62,8 +62,11 @@
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            document.body.className = theme;
-            document.querySelector('html').className = theme + ' js';
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
@@ -79,8 +82,8 @@
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="affix"><a href="overview.html">Overview</a></li><li><a href="hello.html"><strong aria-hidden="true">1.</strong> Hello, Emacs!</a></li><li><a href="module.html"><strong aria-hidden="true">2.</strong> Declaring a Module</a></li><li><a href="functions.html" class="active"><strong aria-hidden="true">3.</strong> Writing Functions</a></li><li><a href="calling-lisp.html"><strong aria-hidden="true">4.</strong> Calling Lisp Functions</a></li><li><a href="type-conversions.html"><strong aria-hidden="true">5.</strong> Type Conversions</a></li><li><a href="custom-types.html"><strong aria-hidden="true">6.</strong> Custom Types</a></li><li><a href="errors.html"><strong aria-hidden="true">7.</strong> Error Handling</a></li><li><a href="testing.html"><strong aria-hidden="true">8.</strong> Testing</a></li><li><a href="reloading.html"><strong aria-hidden="true">9.</strong> Live Reloading</a></li></ol>
+            <div id="sidebar-scrollbox" class="sidebar-scrollbox">
+                <ol class="chapter"><li class="expanded affix "><a href="overview.html">Overview</a></li><li class="expanded "><a href="hello.html"><strong aria-hidden="true">1.</strong> Hello, Emacs!</a></li><li class="expanded "><a href="module.html"><strong aria-hidden="true">2.</strong> Declaring a Module</a></li><li class="expanded "><a href="functions.html" class="active"><strong aria-hidden="true">3.</strong> Writing Functions</a></li><li class="expanded "><a href="calling-lisp.html"><strong aria-hidden="true">4.</strong> Calling Lisp Functions</a></li><li class="expanded "><a href="type-conversions.html"><strong aria-hidden="true">5.</strong> Type Conversions</a></li><li class="expanded "><a href="custom-types.html"><strong aria-hidden="true">6.</strong> Custom Types</a></li><li class="expanded "><a href="errors.html"><strong aria-hidden="true">7.</strong> Error Handling</a></li><li class="expanded "><a href="testing.html"><strong aria-hidden="true">8.</strong> Testing</a></li><li class="expanded "><a href="reloading.html"><strong aria-hidden="true">9.</strong> Live Reloading</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -154,31 +157,33 @@
 <ul>
 <li>An owned value of a type that implements <code>FromLisp</code>. This is for simple data types that have an equivalent in Lisp.
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-/// This docstring will appear in Lisp too!
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>/// This docstring will appear in Lisp too!
 #[defun]
 fn inc(x: i64) -&gt; Result&lt;i64&gt; {
     Ok(x + 1)
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 </li>
 <li>A shared/mutable reference. This gives access to data structures that other module functions have created and embedded in the Lisp runtime (through <code>user-ptr</code> objects).
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-#[defun]
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>#[defun]
 fn stash_pop(repo: &amp;mut git2::Repository) -&gt; Result&lt;()&gt; {
     repo.stash_pop(0, None)?;
     Ok(())
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 </li>
 <li>A Lisp <code>Value</code>, or one of its &quot;sub-types&quot; (e.g. <code>Vector</code>). This allows holding off the conversion to Rust data structures until necessary, or working with values that don't have a meaningful representation in Rust, like Lisp lambdas.
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-#[defun]
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>#[defun]
 fn maybe_call(lambda: Value) -&gt; Result&lt;()&gt; {
     if some_hidden_native_logic() {
         lambda.call([])?;
@@ -194,19 +199,21 @@ fn to_rust_vec_string(input: Vector) -&gt; Result&lt;Vec&lt;String&gt;&gt; {
     }
     Ok(vec)
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 </li>
 <li>An <code>&amp;Env</code>. This enables interaction with the Lisp runtime. It does not appear in the function's Lisp signature. This is unnecessary if there is already another parameter with type <code>Value</code>, which allows accessing the runtime through <code>Value.env</code>.
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-// Note that the function takes an owned `String`, not a reference, which would
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>// Note that the function takes an owned `String`, not a reference, which would
 // have been understood as a `user-ptr` object containing a Rust string.
 #[defun]
 fn hello(env: &amp;Env, name: String) -&gt; Result&lt;Value&lt;'_&gt;&gt; {
     env.message(format!(&quot;Hello, {}!&quot;, name))
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 </li>
 </ul>
 <h2><a class="header" href="#return-value" id="return-value">Return Value</a></h2>
@@ -214,9 +221,9 @@ fn hello(env: &amp;Env, name: String) -&gt; Result&lt;Value&lt;'_&gt;&gt; {
 <ul>
 <li>A type that implements <code>IntoLisp</code>. This is for simple data types that have an equivalent in Lisp.
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-/// Return the path to the .git dir.
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>/// Return the path to the .git dir.
 /// Return `nil' if the given path is not in a repo,
 /// or if the .git path is not valid utf-8.
 #[defun]
@@ -225,17 +232,19 @@ fn dot_git_path(path: String) -&gt; Result&lt;Option&lt;String&gt;&gt; {
         repo.path().to_str().map(|s| s.to_owned())
     }))
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 </li>
 <li>An arbitrary type. This allows embedding a native data structure in a <code>user-ptr</code> object, for read-write use cases. It requires <code>user_ptr</code> option to be specified. If the data is to be shared with background Rust threads, <code>user_ptr(rwlock)</code> or <code>user_ptr(mutex)</code> must be used instead.
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-#[defun(user_ptr)]
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>#[defun(user_ptr)]
 fn repo(path: String) -&gt; Result&lt;git2::Repository&gt; {
     Ok(git2::Repository::discover(&amp;path)?)
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 </li>
 <li>A type that implements <code>Transfer</code>. This allows embedding a native data structure in a <code>user-ptr</code> object, for read-only use cases. It requires <code>user_ptr(direct)</code> option to be specified.</li>
 <li><code>Value</code>, or one of its &quot;sub-types&quot; (e.g. <code>Vector</code>). This is mostly useful for returning an input parameter unchanged.</li>
@@ -250,9 +259,9 @@ fn repo(path: String) -&gt; Result&lt;git2::Repository&gt; {
 </ul>
 <p>Examples:</p>
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-// Assuming crate's name is `native_parallelism`.
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>// Assuming crate's name is `native_parallelism`.
 
 #[emacs::module(separator = &quot;/&quot;)]
 fn init(_: &amp;Env) -&gt; Result&lt;()&gt; { Ok(()) }
@@ -282,13 +291,14 @@ mod shared_state {
         }
     }
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <h2><a class="header" href="#documentation" id="documentation">Documentation</a></h2>
 <p><code>#[defun]</code> converts Rust's docstring into Lisp's docstring. It also automatically constructs and appends the <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Function-Documentation.html#Function-Documentation">function's signature</a> to the end of the docstring, so that help modes can correctly display it.</p>
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-// `(fn X Y)` is automatically appended, so you don't have to manually do so.
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>// `(fn X Y)` is automatically appended, so you don't have to manually do so.
 // In help modes, the signature will be (add X Y).
 
 /// Add 2 numbers.
@@ -296,7 +306,8 @@ mod shared_state {
 fn add(x: usize, y: usize) -&gt; Result&lt;usize&gt; {
     Ok(x + y)
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 
                     </main>
 
@@ -353,6 +364,14 @@ fn add(x: usize, y: usize) -&gt; Result&lt;usize&gt; {
                 ga('create', 'UA-138609797-1', 'auto');
                 ga('send', 'pageview');
             }
+        </script>
+        
+
+        
+        
+        
+        <script type="text/javascript">
+            window.playpen_copyable = true;
         </script>
         
 

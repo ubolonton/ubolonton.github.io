@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="sidebar-visible no-js">
+<html lang="en" class="sidebar-visible no-js light">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -34,11 +34,11 @@
 
         
     </head>
-    <body class="light">
+    <body>
         <!-- Provide site root to javascript -->
         <script type="text/javascript">
             var path_to_root = "";
-            var default_theme = "light";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "coal" : "light";
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
@@ -62,8 +62,11 @@
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            document.body.className = theme;
-            document.querySelector('html').className = theme + ' js';
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
@@ -79,8 +82,8 @@
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="affix"><a href="overview.html">Overview</a></li><li><a href="hello.html"><strong aria-hidden="true">1.</strong> Hello, Emacs!</a></li><li><a href="module.html" class="active"><strong aria-hidden="true">2.</strong> Declaring a Module</a></li><li><a href="functions.html"><strong aria-hidden="true">3.</strong> Writing Functions</a></li><li><a href="calling-lisp.html"><strong aria-hidden="true">4.</strong> Calling Lisp Functions</a></li><li><a href="type-conversions.html"><strong aria-hidden="true">5.</strong> Type Conversions</a></li><li><a href="custom-types.html"><strong aria-hidden="true">6.</strong> Custom Types</a></li><li><a href="errors.html"><strong aria-hidden="true">7.</strong> Error Handling</a></li><li><a href="testing.html"><strong aria-hidden="true">8.</strong> Testing</a></li><li><a href="reloading.html"><strong aria-hidden="true">9.</strong> Live Reloading</a></li></ol>
+            <div id="sidebar-scrollbox" class="sidebar-scrollbox">
+                <ol class="chapter"><li class="expanded affix "><a href="overview.html">Overview</a></li><li class="expanded "><a href="hello.html"><strong aria-hidden="true">1.</strong> Hello, Emacs!</a></li><li class="expanded "><a href="module.html" class="active"><strong aria-hidden="true">2.</strong> Declaring a Module</a></li><li class="expanded "><a href="functions.html"><strong aria-hidden="true">3.</strong> Writing Functions</a></li><li class="expanded "><a href="calling-lisp.html"><strong aria-hidden="true">4.</strong> Calling Lisp Functions</a></li><li class="expanded "><a href="type-conversions.html"><strong aria-hidden="true">5.</strong> Type Conversions</a></li><li class="expanded "><a href="custom-types.html"><strong aria-hidden="true">6.</strong> Custom Types</a></li><li class="expanded "><a href="errors.html"><strong aria-hidden="true">7.</strong> Error Handling</a></li><li class="expanded "><a href="testing.html"><strong aria-hidden="true">8.</strong> Testing</a></li><li class="expanded "><a href="reloading.html"><strong aria-hidden="true">9.</strong> Live Reloading</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -151,9 +154,9 @@
 <p>Each dynamic module must have an initialization function, marked by the attribute macro <code>#[emacs::module]</code>. The function's type must be <code>fn(&amp;Env) -&gt; Result&lt;()&gt;</code>.</p>
 <p>In addition, in order to be loadable by Emacs, the module must be declared GPL-compatible.</p>
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-emacs::plugin_is_GPL_compatible!();
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>emacs::plugin_is_GPL_compatible!();
 
 #[emacs::module]
 fn init(env: &amp;Env) -&gt; Result&lt;()&gt; {
@@ -162,38 +165,42 @@ fn init(env: &amp;Env) -&gt; Result&lt;()&gt; {
     // but before `(provide 'feature-name)` is (automatically) called.
     Ok(())
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <h2><a class="header" href="#options" id="options">Options</a></h2>
 <ul>
 <li>
 <p><code>name</code>: By default, the name of the feature provided by the module is the crate's name (with <code>_</code> replaced by <code>-</code>). There is no need to explicitly call <code>provide</code> inside the initialization function. This option allows the function's name, or a string, to be used instead.</p>
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-// Putting `rs` in crate's name is discouraged so we use the function's name
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>// Putting `rs` in crate's name is discouraged so we use the function's name
 // instead. The feature will be `rs-module-helper`.
 #[emacs::module(name(fn))]
 fn rs_module_helper(_: &amp;Env) -&gt; Result&lt;()&gt; { Ok(()) }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 </li>
 <li>
 <p><code>defun_prefix</code> and <code>separator</code>: Function names in Emacs are conventionally prefixed with the feature name followed by <code>-</code>. These 2 options allow a different prefix and separator to be used.</p>
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-// Use `/` as the separator that goes after feature name, like some other packages.
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>// Use `/` as the separator that goes after feature name, like some other packages.
 #[emacs::module(separator = &quot;/&quot;)]
 fn init(_: &amp;Env) -&gt; Result&lt;()&gt; { Ok(()) }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-// The whole package contains other Lisp files, so the module is named
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>// The whole package contains other Lisp files, so the module is named
 // `tree-sitter-dyn`. But we want functions to be `tree-sitter-something`,
 // not `tree-sitter-dyn-something`.
 #[emacs::module(name = &quot;tree-sitter-dyn&quot;, defun_prefix = &quot;tree-sitter&quot;)]
 fn init(_: &amp;Env) -&gt; Result&lt;()&gt; { Ok(()) }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 </li>
 <li>
 <p><code>mod_in_name</code>: Whether to use Rust's <code>mod</code> path to construct <a href="./functions.html#naming">function names</a>. Default to <code>true</code>. For example, supposed that the crate is named <code>parser</code>, a <code>#[defun]</code> named <code>next_child</code> inside <code>mod cursor</code> will have the Lisp name of <code>parser-cursor-next-child</code>. This can also be overridden for each individual function, by an option of the same name on <code>#[defun]</code>.</p>
@@ -256,6 +263,14 @@ fn init(_: &amp;Env) -&gt; Result&lt;()&gt; { Ok(()) }
                 ga('create', 'UA-138609797-1', 'auto');
                 ga('send', 'pageview');
             }
+        </script>
+        
+
+        
+        
+        
+        <script type="text/javascript">
+            window.playpen_copyable = true;
         </script>
         
 

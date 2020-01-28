@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="sidebar-visible no-js">
+<html lang="en" class="sidebar-visible no-js light">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -36,11 +36,11 @@
 
         
     </head>
-    <body class="light">
+    <body>
         <!-- Provide site root to javascript -->
         <script type="text/javascript">
             var path_to_root = "";
-            var default_theme = "light";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "coal" : "light";
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
@@ -64,8 +64,11 @@
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            document.body.className = theme;
-            document.querySelector('html').className = theme + ' js';
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
@@ -81,8 +84,8 @@
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="affix"><a href="overview.html">Overview</a></li><li><a href="hello.html"><strong aria-hidden="true">1.</strong> Hello, Emacs!</a></li><li><a href="module.html"><strong aria-hidden="true">2.</strong> Declaring a Module</a></li><li><a href="functions.html"><strong aria-hidden="true">3.</strong> Writing Functions</a></li><li><a href="calling-lisp.html"><strong aria-hidden="true">4.</strong> Calling Lisp Functions</a></li><li><a href="type-conversions.html"><strong aria-hidden="true">5.</strong> Type Conversions</a></li><li><a href="custom-types.html"><strong aria-hidden="true">6.</strong> Custom Types</a></li><li><a href="errors.html"><strong aria-hidden="true">7.</strong> Error Handling</a></li><li><a href="testing.html"><strong aria-hidden="true">8.</strong> Testing</a></li><li><a href="reloading.html"><strong aria-hidden="true">9.</strong> Live Reloading</a></li></ol>
+            <div id="sidebar-scrollbox" class="sidebar-scrollbox">
+                <ol class="chapter"><li class="expanded affix "><a href="overview.html">Overview</a></li><li class="expanded "><a href="hello.html"><strong aria-hidden="true">1.</strong> Hello, Emacs!</a></li><li class="expanded "><a href="module.html"><strong aria-hidden="true">2.</strong> Declaring a Module</a></li><li class="expanded "><a href="functions.html"><strong aria-hidden="true">3.</strong> Writing Functions</a></li><li class="expanded "><a href="calling-lisp.html"><strong aria-hidden="true">4.</strong> Calling Lisp Functions</a></li><li class="expanded "><a href="type-conversions.html"><strong aria-hidden="true">5.</strong> Type Conversions</a></li><li class="expanded "><a href="custom-types.html"><strong aria-hidden="true">6.</strong> Custom Types</a></li><li class="expanded "><a href="errors.html"><strong aria-hidden="true">7.</strong> Error Handling</a></li><li class="expanded "><a href="testing.html"><strong aria-hidden="true">8.</strong> Testing</a></li><li class="expanded "><a href="reloading.html"><strong aria-hidden="true">9.</strong> Live Reloading</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -202,9 +205,9 @@ emacs = &quot;0.12.0&quot;
 </code></pre>
 <p>Write code in <code>src/lib.rs</code>:</p>
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-use emacs::{defun, Env, Result, Value};
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>use emacs::{defun, Env, Result, Value};
 
 // Emacs won't load the module without this.
 emacs::plugin_is_GPL_compatible!();
@@ -220,7 +223,8 @@ fn init(env: &amp;Env) -&gt; Result&lt;Value&lt;'_&gt;&gt; {
 fn say_hello(env: &amp;Env, name: String) -&gt; Result&lt;Value&lt;'_&gt;&gt; {
     env.message(&amp;format!(&quot;Hello, {}!&quot;, name))
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <p>Build the module and create a symlink with <code>.so</code> extension so that Emacs can recognize it:</p>
 <pre><code class="language-bash">cargo build
 cd target/debug
@@ -241,9 +245,9 @@ ln -s libgreeting.dylib greeting.so
 <p>Each dynamic module must have an initialization function, marked by the attribute macro <code>#[emacs::module]</code>. The function's type must be <code>fn(&amp;Env) -&gt; Result&lt;()&gt;</code>.</p>
 <p>In addition, in order to be loadable by Emacs, the module must be declared GPL-compatible.</p>
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-emacs::plugin_is_GPL_compatible!();
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>emacs::plugin_is_GPL_compatible!();
 
 #[emacs::module]
 fn init(env: &amp;Env) -&gt; Result&lt;()&gt; {
@@ -252,38 +256,42 @@ fn init(env: &amp;Env) -&gt; Result&lt;()&gt; {
     // but before `(provide 'feature-name)` is (automatically) called.
     Ok(())
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <h2><a class="header" href="#options" id="options">Options</a></h2>
 <ul>
 <li>
 <p><code>name</code>: By default, the name of the feature provided by the module is the crate's name (with <code>_</code> replaced by <code>-</code>). There is no need to explicitly call <code>provide</code> inside the initialization function. This option allows the function's name, or a string, to be used instead.</p>
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-// Putting `rs` in crate's name is discouraged so we use the function's name
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>// Putting `rs` in crate's name is discouraged so we use the function's name
 // instead. The feature will be `rs-module-helper`.
 #[emacs::module(name(fn))]
 fn rs_module_helper(_: &amp;Env) -&gt; Result&lt;()&gt; { Ok(()) }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 </li>
 <li>
 <p><code>defun_prefix</code> and <code>separator</code>: Function names in Emacs are conventionally prefixed with the feature name followed by <code>-</code>. These 2 options allow a different prefix and separator to be used.</p>
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-// Use `/` as the separator that goes after feature name, like some other packages.
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>// Use `/` as the separator that goes after feature name, like some other packages.
 #[emacs::module(separator = &quot;/&quot;)]
 fn init(_: &amp;Env) -&gt; Result&lt;()&gt; { Ok(()) }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-// The whole package contains other Lisp files, so the module is named
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>// The whole package contains other Lisp files, so the module is named
 // `tree-sitter-dyn`. But we want functions to be `tree-sitter-something`,
 // not `tree-sitter-dyn-something`.
 #[emacs::module(name = &quot;tree-sitter-dyn&quot;, defun_prefix = &quot;tree-sitter&quot;)]
 fn init(_: &amp;Env) -&gt; Result&lt;()&gt; { Ok(()) }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 </li>
 <li>
 <p><code>mod_in_name</code>: Whether to use Rust's <code>mod</code> path to construct <a href="./functions.html#naming">function names</a>. Default to <code>true</code>. For example, supposed that the crate is named <code>parser</code>, a <code>#[defun]</code> named <code>next_child</code> inside <code>mod cursor</code> will have the Lisp name of <code>parser-cursor-next-child</code>. This can also be overridden for each individual function, by an option of the same name on <code>#[defun]</code>.</p>
@@ -297,31 +305,33 @@ fn init(_: &amp;Env) -&gt; Result&lt;()&gt; { Ok(()) }
 <ul>
 <li>An owned value of a type that implements <code>FromLisp</code>. This is for simple data types that have an equivalent in Lisp.
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-/// This docstring will appear in Lisp too!
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>/// This docstring will appear in Lisp too!
 #[defun]
 fn inc(x: i64) -&gt; Result&lt;i64&gt; {
     Ok(x + 1)
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 </li>
 <li>A shared/mutable reference. This gives access to data structures that other module functions have created and embedded in the Lisp runtime (through <code>user-ptr</code> objects).
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-#[defun]
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>#[defun]
 fn stash_pop(repo: &amp;mut git2::Repository) -&gt; Result&lt;()&gt; {
     repo.stash_pop(0, None)?;
     Ok(())
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 </li>
 <li>A Lisp <code>Value</code>, or one of its &quot;sub-types&quot; (e.g. <code>Vector</code>). This allows holding off the conversion to Rust data structures until necessary, or working with values that don't have a meaningful representation in Rust, like Lisp lambdas.
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-#[defun]
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>#[defun]
 fn maybe_call(lambda: Value) -&gt; Result&lt;()&gt; {
     if some_hidden_native_logic() {
         lambda.call([])?;
@@ -337,19 +347,21 @@ fn to_rust_vec_string(input: Vector) -&gt; Result&lt;Vec&lt;String&gt;&gt; {
     }
     Ok(vec)
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 </li>
 <li>An <code>&amp;Env</code>. This enables interaction with the Lisp runtime. It does not appear in the function's Lisp signature. This is unnecessary if there is already another parameter with type <code>Value</code>, which allows accessing the runtime through <code>Value.env</code>.
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-// Note that the function takes an owned `String`, not a reference, which would
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>// Note that the function takes an owned `String`, not a reference, which would
 // have been understood as a `user-ptr` object containing a Rust string.
 #[defun]
 fn hello(env: &amp;Env, name: String) -&gt; Result&lt;Value&lt;'_&gt;&gt; {
     env.message(format!(&quot;Hello, {}!&quot;, name))
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 </li>
 </ul>
 <h2><a class="header" href="#return-value" id="return-value">Return Value</a></h2>
@@ -357,9 +369,9 @@ fn hello(env: &amp;Env, name: String) -&gt; Result&lt;Value&lt;'_&gt;&gt; {
 <ul>
 <li>A type that implements <code>IntoLisp</code>. This is for simple data types that have an equivalent in Lisp.
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-/// Return the path to the .git dir.
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>/// Return the path to the .git dir.
 /// Return `nil' if the given path is not in a repo,
 /// or if the .git path is not valid utf-8.
 #[defun]
@@ -368,17 +380,19 @@ fn dot_git_path(path: String) -&gt; Result&lt;Option&lt;String&gt;&gt; {
         repo.path().to_str().map(|s| s.to_owned())
     }))
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 </li>
 <li>An arbitrary type. This allows embedding a native data structure in a <code>user-ptr</code> object, for read-write use cases. It requires <code>user_ptr</code> option to be specified. If the data is to be shared with background Rust threads, <code>user_ptr(rwlock)</code> or <code>user_ptr(mutex)</code> must be used instead.
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-#[defun(user_ptr)]
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>#[defun(user_ptr)]
 fn repo(path: String) -&gt; Result&lt;git2::Repository&gt; {
     Ok(git2::Repository::discover(&amp;path)?)
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 </li>
 <li>A type that implements <code>Transfer</code>. This allows embedding a native data structure in a <code>user-ptr</code> object, for read-only use cases. It requires <code>user_ptr(direct)</code> option to be specified.</li>
 <li><code>Value</code>, or one of its &quot;sub-types&quot; (e.g. <code>Vector</code>). This is mostly useful for returning an input parameter unchanged.</li>
@@ -393,9 +407,9 @@ fn repo(path: String) -&gt; Result&lt;git2::Repository&gt; {
 </ul>
 <p>Examples:</p>
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-// Assuming crate's name is `native_parallelism`.
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>// Assuming crate's name is `native_parallelism`.
 
 #[emacs::module(separator = &quot;/&quot;)]
 fn init(_: &amp;Env) -&gt; Result&lt;()&gt; { Ok(()) }
@@ -425,13 +439,14 @@ mod shared_state {
         }
     }
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <h2><a class="header" href="#documentation" id="documentation">Documentation</a></h2>
 <p><code>#[defun]</code> converts Rust's docstring into Lisp's docstring. It also automatically constructs and appends the <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Function-Documentation.html#Function-Documentation">function's signature</a> to the end of the docstring, so that help modes can correctly display it.</p>
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-// `(fn X Y)` is automatically appended, so you don't have to manually do so.
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>// `(fn X Y)` is automatically appended, so you don't have to manually do so.
 // In help modes, the signature will be (add X Y).
 
 /// Add 2 numbers.
@@ -439,13 +454,14 @@ mod shared_state {
 fn add(x: usize, y: usize) -&gt; Result&lt;usize&gt; {
     Ok(x + y)
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <h1><a class="header" href="#calling-lisp-functions" id="calling-lisp-functions">Calling Lisp Functions</a></h1>
 <p>Frequently-used Lisp functions are exposed as methods on <code>env</code>:</p>
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-env.intern(&quot;defun&quot;)?;
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>env.intern(&quot;defun&quot;)?;
 
 env.message(&quot;Hello&quot;)?;
 
@@ -454,7 +470,8 @@ env.type_of(5.into_lisp(env)?)?;
 env.provide(&quot;my-module&quot;)?;
 
 env.list((1, &quot;str&quot;, true))?;
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <p>To call arbitrary Lisp functions, use <code>env.call(func, args)</code>.</p>
 <ul>
 <li><code>func</code> can be:
@@ -471,15 +488,16 @@ env.list((1, &quot;str&quot;, true))?;
 </li>
 </ul>
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-// (list &quot;str&quot; 2)
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>// (list &quot;str&quot; 2)
 env.call(&quot;list&quot;, (&quot;str&quot;, 2))?;
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-let list = env.intern(&quot;list&quot;)?;
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>let list = env.intern(&quot;list&quot;)?;
 // (symbol-function 'list)
 let subr = env.call(&quot;symbol-function&quot;, [list])?;
 // (funcall 'list &quot;str&quot; 2)
@@ -487,20 +505,22 @@ env.call(list, (&quot;str&quot;, 2))?;
 // (funcall (symbol-function 'list) &quot;str&quot; 2)
 env.call(subr, (&quot;str&quot;, 2))?;
 subr.call((&quot;str&quot;, 2))?; // Like the above, but shorter.
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-// (add-hook 'text-mode-hook 'variable-pitch-mode)
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>// (add-hook 'text-mode-hook 'variable-pitch-mode)
 env.call(&quot;add-hook&quot;, [
     env.intern(&quot;text-mode-hook&quot;)?,
     env.intern(&quot;variable-pitch-mode&quot;)?,
 ])?;
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-#[defun]
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>#[defun]
 fn listify_vec(vector: Vector) -&gt; Result&lt;Value&gt; {
     let mut args = vec![];
     for i in 0..vector.size()? {
@@ -508,7 +528,8 @@ fn listify_vec(vector: Vector) -&gt; Result&lt;Value&gt; {
     }
     vector.0.env.call(&quot;list&quot;, &amp;args)
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <h1><a class="header" href="#type-conversions" id="type-conversions">Type Conversions</a></h1>
 <p>The type <code>Value</code> represents Lisp values:</p>
 <ul>
@@ -519,14 +540,15 @@ fn listify_vec(vector: Vector) -&gt; Result&lt;Value&gt; {
 <h2><a class="header" href="#converting-a-lisp-value-to-rust" id="converting-a-lisp-value-to-rust">Converting a Lisp <code>Value</code> to Rust</a></h2>
 <p>This is enabled for types that implement <code>FromLisp</code>. Most built-in types are supported. Note that conversion may fail, so the return type is <code>Result&lt;T&gt;</code>.</p>
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-let i: i64 = value.into_rust()?; // error if Lisp value is not an integer
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>let i: i64 = value.into_rust()?; // error if Lisp value is not an integer
 let f: f64 = value.into_rust()?; // error if Lisp value is nil
 
 let s = value.into_rust::&lt;String&gt;()?;
 let s: Option&lt;&amp;str&gt; = value.into_rust()?; // None if Lisp value is nil
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <p>By default, no utf-8 validation is done when converting strings. This can be enabled through a feature:</p>
 <pre><code class="language-toml">[dependencies.emacs]
 features = [&quot;utf-8-validation&quot;]
@@ -534,9 +556,9 @@ features = [&quot;utf-8-validation&quot;]
 <h2><a class="header" href="#converting-a-rust-value-to-lisp" id="converting-a-rust-value-to-lisp">Converting a Rust Value to Lisp</a></h2>
 <p>This is enabled for types that implement <code>IntoLisp</code>. Most built-in types are supported. Note that conversion may fail, so the return type is <code>Result&lt;Value&lt;'_&gt;&gt;</code>.</p>
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-&quot;abc&quot;.into_lisp(env)?;
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>&quot;abc&quot;.into_lisp(env)?;
 &quot;a\0bc&quot;.into_lisp(env)?; // NulError (Lisp string cannot contain null byte)
 
 5.into_lisp(env)?;
@@ -545,7 +567,8 @@ features = [&quot;utf-8-validation&quot;]
 ().into_lisp(env)?; // nil
 true.into_lisp(env)?; // t
 false.into_lisp(env)?; // nil
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <h2><a class="header" href="#integer-conversion" id="integer-conversion">Integer Conversion</a></h2>
 <p>Integer conversion is lossless by default, which means that a module will signal an &quot;out of range&quot; <code>rust-error</code> in cases such as:</p>
 <ul>
@@ -569,9 +592,9 @@ features = [&quot;lossy-integer-conversion&quot;]
 </ul>
 <p>As an example, a module that allows Emacs to use Rust's <code>HashMap</code> may look like this:</p>
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-use std::collections::HashMap;
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>use std::collections::HashMap;
 use emacs::{defun, Env, Result, Value};
 
 #[emacs::module(name = &quot;rs-hash-map&quot;, separator = &quot;/&quot;)]
@@ -595,7 +618,8 @@ fn init(env: &amp;Env) -&gt; Result&lt;()&gt; {
 
     Ok(())
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <pre><code class="language-emacs-lisp">(let ((m (rs-hash-map/make)))
   (rs-hash-map/get m &quot;a&quot;)     ; -&gt; nil
 
@@ -610,9 +634,9 @@ fn init(env: &amp;Env) -&gt; Result&lt;()&gt; {
 <li><code>Value.into_rust()</code> has a runtime type check, which fails with the error <code>'rust-wrong-type-user-ptr</code> if the value is a <code>user-ptr</code> object of a different type.</li>
 <li>Input parameters with reference types are interpreted as <code>RefCell</code>-embedded <code>user-ptr</code> objects. For other kinds of embedding, you will have to use a <code>Value</code> parameter, and acquire the reference manually, since locking strategy (including deadlock avoidance/detection) should be module-specific.
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-use std::sync::RwLock;
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>use std::sync::RwLock;
 
 #[defun(user_ptr(rwlock))]
 fn make() -&gt; Result&lt;Map&gt; {
@@ -625,16 +649,17 @@ fn process(v: Value&lt;'_&gt;) -&gt; Result&lt;Value&lt;'_&gt;&gt; {
     let map = lock.try_read().map_err(|_| failure::err_msg(&quot;map is busy&quot;))?;
     Ok(map.get(&amp;key).into_lisp(v.env)?)
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 </li>
 </ul>
 <h2><a class="header" href="#lifetime-constrained-types" id="lifetime-constrained-types">Lifetime-constrained Types</a></h2>
 <p>When a type is constrained by a (non-static) lifetime, its value cannot be embedded unchanged. Before embedding, the lifetime must be <strong>soundly</strong> elided. In other words, static ownership must be correctly given up.</p>
 <p>The typical example is a struct holding a reference to another struct:</p>
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-pub struct Tree;
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>pub struct Tree;
 
 pub struct Node&lt;'t&gt; {
     pub tree: &amp;'t Tree,
@@ -651,12 +676,13 @@ impl&lt;'t&gt; Node&lt;'t&gt; {
         ...
     }
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <p>In this case, the lifetime can be elided by turning the static reference into a dynamic ref-counted pointer. The <a href="https://github.com/jpernst/rental">rental crate</a> provides a convenient way to do this:</p>
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-#[macro_use]
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>#[macro_use]
 extern crate rental;
 
 use std::{rc::Rc, marker::PhantomData};
@@ -698,22 +724,24 @@ fn root_node(tree: Value) -&gt; Result&lt;RentingNode&gt; {
 fn child(node: &amp;RentingNode) -&gt; Result&lt;RentingNode&gt; {
     node.map(|n| n.child())
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <p>Note that there's no <code>unsafe</code> involved directly, as the soundness proofs are already encapsulated in <code>rental</code> macros.</p>
 <h1><a class="header" href="#error-handling" id="error-handling">Error Handling</a></h1>
 <p>Emacs Lisp's <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Handling-Errors.html">error handling mechanism</a> uses <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Nonlocal-Exits.html">non-local exits</a>. Rust uses <code>Result</code> enum. <code>emacs-module-rs</code> converts between the 2 at the Rust-Lisp boundaries (more precisely, Rust-C).</p>
 <p>The chosen error type is the <code>Error</code> struct from <a href="https://github.com/withoutboats/failure"><code>failure</code> crate</a>:</p>
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-pub type Result&lt;T&gt; = result::Result&lt;T, failure::Error&gt;;
-#}</code></pre></pre>
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>pub type Result&lt;T&gt; = result::Result&lt;T, failure::Error&gt;;
+<span class="boring">}
+</span></code></pre></pre>
 <h2><a class="header" href="#handling-lisp-errors-in-rust" id="handling-lisp-errors-in-rust">Handling Lisp Errors in Rust</a></h2>
 <p>When calling a Lisp function, it's usually a good idea to propagate signaled errors with the <code>?</code> operator, letting higher level (Lisp) code handle them. If you want to handle a specific error, you can use <code>error.downcast_ref</code>:</p>
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-match env.call(&quot;insert&quot;, &amp;[some_text]) {
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>match env.call(&quot;insert&quot;, &amp;[some_text]) {
     Err(error) =&gt; {
         // Handle `buffer-read-only` error.
         if let Some(Signal { symbol, .. }) = error.downcast_ref::&lt;ErrorKind&gt;() {
@@ -730,7 +758,8 @@ match env.call(&quot;insert&quot;, &amp;[some_text]) {
     },
     v =&gt; v,
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <p>Note the use of <code>unsafe</code> to extract the error symbol as a <code>Value</code>. The reason is that, <code>ErrorKind::Signal</code> is marked <code>Send+Sync</code>, for compatibility with <code>failure</code>, while <code>Value</code> is lifetime-bound by <code>env</code>. The <code>unsafe</code> contract here requires the error being handled (and its <code>TempValue</code>) to come from this <code>env</code>, not from another thread, or from a global/thread-local storage.</p>
 <h3><a class="header" href="#catching-values-thrown-by-lisp" id="catching-values-thrown-by-lisp">Catching Values Thrown by Lisp</a></h3>
 <p>This is similar to handling Lisp errors. The only difference is <code>ErrorKind::Throw</code> being used instead of <code>ErrorKind::Signal</code>.</p>
@@ -740,12 +769,13 @@ match env.call(&quot;insert&quot;, &amp;[some_text]) {
 <li><code>rust-error</code>: The message is <code>Rust error</code>. This covers all generic Rust-originated errors.</li>
 <li><code>rust-wrong-type-user-ptr</code>: The message is <code>Wrong type user-ptr</code>. This happens when Rust code is passed a <code>user-ptr</code> of a type it's not expecting. It is a sub-type of <code>rust-error</code>.
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-// May signal if `value` holds a different type of hash map,
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>// May signal if `value` holds a different type of hash map,
 // or is a `user-ptr` defined in a non-Rust module.
 let r: &amp;RefCell&lt;HashMap&lt;String, String&gt;&gt; = value.into_rust()?;
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 </li>
 </ul>
 <h3><a class="header" href="#panics" id="panics">Panics</a></h3>
@@ -825,6 +855,14 @@ emacs-rs-module = { version = &quot;0.7.0&quot; }
                 ga('create', 'UA-138609797-1', 'auto');
                 ga('send', 'pageview');
             }
+        </script>
+        
+
+        
+        
+        
+        <script type="text/javascript">
+            window.playpen_copyable = true;
         </script>
         
 

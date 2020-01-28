@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="sidebar-visible no-js">
+<html lang="en" class="sidebar-visible no-js light">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -34,11 +34,11 @@
 
         
     </head>
-    <body class="light">
+    <body>
         <!-- Provide site root to javascript -->
         <script type="text/javascript">
             var path_to_root = "";
-            var default_theme = "light";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "coal" : "light";
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
@@ -62,8 +62,11 @@
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            document.body.className = theme;
-            document.querySelector('html').className = theme + ' js';
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
@@ -79,8 +82,8 @@
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="affix"><a href="overview.html">Overview</a></li><li><a href="hello.html"><strong aria-hidden="true">1.</strong> Hello, Emacs!</a></li><li><a href="module.html"><strong aria-hidden="true">2.</strong> Declaring a Module</a></li><li><a href="functions.html"><strong aria-hidden="true">3.</strong> Writing Functions</a></li><li><a href="calling-lisp.html" class="active"><strong aria-hidden="true">4.</strong> Calling Lisp Functions</a></li><li><a href="type-conversions.html"><strong aria-hidden="true">5.</strong> Type Conversions</a></li><li><a href="custom-types.html"><strong aria-hidden="true">6.</strong> Custom Types</a></li><li><a href="errors.html"><strong aria-hidden="true">7.</strong> Error Handling</a></li><li><a href="testing.html"><strong aria-hidden="true">8.</strong> Testing</a></li><li><a href="reloading.html"><strong aria-hidden="true">9.</strong> Live Reloading</a></li></ol>
+            <div id="sidebar-scrollbox" class="sidebar-scrollbox">
+                <ol class="chapter"><li class="expanded affix "><a href="overview.html">Overview</a></li><li class="expanded "><a href="hello.html"><strong aria-hidden="true">1.</strong> Hello, Emacs!</a></li><li class="expanded "><a href="module.html"><strong aria-hidden="true">2.</strong> Declaring a Module</a></li><li class="expanded "><a href="functions.html"><strong aria-hidden="true">3.</strong> Writing Functions</a></li><li class="expanded "><a href="calling-lisp.html" class="active"><strong aria-hidden="true">4.</strong> Calling Lisp Functions</a></li><li class="expanded "><a href="type-conversions.html"><strong aria-hidden="true">5.</strong> Type Conversions</a></li><li class="expanded "><a href="custom-types.html"><strong aria-hidden="true">6.</strong> Custom Types</a></li><li class="expanded "><a href="errors.html"><strong aria-hidden="true">7.</strong> Error Handling</a></li><li class="expanded "><a href="testing.html"><strong aria-hidden="true">8.</strong> Testing</a></li><li class="expanded "><a href="reloading.html"><strong aria-hidden="true">9.</strong> Live Reloading</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -150,9 +153,9 @@
                         <h1><a class="header" href="#calling-lisp-functions" id="calling-lisp-functions">Calling Lisp Functions</a></h1>
 <p>Frequently-used Lisp functions are exposed as methods on <code>env</code>:</p>
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-env.intern(&quot;defun&quot;)?;
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>env.intern(&quot;defun&quot;)?;
 
 env.message(&quot;Hello&quot;)?;
 
@@ -161,7 +164,8 @@ env.type_of(5.into_lisp(env)?)?;
 env.provide(&quot;my-module&quot;)?;
 
 env.list((1, &quot;str&quot;, true))?;
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <p>To call arbitrary Lisp functions, use <code>env.call(func, args)</code>.</p>
 <ul>
 <li><code>func</code> can be:
@@ -178,15 +182,16 @@ env.list((1, &quot;str&quot;, true))?;
 </li>
 </ul>
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-// (list &quot;str&quot; 2)
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>// (list &quot;str&quot; 2)
 env.call(&quot;list&quot;, (&quot;str&quot;, 2))?;
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-let list = env.intern(&quot;list&quot;)?;
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>let list = env.intern(&quot;list&quot;)?;
 // (symbol-function 'list)
 let subr = env.call(&quot;symbol-function&quot;, [list])?;
 // (funcall 'list &quot;str&quot; 2)
@@ -194,20 +199,22 @@ env.call(list, (&quot;str&quot;, 2))?;
 // (funcall (symbol-function 'list) &quot;str&quot; 2)
 env.call(subr, (&quot;str&quot;, 2))?;
 subr.call((&quot;str&quot;, 2))?; // Like the above, but shorter.
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-// (add-hook 'text-mode-hook 'variable-pitch-mode)
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>// (add-hook 'text-mode-hook 'variable-pitch-mode)
 env.call(&quot;add-hook&quot;, [
     env.intern(&quot;text-mode-hook&quot;)?,
     env.intern(&quot;variable-pitch-mode&quot;)?,
 ])?;
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 <pre><pre class="playpen"><code class="language-rust">
-# #![allow(unused_variables)]
-#fn main() {
-#[defun]
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>#[defun]
 fn listify_vec(vector: Vector) -&gt; Result&lt;Value&gt; {
     let mut args = vec![];
     for i in 0..vector.size()? {
@@ -215,7 +222,8 @@ fn listify_vec(vector: Vector) -&gt; Result&lt;Value&gt; {
     }
     vector.0.env.call(&quot;list&quot;, &amp;args)
 }
-#}</code></pre></pre>
+<span class="boring">}
+</span></code></pre></pre>
 
                     </main>
 
@@ -272,6 +280,14 @@ fn listify_vec(vector: Vector) -&gt; Result&lt;Value&gt; {
                 ga('create', 'UA-138609797-1', 'auto');
                 ga('send', 'pageview');
             }
+        </script>
+        
+
+        
+        
+        
+        <script type="text/javascript">
+            window.playpen_copyable = true;
         </script>
         
 
