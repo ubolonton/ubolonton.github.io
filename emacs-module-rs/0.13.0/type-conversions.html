@@ -156,7 +156,6 @@
 <li>They can be copied around, but cannot outlive the <code>Env</code> they come from.</li>
 <li>They are &quot;proxy values&quot;: only useful when converted to Rust values, or used as arguments when calling Lisp functions.</li>
 </ul>
-<p>Lisp vectors are represented by the type <code>Vector</code>, which can be considered a &quot;sub-type&quot; of <code>Value</code>.</p>
 <h2><a class="header" href="#converting-a-lisp-value-to-rust" id="converting-a-lisp-value-to-rust">Converting a Lisp <code>Value</code> to Rust</a></h2>
 <p>This is enabled for types that implement <code>FromLisp</code>. Most built-in types are supported. Note that conversion may fail, so the return type is <code>Result&lt;T&gt;</code>.</p>
 <pre><pre class="playpen"><code class="language-rust">
@@ -169,10 +168,7 @@ let s = value.into_rust::&lt;String&gt;()?;
 let s: Option&lt;&amp;str&gt; = value.into_rust()?; // None if Lisp value is nil
 <span class="boring">}
 </span></code></pre></pre>
-<p>By default, no utf-8 validation is done when converting strings. This can be enabled through a feature:</p>
-<pre><code class="language-toml">[dependencies.emacs]
-features = [&quot;utf-8-validation&quot;]
-</code></pre>
+<p>It's better to declare input types for <code>#[defun]</code> than calling <code>.into_rust()</code>, unless delayed conversion is needed.</p>
 <h2><a class="header" href="#converting-a-rust-value-to-lisp" id="converting-a-rust-value-to-lisp">Converting a Rust Value to Lisp</a></h2>
 <p>This is enabled for types that implement <code>IntoLisp</code>. Most built-in types are supported. Note that conversion may fail, so the return type is <code>Result&lt;Value&lt;'_&gt;&gt;</code>.</p>
 <pre><pre class="playpen"><code class="language-rust">
@@ -189,7 +185,8 @@ true.into_lisp(env)?; // t
 false.into_lisp(env)?; // nil
 <span class="boring">}
 </span></code></pre></pre>
-<h2><a class="header" href="#integer-conversion" id="integer-conversion">Integer Conversion</a></h2>
+<p>It's better to declare return type for <code>#[defun]</code> than calling <code>.into_lisp(env)</code>, whenever possible.</p>
+<h2><a class="header" href="#integers" id="integers">Integers</a></h2>
 <p>Integer conversion is lossless by default, which means that a module will signal an &quot;out of range&quot; <code>rust-error</code> in cases such as:</p>
 <ul>
 <li>A <code>#[defun]</code> expecting <code>u8</code> gets passed <code>-1</code>.</li>
@@ -199,6 +196,24 @@ false.into_lisp(env)?; // nil
 <pre><code class="language-toml">[dependencies.emacs]
 features = [&quot;lossy-integer-conversion&quot;]
 </code></pre>
+<h2><a class="header" href="#strings" id="strings">Strings</a></h2>
+<p>By default, no utf-8 validation is done when converting Lisp strings into Rust strings, because the string data returned by Emacs is guaranteed to be valid utf-8 sequence. If you think you've otherwise encountered an Emacs bug, utf-8 validation can be enabled through a feature:</p>
+<pre><code class="language-toml">[dependencies.emacs]
+features = [&quot;utf-8-validation&quot;]
+</code></pre>
+<h2><a class="header" href="#vectors" id="vectors">Vectors</a></h2>
+<p>Lisp vectors are represented by the type <code>Vector</code>, which can be considered a &quot;sub-type&quot; of <code>Value</code>.</p>
+<p>To construct Lisp vectors, use <code>env.make_vector</code> and <code>env.vector</code>, which are efficient wrappers of Emacs's built-in subroutines <code>make-vector</code> and <code>vector</code>.</p>
+<pre><pre class="playpen"><code class="language-rust">
+<span class="boring">#![allow(unused_variables)]
+</span><span class="boring">fn main() {
+</span>env.make_vector(5, ())?;
+
+env.vector([1, 2, 3])?;
+
+env.vector((1, &quot;x&quot;, true))?;
+<span class="boring">}
+</span></code></pre></pre>
 
                     </main>
 
