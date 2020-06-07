@@ -4,7 +4,7 @@
     
       <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="revised" content="2020-06-07T15:17:48 &#43;07">
+<meta name="revised" content="2020-06-07T15:45:51 &#43;07">
 <title>Installation :: Emacs Tree-sitter</title>
 <link rel="shortcut icon" href="/emacs-tree-sitter/images/favicon.png" type="image/x-icon" />
 <link href="/emacs-tree-sitter/css/nucleus.css" rel="stylesheet">
@@ -205,12 +205,29 @@ if (!doNotTrack) {
 <p>Install <code>tree-sitter</code> and <code>tree-sitter-langs</code> packages.</p>
 </li>
 <li>
-<p>Add this to your config:</p>
+<p>Load the language bundle:</p>
 <div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">require</span> <span class="ss">&#39;tree-sitter-langs</span><span class="p">)</span>
 </code></pre></div></li>
 </ul>
 <h2 id="installing-with-straight-dot-el">Installing with straight.el</h2>
-<p>TODO</p>
+<ul>
+<li>
+<p>Install <code>tree-sitter</code> and <code>tree-sitter-langs</code> with custom recipes:</p>
+<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nv">straight-use-package</span>
+ <span class="o">&#39;</span><span class="p">(</span><span class="nv">tree-sitter</span> <span class="nb">:host</span> <span class="nv">github</span>
+               <span class="nb">:repo</span> <span class="s">&#34;ubolonton/emacs-tree-sitter&#34;</span>
+               <span class="nb">:files</span> <span class="p">(</span><span class="s">&#34;lisp/*.el&#34;</span> <span class="s">&#34;src&#34;</span> <span class="s">&#34;Cargo.toml&#34;</span> <span class="s">&#34;Cargo.lock&#34;</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="nv">straight-use-package</span>
+ <span class="o">&#39;</span><span class="p">(</span><span class="nv">tree-sitter-langs</span> <span class="nb">:host</span> <span class="nv">github</span>
+                     <span class="nb">:repo</span> <span class="s">&#34;ubolonton/emacs-tree-sitter&#34;</span>
+                     <span class="nb">:files</span> <span class="p">(</span><span class="s">&#34;langs/*.el&#34;</span> <span class="s">&#34;langs/queries&#34;</span><span class="p">)))</span>
+</code></pre></div></li>
+<li>
+<p>Load the language bundle:</p>
+<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">require</span> <span class="ss">&#39;tree-sitter-langs</span><span class="p">)</span>
+</code></pre></div></li>
+</ul>
 <h2 id="installing-from-source">Installing from Source</h2>
 <ul>
 <li>
@@ -221,12 +238,6 @@ if (!doNotTrack) {
 <p>Add its <code>lisp</code> and <code>langs</code> directories to <code>load-path</code>:</p>
 <div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nv">add-to-list</span> <span class="ss">&#39;load-path</span> <span class="s">&#34;/path-to/emacs-tree-sitter/lisp&#34;</span><span class="p">)</span>
 <span class="p">(</span><span class="nv">add-to-list</span> <span class="ss">&#39;load-path</span> <span class="s">&#34;/path-to/emacs-tree-sitter/langs&#34;</span><span class="p">)</span>
-</code></pre></div></li>
-<li>
-<p>Evaluate this to download the necessary binaries, <em>once</em>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">require</span> <span class="ss">&#39;tree-sitter-langs-build</span><span class="p">)</span>
-<span class="c1">;; Download pre-compiled `tree-sitter-dyn&#39;.</span>
-<span class="p">(</span><span class="nv">tree-sitter-download-dyn-module</span><span class="p">)</span>
 </code></pre></div></li>
 <li>
 <p>Load the libraries in your config:</p>
