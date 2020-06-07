@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tree-sitter on Emacs Tree-sitter</title>
+    <link>https://ubolonton.github.io/emacs-tree-sitter/</link>
+    <description>Recent content in Tree-sitter on Emacs Tree-sitter</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	<atom:link href="https://ubolonton.github.io/emacs-tree-sitter/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Installation</title>
+      <link>https://ubolonton.github.io/emacs-tree-sitter/installation/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://ubolonton.github.io/emacs-tree-sitter/installation/</guid>
+      <description>emacs-tree-sitter requires Emacs 25.1 or above, built with dynamic module support. Some Emacs distributions have this disabled by default. To check whether your Emacs has dynamic module support enabled, try evaluating one of these:
+(functionp &amp;#39;module-load) ; should be t module-file-suffix ; should be non-nil  The methods below only work for macOS, Windows, Linux on x86_64, since they download pre-compiled binaries. For other systems, you will have to build from source.</description>
+    </item>
+    
+    <item>
+      <title>Getting Started</title>
+      <link>https://ubolonton.github.io/emacs-tree-sitter/getting-started/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://ubolonton.github.io/emacs-tree-sitter/getting-started/</guid>
+      <description>The minor mode tree-sitter-mode provides a buffer-local syntax tree, which is kept up-to-date with changes to the buffer&amp;rsquo;s text.
+It can be toggled in a buffer by the command tree-sitter-mode, or enabled through major mode hooks:
+(add-hook &amp;#39;rust-mode-hook #&amp;#39;tree-sitter-mode) To enable it for all supported major modes:
+(global-tree-sitter-mode) For the full list of supported major modes, check the variable tree-sitter-major-mode-language-alist.
+Turn on Syntax Highlighting Run M-x tree-sitter-hl-mode to replace the regex-based highlighting provided by font-lock-mode with tree-based syntax highlighting.</description>
+    </item>
+    
+    <item>
+      <title>Queries</title>
+      <link>https://ubolonton.github.io/emacs-tree-sitter/syntax-highlighting/queries/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://ubolonton.github.io/emacs-tree-sitter/syntax-highlighting/queries/</guid>
+      <description>A query is a set of patterns, written in a Lisp-like syntax.
+Queries are language-specific. Different language grammars use different node types and field names. Examples in this section apply to Rust.
+ Patterns A pattern is an S-expression (Lisp form), optionally preceded by a field name, suffixed with a quantifier, and/or followed by a capture name.
+A node form is a list form whose first element is a symbol (except for the special symbols, described later).</description>
+    </item>
+    
+    <item>
+      <title>Customization</title>
+      <link>https://ubolonton.github.io/emacs-tree-sitter/syntax-highlighting/customization/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://ubolonton.github.io/emacs-tree-sitter/syntax-highlighting/customization/</guid>
+      <description>Faces tree-sitter-hl-mode provides a richer set of faces than font-lock-mode. For example, function definitions are highlighted with tree-sitter-hl-face:function, while function calls are highlighted with tree-sitter-hl-face:function.call. However, for compatibility with existing themes, the default values for most of these faces inherit from built-in font-lock faces.
+If you want to leverage the full power of Tree-sitter&amp;rsquo;s syntax highlighting approach, you should customize these faces.
+Capture Mappings By default, when the highlighting query associates a node with CAPTURE-NAME, it will be highlighted with the face tree-sitter-hl-face:CAPTURE-NAME.</description>
+    </item>
+    
+    <item>
+      <title>Interface for Modes</title>
+      <link>https://ubolonton.github.io/emacs-tree-sitter/syntax-highlighting/interface-for-modes/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://ubolonton.github.io/emacs-tree-sitter/syntax-highlighting/interface-for-modes/</guid>
+      <description>Major modes that want to integrate with tree-sitter-hl-mode should set the variable tree-sitter-hl-default-patterns. It plays a similar role to font-lock-defaults.
+Minor modes that want to customize syntax highlighting should call the function tree-sitter-hl-add-patterns.
+The language-bundle package tree-sitter-langs provides highlighting queries for several languages. These queries will be used when the corresponding major modes do not set tree-sitter-hl-default-patterns.</description>
+    </item>
+    
+  </channel>
+</rss>

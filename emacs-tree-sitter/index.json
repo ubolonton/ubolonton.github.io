@@ -1,0 +1,64 @@
+[
+{
+	"uri": "https://ubolonton.github.io/emacs-tree-sitter/",
+	"title": "Tree-sitter",
+	"tags": [],
+	"description": "",
+	"content": "emacs-tree-sitter is an Emacs binding for tree-sitter, an incremental parsing system.\nIt aims to be the foundation for a new breed of Emacs packages that understand code structurally. For example:\n Faster, fine-grained code highlighting. More flexible code folding. Structural editing (like Paredit, or even better) for non-Lisp code. More informative indexing for imenu.  The author of tree-sitter articulated its merits a lot better in this Strange Loop talk.\n"
+},
+{
+	"uri": "https://ubolonton.github.io/emacs-tree-sitter/installation/",
+	"title": "Installation",
+	"tags": [],
+	"description": "",
+	"content": "emacs-tree-sitter requires Emacs 25.1 or above, built with dynamic module support. Some Emacs distributions have this disabled by default. To check whether your Emacs has dynamic module support enabled, try evaluating one of these:\n(functionp \u0026#39;module-load) ; should be t module-file-suffix ; should be non-nil  The methods below only work for macOS, Windows, Linux on x86_64, since they download pre-compiled binaries. For other systems, you will have to build from source.\n Installing from an ELPA   Add tree-sitter\u0026rsquo;s ELPA to package-archives:\n(add-to-list \u0026#39;package-archives \u0026#39;(\u0026#34;ublt\u0026#34; . \u0026#34;https://elpa.ubolonton.org/packages/\u0026#34;))   Run M-x package-refresh-contents.\n  Install tree-sitter and tree-sitter-langs packages.\n  Add this to your config:\n(require \u0026#39;tree-sitter-langs)   Installing with straight.el TODO\nInstalling from Source   Clone the source repo:\ngit clone https://github.com/ubolonton/emacs-tree-sitter   Add its lisp and langs directories to load-path:\n(add-to-list \u0026#39;load-path \u0026#34;/path-to/emacs-tree-sitter/lisp\u0026#34;) (add-to-list \u0026#39;load-path \u0026#34;/path-to/emacs-tree-sitter/langs\u0026#34;)   Evaluate this to download the necessary binaries, once:\n(require \u0026#39;tree-sitter-langs-build) ;; Download pre-compiled `tree-sitter-dyn\u0026#39;. (tree-sitter-download-dyn-module)   Load the libraries in your config:\n(require \u0026#39;tree-sitter) (require \u0026#39;tree-sitter-hl) (require \u0026#39;tree-sitter-langs) (require \u0026#39;tree-sitter-debug) (require \u0026#39;tree-sitter-query)   "
+},
+{
+	"uri": "https://ubolonton.github.io/emacs-tree-sitter/getting-started/",
+	"title": "Getting Started",
+	"tags": [],
+	"description": "",
+	"content": "The minor mode tree-sitter-mode provides a buffer-local syntax tree, which is kept up-to-date with changes to the buffer\u0026rsquo;s text.\nIt can be toggled in a buffer by the command tree-sitter-mode, or enabled through major mode hooks:\n(add-hook \u0026#39;rust-mode-hook #\u0026#39;tree-sitter-mode) To enable it for all supported major modes:\n(global-tree-sitter-mode) For the full list of supported major modes, check the variable tree-sitter-major-mode-language-alist.\nTurn on Syntax Highlighting Run M-x tree-sitter-hl-mode to replace the regex-based highlighting provided by font-lock-mode with tree-based syntax highlighting.\nFor more details, see Syntax Highlighting.\nView the Syntax Tree Run M-x tree-sitter-debug-mode to show the current buffer\u0026rsquo;s syntax tree in a separate buffer.\nPrinting the syntax tree can be slow for very large buffers, as it hasn\u0026rsquo;t been optimized yet.\n Play around with Tree Queries Run M-x tree-sitter-query-builder to open the query playground, where you can write tree queries and see matches highlighted in the source buffer.\nHere are some example queries to try:\n  Rust:\n(function_item (identifier) @func) (impl_item (type_identifier) @impl)   Python:\n(class_definition (identifier) @class) (function_definition (identifier) @func)   JavaScript:\n(function_declaration (identifier) @func) (variable_declarator (identifier) @var)   For more details on tree queries, see Queries.\n"
+},
+{
+	"uri": "https://ubolonton.github.io/emacs-tree-sitter/syntax-highlighting/",
+	"title": "Syntax Highlighting",
+	"tags": [],
+	"description": "",
+	"content": "Syntax highlighting is provided by the minor mode tree-sitter-hl-mode. It overrides the regex-based highlighting provided by font-lock-mode, using the syntax tree provided by tree-sitter-mode. It is based on tree queries, a system for pattern-matching on Tree-sitter\u0026rsquo;s syntax trees.\nIt can be toggled in a buffer by the command tree-sitter-hl-mode, or enabled through major mode hooks:\n(add-hook \u0026#39;rust-mode-hook #\u0026#39;tree-sitter-hl-mode) To enable it whenever possible (assuming the language major modes were already installed):\n(global-tree-sitter-mode) (add-hook \u0026#39;tree-sitter-after-on-hook #\u0026#39;tree-sitter-hl-mode) It can also be enabled without installing the corresponding language major modes:\n(let ((major-mode \u0026#39;go-mode)) (tree-sitter-hl-mode)) The package tree-sitter-langs is a language bundle that provides syntax highlighting queries for some languages:\n C C++ CSS Go HTML Java JavaScript PHP Python Ruby Rust TypeScript  Most of the queries in the bundle are very basic, as they are copies of those included in the grammar repos. Only the queries for Rust, Python and CSS have received additional work to leverage more of the querying system\u0026rsquo;s expressiveness.\nContribution to highlighting queries is welcome.\n "
+},
+{
+	"uri": "https://ubolonton.github.io/emacs-tree-sitter/syntax-highlighting/queries/",
+	"title": "Queries",
+	"tags": [],
+	"description": "",
+	"content": "A query is a set of patterns, written in a Lisp-like syntax.\nQueries are language-specific. Different language grammars use different node types and field names. Examples in this section apply to Rust.\n Patterns A pattern is an S-expression (Lisp form), optionally preceded by a field name, suffixed with a quantifier, and/or followed by a capture name.\nA node form is a list form whose first element is a symbol (except for the special symbols, described later). The symbol specifies the type of node to match, while the remaining elements describe what the inner structure of a matched node (i.e. its child nodes) should look like.\n;; Match any function call. (call_expression) ;; Match any function call where at least one arg is an identifier. (call_expression (arguments (identifier))) A string literal denotes an anonymous node.\n;; Match the operator `==\u0026#39; . \u0026#34;==\u0026#34; Captures and Field Names Captures allow associating names with specific nodes in a pattern. A symbol starting with the character @ denotes a capture name. It is written after the pattern it refers to. When used for syntax highlighting, capture names are then mapped to display faces, which determine the appearance of the corresponding nodes.\n;; Match function calls. For each match, the function name is captured ;; under the name `function.call\u0026#39;, and the argument list is associated ;; with the name `function.args\u0026#39;. (call_expression (identifier) @function.call (arguments) @function.args) Certain node types assign unique field names to specific child nodes. Within a pattern, a field name is denoted by a symbol ending with the character :, written before the child pattern it refers to.\n;; Using field names, for clarity. (call_expression function: (identifier) @function.call arguments: (arguments) @function.args) Groups and Predicates A group form is a list form whose first element is a node form. It is used to denote a sequence of sibling nodes, and to group predicate forms with node forms.\n;; Match a comment followed by a function declaration. ((line_comment) (function_item)) A predicate form can appear anywhere in a group form. It is a list form whose first element is a symbol starting with the character #. Each remaining element is either a capture name, or a string literal.\n;; Match identifiers written in SCREAMING_SNAKE_CASE. ((identifier) @constant (#match? @constant \u0026#34;^[A-Z][A-Z_\\\\d]+\u0026#34;)) For syntax highlighting, the supported predicates are currently #match? and #eq?.\nMisc A form can be suffixed by one of the quantification operators: at-most-once ?, at-least-once +, zero-or-more *.\n;; Match any function call. Capture a string arg, if any. (call_expression function: (identifier) @function.call arguments: (arguments (string_literal)? @the-string-arg)) The special wildcard symbol _ matches any node (except for anonymous nodes).\n;; Leaving out child nodes\u0026#39; types, for brevity. (call_expression function: (_) @function.call arguments: (_) @function.args) For more details, see Tree-sitter\u0026rsquo;s documentation:\n https://tree-sitter.github.io/tree-sitter/using-parsers#pattern-matching-with-queries https://tree-sitter.github.io/tree-sitter/syntax-highlighting#queries  "
+},
+{
+	"uri": "https://ubolonton.github.io/emacs-tree-sitter/syntax-highlighting/customization/",
+	"title": "Customization",
+	"tags": [],
+	"description": "",
+	"content": "Faces tree-sitter-hl-mode provides a richer set of faces than font-lock-mode. For example, function definitions are highlighted with tree-sitter-hl-face:function, while function calls are highlighted with tree-sitter-hl-face:function.call. However, for compatibility with existing themes, the default values for most of these faces inherit from built-in font-lock faces.\nIf you want to leverage the full power of Tree-sitter\u0026rsquo;s syntax highlighting approach, you should customize these faces.\nCapture Mappings By default, when the highlighting query associates a node with CAPTURE-NAME, it will be highlighted with the face tree-sitter-hl-face:CAPTURE-NAME. This behavior can be changed by customizing the variable tree-sitter-hl-face-mapping-function.\n;; Don\u0026#39;t highlight strings. (add-function :before-while \u0026#39;tree-sitter-hl-face-mapping-function (lambda (capture-name) (not (string= capture-name \u0026#34;string\u0026#34;)))) ;; Highlight only keywords in Python. (add-hook \u0026#39;python-mode-hook (lambda () (add-function :before-while (local \u0026#39;tree-sitter-hl-face-mapping-function) (lambda (capture-name) (string= capture-name \u0026#34;keyword\u0026#34;))))) ;; Highlight Python docstrings with a different face. (add-hook \u0026#39;python-mode-hook (lambda () (add-function :before-until (local \u0026#39;tree-sitter-hl-face-mapping-function) (lambda (capture-name) (pcase capture-name (\u0026#34;doc\u0026#34; \u0026#39;font-lock-comment-face)))))) Patterns You can use the function tree-sitter-hl-add-patterns to add custom highlighting patterns in a buffer. These patterns will be prioritized over patterns defined by major modes or language bundles (tree-sitter-hl-default-patterns). For example, to highlight uses of \u0026ldquo;unsafe code\u0026rdquo; in Rust with a custom face:\n(defun my/customize-tree-sitter-hl-rust () (tree-sitter-hl-add-patterns [(unsafe_block) @rust.unsafe.use (impl_item \u0026#34;unsafe\u0026#34;) @rust.unsafe.use]) (add-function :before-until (local \u0026#39;tree-sitter-hl-face-mapping-function) (lambda (capture-name) (pcase capture-name (\u0026#34;rust.unsafe.use\u0026#34; \u0026#39;my-dangerous-code-pattern-face))))) (add-hook \u0026#39;rust-mode-hook #\u0026#39;my/customize-tree-sitter-hl-rust) "
+},
+{
+	"uri": "https://ubolonton.github.io/emacs-tree-sitter/syntax-highlighting/interface-for-modes/",
+	"title": "Interface for Modes",
+	"tags": [],
+	"description": "",
+	"content": "Major modes that want to integrate with tree-sitter-hl-mode should set the variable tree-sitter-hl-default-patterns. It plays a similar role to font-lock-defaults.\nMinor modes that want to customize syntax highlighting should call the function tree-sitter-hl-add-patterns.\nThe language-bundle package tree-sitter-langs provides highlighting queries for several languages. These queries will be used when the corresponding major modes do not set tree-sitter-hl-default-patterns.\n"
+},
+{
+	"uri": "https://ubolonton.github.io/emacs-tree-sitter/categories/",
+	"title": "Categories",
+	"tags": [],
+	"description": "",
+	"content": ""
+},
+{
+	"uri": "https://ubolonton.github.io/emacs-tree-sitter/tags/",
+	"title": "Tags",
+	"tags": [],
+	"description": "",
+	"content": ""
+}]

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Emacs Tree-sitter</title>
+    
+      <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="revised" content="2020-06-07T13:07:58 &#43;07">
+<title>Customization :: Emacs Tree-sitter</title>
+<link rel="shortcut icon" href="/emacs-tree-sitter/images/favicon.png" type="image/x-icon" />
+<link href="/emacs-tree-sitter/css/nucleus.css" rel="stylesheet">
+<link href="/emacs-tree-sitter/css/font-awesome.min.css" rel="stylesheet">
+<link href="/emacs-tree-sitter/css/hybrid.css" rel="stylesheet">
+<link href="/emacs-tree-sitter/css/featherlight.min.css" rel="stylesheet">
+<link href="/emacs-tree-sitter/css/auto-complete.css" rel="stylesheet">
+<link href="/emacs-tree-sitter/theme-original/style.css" rel="stylesheet">
+
+<link rel="stylesheet" href="/emacs-tree-sitter/css/bootstrap.min.css">
+<script src="/emacs-tree-sitter/js/jquery-2.x.min.js"></script>
+<style type="text/css">
+  :root #header + #content > #left > #rlblock_left {
+    display:none !important;
+  }
+</style>
+<link rel="stylesheet" href="https://ubolonton.github.io/emacs-tree-sitter/css/syntax.css">
+<link rel="stylesheet" href="https://ubolonton.github.io/emacs-tree-sitter/css/xxx.css">
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-138609797-2', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+    
+  </head>
+  <body data-url="/emacs-tree-sitter/syntax-highlighting/customization/">
+    
+      <div id="headermain"></div>
+<nav id="sidebar" class="">
+
+
+
+<div class="highlightable">
+  <div id="header-wrapper">
+    <div id="header">
+      <img src="https://ubolonton.github.io/emacs-tree-sitter/img/emacs-tree-sitter-96x96.png" alt="logo">
+
+    </div>
+        <div class="searchbox">
+		    <label for="search-by"><i class="fa fa-search"></i></label>
+		    <input data-search-input id="search-by" type="text" placeholder="Search...">
+		    <span data-search-clear=""><i class="fa fa-close"></i></span>
+		</div>
+		<script type="text/javascript" src="/emacs-tree-sitter/js/lunr.min.js"></script>
+		<script type="text/javascript" src="/emacs-tree-sitter/js/auto-complete.js"></script>
+		<script type="text/javascript">
+        
+            var baseurl = "https:\/\/ubolonton.github.io\/emacs-tree-sitter";
+        
+		</script>
+		<script type="text/javascript" src="/emacs-tree-sitter/js/search.js"></script>
+  </div>
+
+      <ul class="topics">
+            <li data-nav-id="/emacs-tree-sitter/" class="dd-item">
+            <a href="/emacs-tree-sitter/"><i class="fa fa-fw fa-home"></i></a>
+            </li>
+        <li data-nav-id="https://ubolonton.github.io/emacs-tree-sitter/installation/" class="dd-item">
+          <div>
+            <a href="/emacs-tree-sitter/installation/">
+              Installation
+            </a>
+          </div>
+        </li>
+        <li data-nav-id="https://ubolonton.github.io/emacs-tree-sitter/getting-started/" class="dd-item">
+          <div>
+            <a href="/emacs-tree-sitter/getting-started/">
+              Getting Started
+            </a>
+          </div>
+        </li>
+      <li data-nav-id="https://ubolonton.github.io/emacs-tree-sitter/syntax-highlighting/" class="dd-item parent alwaysopen haschildren
+                       ">
+        <div>
+          <a href="/emacs-tree-sitter/syntax-highlighting/">Syntax Highlighting</a>
+              <i class="fa fa-angle-down fa-lg category-icon"></i>
+        </div>
+          <ul>
+        <li data-nav-id="https://ubolonton.github.io/emacs-tree-sitter/syntax-highlighting/queries/" class="dd-item">
+          <div>
+            <a href="/emacs-tree-sitter/syntax-highlighting/queries/">
+              Queries
+            </a>
+          </div>
+        </li>
+        <li data-nav-id="https://ubolonton.github.io/emacs-tree-sitter/syntax-highlighting/customization/" class="dd-item active">
+          <div>
+            <a href="/emacs-tree-sitter/syntax-highlighting/customization/">
+              Customization
+            </a>
+          </div>
+        </li>
+        <li data-nav-id="https://ubolonton.github.io/emacs-tree-sitter/syntax-highlighting/interface-for-modes/" class="dd-item">
+          <div>
+            <a href="/emacs-tree-sitter/syntax-highlighting/interface-for-modes/">
+              Interface for Modes
+            </a>
+          </div>
+        </li>
+          </ul>
+      </li>
+
+
+
+
+    <hr />
+    <li></li>
+    
+    </ul>
+
+ <section id="footer">
+    </section>
+  </div>
+</nav>
+
+
+
+<section id="body">
+<div id="overlay"></div>
+<div class="padding highlightable">
+
+  <div id="top-bar">
+    <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+        <span id="sidebar-toggle-span">
+          <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+            <i class="fa fa-bars"></i>
+          </a>
+        </span>
+        <span id="toc-menu"><i class="fa fa-list-alt"></i></span>
+        <span class="links">
+        
+
+
+
+
+
+
+
+ <a href='https://ubolonton.github.io/emacs-tree-sitter/'>Tree-sitter</a> > <a href='https://ubolonton.github.io/emacs-tree-sitter/syntax-highlighting/'>Syntax Highlighting</a> > Customization
+
+ 
+
+ 
+
+   
+        </span>
+    </div>
+    
+    
+    <div class="progress">
+        <div class="wrapper">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#faces">Faces</a></li>
+    <li><a href="#capture-mappings">Capture Mappings</a></li>
+    <li><a href="#patterns">Patterns</a></li>
+  </ul>
+</nav>
+        </div>
+    </div>
+    
+
+  </div>
+
+
+<div id="body-inner">
+  
+    <h1>Customization</h1>
+  
+
+
+
+    
+    
+    
+    <h2 id="faces">Faces</h2>
+<p><code>tree-sitter-hl-mode</code> provides a richer set of faces than <code>font-lock-mode</code>. For example, function definitions are highlighted with <code>tree-sitter-hl-face:function</code>, while function calls are highlighted with <code>tree-sitter-hl-face:function.call</code>. However, for compatibility with existing themes, the default values for most of these faces inherit from built-in font-lock faces.</p>
+<p>If you want to leverage the full power of Tree-sitter&rsquo;s syntax highlighting approach, you should customize these faces.</p>
+<h2 id="capture-mappings">Capture Mappings</h2>
+<p>By default, when the highlighting query associates a node with <code>CAPTURE-NAME</code>, it will be highlighted with the face <code>tree-sitter-hl-face:CAPTURE-NAME</code>. This behavior can be changed by customizing the variable <code>tree-sitter-hl-face-mapping-function</code>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="c1">;; Don&#39;t highlight strings.</span>
+<span class="p">(</span><span class="nv">add-function</span> <span class="nb">:before-while</span>
+              <span class="ss">&#39;tree-sitter-hl-face-mapping-function</span>
+              <span class="p">(</span><span class="nb">lambda</span> <span class="p">(</span><span class="nv">capture-name</span><span class="p">)</span>
+                <span class="p">(</span><span class="nv">not</span> <span class="p">(</span><span class="nv">string=</span> <span class="nv">capture-name</span> <span class="s">&#34;string&#34;</span><span class="p">))))</span>
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="c1">;; Highlight only keywords in Python.</span>
+<span class="p">(</span><span class="nv">add-hook</span> <span class="ss">&#39;python-mode-hook</span>
+          <span class="p">(</span><span class="nb">lambda</span> <span class="p">()</span>
+            <span class="p">(</span><span class="nv">add-function</span> <span class="nb">:before-while</span>
+                          <span class="p">(</span><span class="nv">local</span> <span class="ss">&#39;tree-sitter-hl-face-mapping-function</span><span class="p">)</span>
+                          <span class="p">(</span><span class="nb">lambda</span> <span class="p">(</span><span class="nv">capture-name</span><span class="p">)</span>
+                            <span class="p">(</span><span class="nv">string=</span> <span class="nv">capture-name</span> <span class="s">&#34;keyword&#34;</span><span class="p">)))))</span>
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="c1">;; Highlight Python docstrings with a different face.</span>
+<span class="p">(</span><span class="nv">add-hook</span> <span class="ss">&#39;python-mode-hook</span>
+          <span class="p">(</span><span class="nb">lambda</span> <span class="p">()</span>
+            <span class="p">(</span><span class="nv">add-function</span> <span class="nb">:before-until</span>
+                          <span class="p">(</span><span class="nv">local</span> <span class="ss">&#39;tree-sitter-hl-face-mapping-function</span><span class="p">)</span>
+                          <span class="p">(</span><span class="nb">lambda</span> <span class="p">(</span><span class="nv">capture-name</span><span class="p">)</span>
+                            <span class="p">(</span><span class="nb">pcase</span> <span class="nv">capture-name</span>
+                              <span class="p">(</span><span class="s">&#34;doc&#34;</span> <span class="ss">&#39;font-lock-comment-face</span><span class="p">))))))</span>
+</code></pre></div><h2 id="patterns">Patterns</h2>
+<p>You can use the function <code>tree-sitter-hl-add-patterns</code> to add custom highlighting patterns in a buffer. These patterns will be prioritized over patterns defined by major modes or language bundles (<code>tree-sitter-hl-default-patterns</code>). For example, to highlight uses of &ldquo;unsafe code&rdquo; in Rust with a custom face:</p>
+<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">defun</span> <span class="nv">my/customize-tree-sitter-hl-rust</span> <span class="p">()</span>
+  <span class="p">(</span><span class="nv">tree-sitter-hl-add-patterns</span> <span class="p">[(</span><span class="nv">unsafe_block</span><span class="p">)</span> <span class="nv">@rust.unsafe.use</span>
+                                <span class="p">(</span><span class="nv">impl_item</span> <span class="s">&#34;unsafe&#34;</span><span class="p">)</span> <span class="nv">@rust.unsafe.use</span><span class="p">])</span>
+  <span class="p">(</span><span class="nv">add-function</span> <span class="nb">:before-until</span>
+                <span class="p">(</span><span class="nv">local</span> <span class="ss">&#39;tree-sitter-hl-face-mapping-function</span><span class="p">)</span>
+                <span class="p">(</span><span class="nb">lambda</span> <span class="p">(</span><span class="nv">capture-name</span><span class="p">)</span>
+                  <span class="p">(</span><span class="nb">pcase</span> <span class="nv">capture-name</span>
+                    <span class="p">(</span><span class="s">&#34;rust.unsafe.use&#34;</span> <span class="ss">&#39;my-dangerous-code-pattern-face</span><span class="p">)))))</span>
+
+<span class="p">(</span><span class="nv">add-hook</span> <span class="ss">&#39;rust-mode-hook</span> <span class="nf">#&#39;</span><span class="nv">my/customize-tree-sitter-hl-rust</span><span class="p">)</span>
+</code></pre></div>
+
+    
+    
+          <footer class=" footline" >
+	
+</footer>
+  </div>
+</div>
+
+<div id="navigation">
+  <a class="nav nav-prev" href="/emacs-tree-sitter/syntax-highlighting/queries/" title="Queries"> <i class="fa fa-chevron-left"></i><label>Queries</label></a>
+    <a class="nav nav-next" href="/emacs-tree-sitter/syntax-highlighting/interface-for-modes/" title="Interface for Modes" style="margin-right: 0px;"><label>Interface for Modes</label><i class="fa fa-chevron-right"></i></a></div>
+
+
+</section>
+<div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
+  <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
+</div>    
+
+<script src="/emacs-tree-sitter/js/clipboard.min.js"></script>
+<script src="/emacs-tree-sitter/js/featherlight.min.js"></script>
+<script src="/emacs-tree-sitter/js/html5shiv-printshiv.min.js"></script>
+
+<script src="/emacs-tree-sitter/js/modernizr.custom.71422.js"></script>
+<script src="/emacs-tree-sitter/js/docdock.js"></script>
+<script src="/emacs-tree-sitter/theme-original/script.js"></script>
+
+
+    
+
+    
+    
+
+    
+  </body>
+</html>
