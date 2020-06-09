@@ -4,7 +4,7 @@
     
       <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="revised" content="2020-06-07T15:45:51 &#43;07">
+<meta name="revised" content="2020-06-09T23:33:59 &#43;07">
 <title>Installation :: Emacs Tree-sitter</title>
 <link rel="shortcut icon" href="/emacs-tree-sitter/images/favicon.png" type="image/x-icon" />
 <link href="/emacs-tree-sitter/css/nucleus.css" rel="stylesheet">
@@ -71,50 +71,135 @@ if (!doNotTrack) {
             <li data-nav-id="/emacs-tree-sitter/" class="dd-item">
             <a href="/emacs-tree-sitter/"><i class="fa fa-fw fa-home"></i></a>
             </li>
-        <li data-nav-id="https://ubolonton.github.io/emacs-tree-sitter/installation/" class="dd-item active">
-          <div>
-            <a href="/emacs-tree-sitter/installation/">
-              Installation
-            </a>
-          </div>
-        </li>
-        <li data-nav-id="https://ubolonton.github.io/emacs-tree-sitter/getting-started/" class="dd-item">
-          <div>
-            <a href="/emacs-tree-sitter/getting-started/">
-              Getting Started
-            </a>
-          </div>
-        </li>
-      <li data-nav-id="https://ubolonton.github.io/emacs-tree-sitter/syntax-highlighting/" class="dd-item alwaysopen haschildren
-                       ">
-        <div>
-          <a href="/emacs-tree-sitter/syntax-highlighting/">Syntax Highlighting</a>
-              <i class="fa fa-angle-down fa-lg category-icon"></i>
-        </div>
-          <ul>
-        <li data-nav-id="https://ubolonton.github.io/emacs-tree-sitter/syntax-highlighting/queries/" class="dd-item">
-          <div>
-            <a href="/emacs-tree-sitter/syntax-highlighting/queries/">
-              Queries
-            </a>
-          </div>
-        </li>
-        <li data-nav-id="https://ubolonton.github.io/emacs-tree-sitter/syntax-highlighting/customization/" class="dd-item">
-          <div>
-            <a href="/emacs-tree-sitter/syntax-highlighting/customization/">
-              Customization
-            </a>
-          </div>
-        </li>
-        <li data-nav-id="https://ubolonton.github.io/emacs-tree-sitter/syntax-highlighting/interface-for-modes/" class="dd-item">
-          <div>
-            <a href="/emacs-tree-sitter/syntax-highlighting/interface-for-modes/">
-              Interface for Modes
-            </a>
-          </div>
-        </li>
-          </ul>
-      </li>
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/emacs-tree-sitter/installation/" title="Installation" class="dd-item active">
+        <a href="/emacs-tree-sitter/installation/">
+        Installation
+        
+        </a>
+    </li>
+     
+  
+ 
+
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/emacs-tree-sitter/getting-started/" title="Getting Started" class="dd-item ">
+        <a href="/emacs-tree-sitter/getting-started/">
+        Getting Started
+        
+        </a>
+    </li>
+     
+  
+ 
+
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/emacs-tree-sitter/syntax-highlighting/" title="Syntax Highlighting" class="dd-item
+        
+        
+        parent
+        ">
+      <a href="/emacs-tree-sitter/syntax-highlighting/">
+          Syntax Highlighting
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/emacs-tree-sitter/syntax-highlighting/queries/" title="Queries" class="dd-item ">
+        <a href="/emacs-tree-sitter/syntax-highlighting/queries/">
+        Queries
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/emacs-tree-sitter/syntax-highlighting/customization/" title="Customization" class="dd-item ">
+        <a href="/emacs-tree-sitter/syntax-highlighting/customization/">
+        Customization
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/emacs-tree-sitter/syntax-highlighting/interface-for-modes/" title="Interface for Modes" class="dd-item ">
+        <a href="/emacs-tree-sitter/syntax-highlighting/interface-for-modes/">
+        Interface for Modes
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+      
+    </li>
+  
+ 
+
 
 
 
@@ -216,7 +301,7 @@ if (!doNotTrack) {
 <div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nv">straight-use-package</span>
  <span class="o">&#39;</span><span class="p">(</span><span class="nv">tree-sitter</span> <span class="nb">:host</span> <span class="nv">github</span>
                <span class="nb">:repo</span> <span class="s">&#34;ubolonton/emacs-tree-sitter&#34;</span>
-               <span class="nb">:files</span> <span class="p">(</span><span class="s">&#34;lisp/*.el&#34;</span> <span class="s">&#34;src&#34;</span> <span class="s">&#34;Cargo.toml&#34;</span> <span class="s">&#34;Cargo.lock&#34;</span><span class="p">)))</span>
+               <span class="nb">:files</span> <span class="p">(</span><span class="s">&#34;lisp/*.el&#34;</span><span class="p">)))</span>
 
 <span class="p">(</span><span class="nv">straight-use-package</span>
  <span class="o">&#39;</span><span class="p">(</span><span class="nv">tree-sitter-langs</span> <span class="nb">:host</span> <span class="nv">github</span>
