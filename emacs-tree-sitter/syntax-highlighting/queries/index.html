@@ -4,7 +4,7 @@
     
       <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="revised" content="2020-06-07T15:17:48 &#43;07">
+<meta name="revised" content="2020-06-14T14:59:52 &#43;07">
 <title>Queries :: Emacs Tree-sitter</title>
 <link rel="shortcut icon" href="/emacs-tree-sitter/images/favicon.png" type="image/x-icon" />
 <link href="/emacs-tree-sitter/css/nucleus.css" rel="stylesheet">
@@ -71,50 +71,135 @@ if (!doNotTrack) {
             <li data-nav-id="/emacs-tree-sitter/" class="dd-item">
             <a href="/emacs-tree-sitter/"><i class="fa fa-fw fa-home"></i></a>
             </li>
-        <li data-nav-id="https://ubolonton.github.io/emacs-tree-sitter/installation/" class="dd-item">
-          <div>
-            <a href="/emacs-tree-sitter/installation/">
-              Installation
-            </a>
-          </div>
-        </li>
-        <li data-nav-id="https://ubolonton.github.io/emacs-tree-sitter/getting-started/" class="dd-item">
-          <div>
-            <a href="/emacs-tree-sitter/getting-started/">
-              Getting Started
-            </a>
-          </div>
-        </li>
-      <li data-nav-id="https://ubolonton.github.io/emacs-tree-sitter/syntax-highlighting/" class="dd-item parent alwaysopen haschildren
-                       ">
-        <div>
-          <a href="/emacs-tree-sitter/syntax-highlighting/">Syntax Highlighting</a>
-              <i class="fa fa-angle-down fa-lg category-icon"></i>
-        </div>
-          <ul>
-        <li data-nav-id="https://ubolonton.github.io/emacs-tree-sitter/syntax-highlighting/queries/" class="dd-item active">
-          <div>
-            <a href="/emacs-tree-sitter/syntax-highlighting/queries/">
-              Queries
-            </a>
-          </div>
-        </li>
-        <li data-nav-id="https://ubolonton.github.io/emacs-tree-sitter/syntax-highlighting/customization/" class="dd-item">
-          <div>
-            <a href="/emacs-tree-sitter/syntax-highlighting/customization/">
-              Customization
-            </a>
-          </div>
-        </li>
-        <li data-nav-id="https://ubolonton.github.io/emacs-tree-sitter/syntax-highlighting/interface-for-modes/" class="dd-item">
-          <div>
-            <a href="/emacs-tree-sitter/syntax-highlighting/interface-for-modes/">
-              Interface for Modes
-            </a>
-          </div>
-        </li>
-          </ul>
-      </li>
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/emacs-tree-sitter/installation/" title="Installation" class="dd-item ">
+        <a href="/emacs-tree-sitter/installation/">
+        Installation
+        
+        </a>
+    </li>
+     
+  
+ 
+
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/emacs-tree-sitter/getting-started/" title="Getting Started" class="dd-item ">
+        <a href="/emacs-tree-sitter/getting-started/">
+        Getting Started
+        
+        </a>
+    </li>
+     
+  
+ 
+
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/emacs-tree-sitter/syntax-highlighting/" title="Syntax Highlighting" class="dd-item
+        parent
+        
+        parent
+        ">
+      <a href="/emacs-tree-sitter/syntax-highlighting/">
+          Syntax Highlighting
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/emacs-tree-sitter/syntax-highlighting/queries/" title="Queries" class="dd-item active">
+        <a href="/emacs-tree-sitter/syntax-highlighting/queries/">
+        Queries
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/emacs-tree-sitter/syntax-highlighting/customization/" title="Customization" class="dd-item ">
+        <a href="/emacs-tree-sitter/syntax-highlighting/customization/">
+        Customization
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/emacs-tree-sitter/syntax-highlighting/interface-for-modes/" title="Interface for Modes" class="dd-item ">
+        <a href="/emacs-tree-sitter/syntax-highlighting/interface-for-modes/">
+        Interface for Modes
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+      
+    </li>
+  
+ 
+
 
 
 
@@ -168,9 +253,10 @@ if (!doNotTrack) {
     <nav id="TableOfContents">
   <ul>
     <li><a href="#patterns">Patterns</a></li>
-    <li><a href="#captures-and-field-names">Captures and Field Names</a></li>
+    <li><a href="#captures-and-fields">Captures and Fields</a></li>
     <li><a href="#groups-and-predicates">Groups and Predicates</a></li>
-    <li><a href="#misc">Misc</a></li>
+    <li><a href="#alternations">Alternations</a></li>
+    <li><a href="#repetitions-and-wildcards">Repetitions and Wildcards</a></li>
   </ul>
 </nav>
         </div>
@@ -206,7 +292,7 @@ if (!doNotTrack) {
 </code></pre></div><p>A string literal denotes an <strong>anonymous node</strong>.</p>
 <div class="highlight"><pre class="chroma"><code class="language-scheme" data-lang="scheme"><span class="c1">;; Match the operator `==&#39; .</span>
 <span class="s">&#34;==&#34;</span>
-</code></pre></div><h2 id="captures-and-field-names">Captures and Field Names</h2>
+</code></pre></div><h2 id="captures-and-fields">Captures and Fields</h2>
 <p>Captures allow associating names with specific nodes in a pattern. A symbol starting with the character <code>@</code> denotes a <strong>capture name</strong>. It is written after the pattern it refers to. When used for syntax highlighting, capture names are then mapped to display faces, which determine the appearance of the corresponding nodes.</p>
 <div class="highlight"><pre class="chroma"><code class="language-scheme" data-lang="scheme"><span class="c1">;; Match function calls. For each match, the function name is captured</span>
 <span class="c1">;; under the name `function.call&#39;, and the argument list is associated</span>
@@ -229,7 +315,17 @@ if (!doNotTrack) {
 <span class="p">((</span><span class="nf">identifier</span><span class="p">)</span> <span class="nv">@constant</span>
  <span class="p">(</span><span class="o">#</span><span class="nv">match?</span> <span class="nv">@constant</span> <span class="s">&#34;^[A-Z][A-Z_\\d]+&#34;</span><span class="p">))</span>
 </code></pre></div><p>For syntax highlighting, the supported predicates are currently <code>#match?</code> and <code>#eq?</code>.</p>
-<h2 id="misc">Misc</h2>
+<h2 id="alternations">Alternations</h2>
+<p>An <strong>alternation</strong> form is a vector of patterns. It denotes a pattern that matches a node when any of the alternative patterns matches.</p>
+<div class="highlight"><pre class="chroma"><code class="language-scheme" data-lang="scheme"><span class="p">[(</span><span class="nf">self</span><span class="p">)</span> <span class="p">(</span><span class="nf">super</span><span class="p">)</span> <span class="p">(</span><span class="nf">crate</span><span class="p">)</span>
+ <span class="p">(</span><span class="nf">mutable_specifier</span><span class="p">)]</span> <span class="nv">@keyword</span>
+
+<span class="p">[</span><span class="s">&#34;==&#34;</span> <span class="s">&#34;!=&#34;</span> <span class="s">&#34;&lt;&#34;</span> <span class="s">&#34;&lt;=&#34;</span> <span class="s">&#34;&gt;&#34;</span> <span class="s">&#34;&gt;=&#34;</span><span class="p">]</span> <span class="nv">@operator</span>
+
+<span class="p">(</span><span class="nf">call_expression</span>
+ <span class="nv">function:</span> <span class="p">[(</span><span class="nf">identifier</span><span class="p">)</span> <span class="nv">@function</span><span class="o">.</span><span class="nv">call</span>
+            <span class="p">(</span><span class="nf">field_expression</span> <span class="nv">field:</span> <span class="p">(</span><span class="nf">field_identifier</span><span class="p">)</span> <span class="nv">@method</span><span class="o">.</span><span class="nv">call</span><span class="p">)])</span>
+</code></pre></div><h2 id="repetitions-and-wildcards">Repetitions and Wildcards</h2>
 <p>A form can be suffixed by one of the <strong>quantification operators</strong>: at-most-once <code>?</code>, at-least-once <code>+</code>, zero-or-more <code>*</code>.</p>
 <div class="highlight"><pre class="chroma"><code class="language-scheme" data-lang="scheme"><span class="c1">;; Match any function call. Capture a string arg, if any.</span>
 <span class="p">(</span><span class="nf">call_expression</span>
