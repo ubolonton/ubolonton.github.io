@@ -4,7 +4,7 @@
     
       <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="revised" content="2020-06-14T14:59:52 &#43;07">
+<meta name="revised" content="2020-07-18T20:02:25 &#43;07">
 <title>Customization :: Emacs Tree-sitter</title>
 <link rel="shortcut icon" href="/emacs-tree-sitter/images/favicon.png" type="image/x-icon" />
 <link href="/emacs-tree-sitter/css/nucleus.css" rel="stylesheet">
@@ -252,9 +252,9 @@ if (!doNotTrack) {
         <div class="wrapper">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#faces">Faces</a></li>
-    <li><a href="#capture-mappings">Capture Mappings</a></li>
-    <li><a href="#patterns">Patterns</a></li>
+    <li><a href="#theming">Theming</a></li>
+    <li><a href="#face-mappings">Face Mappings</a></li>
+    <li><a href="#highlighting-patterns">Highlighting Patterns</a></li>
   </ul>
 </nav>
         </div>
@@ -274,44 +274,49 @@ if (!doNotTrack) {
     
 
     
-    <h2 id="faces">Faces</h2>
+    <h2 id="theming">Theming</h2>
 <p><code>tree-sitter-hl-mode</code> provides a richer set of faces than <code>font-lock-mode</code>. For example, function definitions are highlighted with <code>tree-sitter-hl-face:function</code>, while function calls are highlighted with <code>tree-sitter-hl-face:function.call</code>. However, for compatibility with existing themes, the default values for most of these faces inherit from built-in font-lock faces.</p>
 <p>If you want to leverage the full power of Tree-sitter&rsquo;s syntax highlighting approach, you should customize these faces.</p>
-<h2 id="capture-mappings">Capture Mappings</h2>
+<h2 id="face-mappings">Face Mappings</h2>
 <p>By default, when the highlighting query associates a node with <code>CAPTURE-NAME</code>, it will be highlighted with the face <code>tree-sitter-hl-face:CAPTURE-NAME</code>. This behavior can be changed by customizing the variable <code>tree-sitter-hl-face-mapping-function</code>.</p>
-<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="c1">;; Don&#39;t highlight strings.</span>
-<span class="p">(</span><span class="nv">add-function</span> <span class="nb">:before-while</span>
-              <span class="ss">&#39;tree-sitter-hl-face-mapping-function</span>
-              <span class="p">(</span><span class="nb">lambda</span> <span class="p">(</span><span class="nv">capture-name</span><span class="p">)</span>
-                <span class="p">(</span><span class="nv">not</span> <span class="p">(</span><span class="nv">string=</span> <span class="nv">capture-name</span> <span class="s">&#34;string&#34;</span><span class="p">))))</span>
+<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="c1">;; Don&#39;t highlight strings, in any language.</span>
+<span class="p">(</span><span class="nv">add-function</span> <span class="nb">:before-while</span> <span class="ss">&#39;tree-sitter-hl-face-mapping-function</span>
+  <span class="p">(</span><span class="nb">lambda</span> <span class="p">(</span><span class="nv">capture-name</span><span class="p">)</span>
+    <span class="p">(</span><span class="nv">not</span> <span class="p">(</span><span class="nv">string=</span> <span class="nv">capture-name</span> <span class="s">&#34;string&#34;</span><span class="p">))))</span>
 </code></pre></div><div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="c1">;; Highlight only keywords in Python.</span>
 <span class="p">(</span><span class="nv">add-hook</span> <span class="ss">&#39;python-mode-hook</span>
-          <span class="p">(</span><span class="nb">lambda</span> <span class="p">()</span>
-            <span class="p">(</span><span class="nv">add-function</span> <span class="nb">:before-while</span>
-                          <span class="p">(</span><span class="nv">local</span> <span class="ss">&#39;tree-sitter-hl-face-mapping-function</span><span class="p">)</span>
-                          <span class="p">(</span><span class="nb">lambda</span> <span class="p">(</span><span class="nv">capture-name</span><span class="p">)</span>
-                            <span class="p">(</span><span class="nv">string=</span> <span class="nv">capture-name</span> <span class="s">&#34;keyword&#34;</span><span class="p">)))))</span>
+  <span class="p">(</span><span class="nb">lambda</span> <span class="p">()</span>
+    <span class="p">(</span><span class="nv">add-function</span> <span class="nb">:before-while</span> <span class="p">(</span><span class="nv">local</span> <span class="ss">&#39;tree-sitter-hl-face-mapping-function</span><span class="p">)</span>
+      <span class="p">(</span><span class="nb">lambda</span> <span class="p">(</span><span class="nv">capture-name</span><span class="p">)</span>
+        <span class="p">(</span><span class="nv">string=</span> <span class="nv">capture-name</span> <span class="s">&#34;keyword&#34;</span><span class="p">)))))</span>
 </code></pre></div><div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="c1">;; Highlight Python docstrings with a different face.</span>
 <span class="p">(</span><span class="nv">add-hook</span> <span class="ss">&#39;python-mode-hook</span>
-          <span class="p">(</span><span class="nb">lambda</span> <span class="p">()</span>
-            <span class="p">(</span><span class="nv">add-function</span> <span class="nb">:before-until</span>
-                          <span class="p">(</span><span class="nv">local</span> <span class="ss">&#39;tree-sitter-hl-face-mapping-function</span><span class="p">)</span>
-                          <span class="p">(</span><span class="nb">lambda</span> <span class="p">(</span><span class="nv">capture-name</span><span class="p">)</span>
-                            <span class="p">(</span><span class="nb">pcase</span> <span class="nv">capture-name</span>
-                              <span class="p">(</span><span class="s">&#34;doc&#34;</span> <span class="ss">&#39;font-lock-comment-face</span><span class="p">))))))</span>
-</code></pre></div><h2 id="patterns">Patterns</h2>
-<p>You can use the function <code>tree-sitter-hl-add-patterns</code> to add custom highlighting patterns in a buffer. These patterns will be prioritized over patterns defined by major modes or language bundles (<code>tree-sitter-hl-default-patterns</code>). For example, to highlight uses of &ldquo;unsafe code&rdquo; in Rust with a custom face:</p>
-<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">defun</span> <span class="nv">my/customize-tree-sitter-hl-rust</span> <span class="p">()</span>
-  <span class="p">(</span><span class="nv">tree-sitter-hl-add-patterns</span> <span class="p">[(</span><span class="nv">unsafe_block</span><span class="p">)</span> <span class="nv">@rust.unsafe.use</span>
-                                <span class="p">(</span><span class="nv">impl_item</span> <span class="s">&#34;unsafe&#34;</span><span class="p">)</span> <span class="nv">@rust.unsafe.use</span><span class="p">])</span>
-  <span class="p">(</span><span class="nv">add-function</span> <span class="nb">:before-until</span>
-                <span class="p">(</span><span class="nv">local</span> <span class="ss">&#39;tree-sitter-hl-face-mapping-function</span><span class="p">)</span>
-                <span class="p">(</span><span class="nb">lambda</span> <span class="p">(</span><span class="nv">capture-name</span><span class="p">)</span>
-                  <span class="p">(</span><span class="nb">pcase</span> <span class="nv">capture-name</span>
-                    <span class="p">(</span><span class="s">&#34;rust.unsafe.use&#34;</span> <span class="ss">&#39;my-dangerous-code-pattern-face</span><span class="p">)))))</span>
+  <span class="p">(</span><span class="nb">lambda</span> <span class="p">()</span>
+    <span class="p">(</span><span class="nv">add-function</span> <span class="nb">:before-until</span> <span class="p">(</span><span class="nv">local</span> <span class="ss">&#39;tree-sitter-hl-face-mapping-function</span><span class="p">)</span>
+      <span class="p">(</span><span class="nb">lambda</span> <span class="p">(</span><span class="nv">capture-name</span><span class="p">)</span>
+        <span class="p">(</span><span class="nb">pcase</span> <span class="nv">capture-name</span>
+          <span class="p">(</span><span class="s">&#34;doc&#34;</span> <span class="ss">&#39;font-lock-comment-face</span><span class="p">))))))</span>
+</code></pre></div><h2 id="highlighting-patterns">Highlighting Patterns</h2>
+<p>You can use the function <code>tree-sitter-hl-add-patterns</code> to add custom highlighting patterns for a specific language, or in a buffer. These patterns will be prioritized over patterns defined by major modes or language bundles (<code>tree-sitter-hl-default-patterns</code>).</p>
+<p>Adding language-specific patterns:</p>
+<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="c1">;; Highlight Python&#39;s single-quoted strings as constants.</span>
+<span class="p">(</span><span class="nv">tree-sitter-hl-add-patterns</span> <span class="ss">&#39;python</span>
+  <span class="s">&#34;((string) @constant
+</span><span class="s">    (#match? @constant \&#34;^&#39;\&#34;))&#34;</span><span class="p">)</span>
+</code></pre></div><p>Adding buffer-local patterns:</p>
+<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="c1">;; Map @rust.unsafe.use capture to a custom face.</span>
+<span class="p">(</span><span class="nv">add-function</span> <span class="nb">:before-until</span> <span class="ss">&#39;tree-sitter-hl-face-mapping-function</span>
+  <span class="p">(</span><span class="nb">lambda</span> <span class="p">(</span><span class="nv">capture-name</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">pcase</span> <span class="nv">capture-name</span>
+      <span class="p">(</span><span class="s">&#34;rust.unsafe.use&#34;</span> <span class="ss">&#39;my-dangerous-code-pattern-face</span><span class="p">))))</span>
 
-<span class="p">(</span><span class="nv">add-hook</span> <span class="ss">&#39;rust-mode-hook</span> <span class="nf">#&#39;</span><span class="nv">my/customize-tree-sitter-hl-rust</span><span class="p">)</span>
-</code></pre></div><p>When a node matches multiple patterns in a highlighting query, face attributes corresponding to the earlier patterns are prioritized.</p>
+<span class="c1">;; Add highlighting patterns for @rust.unsafe.use.</span>
+<span class="p">(</span><span class="nv">add-hook</span> <span class="ss">&#39;rust-mode-hook</span>
+  <span class="p">(</span><span class="nb">lambda</span> <span class="p">()</span>
+    <span class="p">(</span><span class="nv">tree-sitter-hl-add-patterns</span> <span class="no">nil</span>
+      <span class="p">[(</span><span class="nv">unsafe_block</span><span class="p">)</span> <span class="nv">@rust.unsafe.use</span>
+       <span class="p">(</span><span class="nv">impl_item</span> <span class="s">&#34;unsafe&#34;</span><span class="p">)</span> <span class="nv">@rust.unsafe.use</span><span class="p">])))</span>
+</code></pre></div><p>When writing custom highlighting patterns, keep in mind that if a node matches multiple patterns in a highlighting query, earlier patterns are prioritized.</p>
 <div class="highlight"><pre class="chroma"><code class="language-scheme" data-lang="scheme"><span class="c1">;; More specific patterns should be written earlier.</span>
 <span class="p">((</span><span class="nf">lifetime</span> <span class="p">(</span><span class="nf">identifier</span><span class="p">)</span> <span class="nv">@type</span><span class="o">.</span><span class="nv">builtin</span><span class="p">)</span>
  <span class="p">(</span><span class="o">#</span><span class="nv">eq?</span> <span class="nv">@type</span><span class="o">.</span><span class="nv">builtin</span> <span class="s">&#34;static&#34;</span><span class="p">))</span>

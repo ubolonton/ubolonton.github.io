@@ -28,9 +28,9 @@ A node form is a list form whose first element is a symbol (except for the speci
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://ubolonton.github.io/emacs-tree-sitter/syntax-highlighting/customization/</guid>
-      <description>Faces tree-sitter-hl-mode provides a richer set of faces than font-lock-mode. For example, function definitions are highlighted with tree-sitter-hl-face:function, while function calls are highlighted with tree-sitter-hl-face:function.call. However, for compatibility with existing themes, the default values for most of these faces inherit from built-in font-lock faces.
+      <description>Theming tree-sitter-hl-mode provides a richer set of faces than font-lock-mode. For example, function definitions are highlighted with tree-sitter-hl-face:function, while function calls are highlighted with tree-sitter-hl-face:function.call. However, for compatibility with existing themes, the default values for most of these faces inherit from built-in font-lock faces.
 If you want to leverage the full power of Tree-sitter&amp;rsquo;s syntax highlighting approach, you should customize these faces.
-Capture Mappings By default, when the highlighting query associates a node with CAPTURE-NAME, it will be highlighted with the face tree-sitter-hl-face:CAPTURE-NAME.</description>
+Face Mappings By default, when the highlighting query associates a node with CAPTURE-NAME, it will be highlighted with the face tree-sitter-hl-face:CAPTURE-NAME.</description>
     </item>
     
     <item>
