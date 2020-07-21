@@ -4,7 +4,7 @@
     
       <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="revised" content="2020-07-18T21:31:04 &#43;07">
+<meta name="revised" content="2020-07-21T22:16:01 &#43;07">
 <title>Customization :: Emacs Tree-sitter</title>
 <link rel="shortcut icon" href="/emacs-tree-sitter/images/favicon.png" type="image/x-icon" />
 <link href="/emacs-tree-sitter/css/nucleus.css" rel="stylesheet">
@@ -280,7 +280,7 @@ if (!doNotTrack) {
 <h2 id="face-mappings">Face Mappings</h2>
 <p>By default, when the highlighting query associates a node with <code>CAPTURE-NAME</code>, it will be highlighted with the face <code>tree-sitter-hl-face:CAPTURE-NAME</code>. This behavior can be changed by customizing the variable <code>tree-sitter-hl-face-mapping-function</code>.</p>
 <div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="c1">;; Don&#39;t highlight strings, in any language.</span>
-<span class="p">(</span><span class="nv">add-function</span> <span class="nb">:before-while</span> <span class="ss">&#39;tree-sitter-hl-face-mapping-function</span>
+<span class="p">(</span><span class="nv">add-function</span> <span class="nb">:before-while</span> <span class="nv">tree-sitter-hl-face-mapping-function</span>
   <span class="p">(</span><span class="nb">lambda</span> <span class="p">(</span><span class="nv">capture-name</span><span class="p">)</span>
     <span class="p">(</span><span class="nv">not</span> <span class="p">(</span><span class="nv">string=</span> <span class="nv">capture-name</span> <span class="s">&#34;string&#34;</span><span class="p">))))</span>
 </code></pre></div><div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="c1">;; Highlight only keywords in Python.</span>
@@ -301,11 +301,11 @@ if (!doNotTrack) {
 <p>Adding language-specific patterns:</p>
 <div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="c1">;; Highlight Python&#39;s single-quoted strings as constants.</span>
 <span class="p">(</span><span class="nv">tree-sitter-hl-add-patterns</span> <span class="ss">&#39;python</span>
-  <span class="s">&#34;((string) @constant
-</span><span class="s">    (#match? @constant \&#34;^&#39;\&#34;))&#34;</span><span class="p">)</span>
+  <span class="p">[((</span><span class="nf">string</span><span class="p">)</span> <span class="nv">@constant</span>
+    <span class="p">(</span><span class="o">.</span><span class="nv">match?</span> <span class="nv">@constant</span> <span class="s">&#34;^&#39;&#34;</span><span class="p">))])</span>
 </code></pre></div><p>Adding buffer-local patterns:</p>
 <div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="c1">;; Map @rust.unsafe.use capture to a custom face.</span>
-<span class="p">(</span><span class="nv">add-function</span> <span class="nb">:before-until</span> <span class="ss">&#39;tree-sitter-hl-face-mapping-function</span>
+<span class="p">(</span><span class="nv">add-function</span> <span class="nb">:before-until</span> <span class="nv">tree-sitter-hl-face-mapping-function</span>
   <span class="p">(</span><span class="nb">lambda</span> <span class="p">(</span><span class="nv">capture-name</span><span class="p">)</span>
     <span class="p">(</span><span class="nb">pcase</span> <span class="nv">capture-name</span>
       <span class="p">(</span><span class="s">&#34;rust.unsafe.use&#34;</span> <span class="ss">&#39;my-dangerous-code-pattern-face</span><span class="p">))))</span>
@@ -319,20 +319,15 @@ if (!doNotTrack) {
 </code></pre></div><p>Adding project-specific patterns through <code>.dir-locals.el</code>:</p>
 <div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="c1">;; Highlight DEFUN macros (in Emacs&#39;s C source).</span>
 <span class="p">((</span><span class="nv">c-mode</span> <span class="o">.</span> <span class="p">((</span><span class="nv">tree-sitter-hl--extra-patterns-list</span>
-             <span class="o">.</span>
-             <span class="p">(</span><span class="s">&#34;((call_expression
-</span><span class="s">                 function: (identifier) @keyword
-</span><span class="s">                 arguments: (argument_list
-</span><span class="s">                             (string_literal) @function))
-</span><span class="s">                (#eq? @keyword \&#34;DEFUN\&#34;))&#34;</span><span class="p">)))))</span>
-</code></pre></div><figure>
-    <img src="/emacs-tree-sitter/ox-hugo/DEFUN.png"/> 
-</figure>
-
-<p>When writing custom highlighting patterns, keep in mind that if a node matches multiple patterns in a highlighting query, earlier patterns are prioritized.</p>
+             <span class="p">[((</span><span class="nv">call_expression</span>
+                <span class="nv">function:</span> <span class="p">(</span><span class="nv">identifier</span><span class="p">)</span> <span class="nv">@keyword</span>
+                <span class="nv">arguments:</span> <span class="p">(</span><span class="nv">argument_list</span>
+                            <span class="p">(</span><span class="nv">string_literal</span><span class="p">)</span> <span class="nv">@function</span><span class="p">))</span>
+               <span class="p">(</span><span class="o">.</span><span class="nv">eq?</span> <span class="nv">@keyword</span> <span class="s">&#34;DEFUN&#34;</span><span class="p">))]))))</span>
+</code></pre></div><p>When writing custom highlighting patterns, keep in mind that if a node matches multiple patterns in a highlighting query, earlier patterns are prioritized.</p>
 <div class="highlight"><pre class="chroma"><code class="language-scheme" data-lang="scheme"><span class="c1">;; More specific patterns should be written earlier.</span>
 <span class="p">((</span><span class="nf">lifetime</span> <span class="p">(</span><span class="nf">identifier</span><span class="p">)</span> <span class="nv">@type</span><span class="o">.</span><span class="nv">builtin</span><span class="p">)</span>
- <span class="p">(</span><span class="o">#</span><span class="nv">eq?</span> <span class="nv">@type</span><span class="o">.</span><span class="nv">builtin</span> <span class="s">&#34;static&#34;</span><span class="p">))</span>
+ <span class="p">(</span><span class="o">.</span><span class="nv">eq?</span> <span class="nv">@type</span><span class="o">.</span><span class="nv">builtin</span> <span class="s">&#34;static&#34;</span><span class="p">))</span>
 <span class="p">(</span><span class="nf">lifetime</span> <span class="p">(</span><span class="nf">identifier</span><span class="p">)</span> <span class="nv">@label</span><span class="p">)</span>
 </code></pre></div>
 

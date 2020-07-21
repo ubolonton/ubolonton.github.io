@@ -4,7 +4,7 @@
     
       <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="revised" content="2020-07-18T21:31:04 &#43;07">
+<meta name="revised" content="2020-07-21T22:16:01 &#43;07">
 <title>Queries :: Emacs Tree-sitter</title>
 <link rel="shortcut icon" href="/emacs-tree-sitter/images/favicon.png" type="image/x-icon" />
 <link href="/emacs-tree-sitter/css/nucleus.css" rel="stylesheet">
@@ -310,11 +310,11 @@ if (!doNotTrack) {
 <div class="highlight"><pre class="chroma"><code class="language-scheme" data-lang="scheme"><span class="c1">;; Match a comment followed by a function declaration.</span>
 <span class="p">((</span><span class="nf">line_comment</span><span class="p">)</span>
  <span class="p">(</span><span class="nf">function_item</span><span class="p">))</span>
-</code></pre></div><p>A <strong>predicate</strong> form can appear anywhere in a group form. It is a list form whose first element is a symbol starting with the character <code>#</code>. Each remaining element is either a capture name, or a string literal.</p>
+</code></pre></div><p>A <strong>predicate</strong> form can appear anywhere in a group form. It is a list form whose first element is a symbol starting with the character <code>.</code>. Each remaining element is either a capture name, or a string literal.</p>
 <div class="highlight"><pre class="chroma"><code class="language-scheme" data-lang="scheme"><span class="c1">;; Match identifiers written in SCREAMING_SNAKE_CASE.</span>
 <span class="p">((</span><span class="nf">identifier</span><span class="p">)</span> <span class="nv">@constant</span>
- <span class="p">(</span><span class="o">#</span><span class="nv">match?</span> <span class="nv">@constant</span> <span class="s">&#34;^[A-Z][A-Z_\\d]+&#34;</span><span class="p">))</span>
-</code></pre></div><p>For syntax highlighting, the supported predicates are currently <code>#match?</code> and <code>#eq?</code>.</p>
+ <span class="p">(</span><span class="o">.</span><span class="nv">match?</span> <span class="nv">@constant</span> <span class="s">&#34;^[A-Z][A-Z_\\d]+&#34;</span><span class="p">))</span>
+</code></pre></div><p>Currently, the supported predicates for syntax highlighting are <code>.match?</code>, <code>.eq?</code> and <code>.not-eq?</code>.</p>
 <h2 id="alternations">Alternations</h2>
 <p>An <strong>alternation</strong> form is a vector of patterns. It denotes a pattern that matches a node when any of the alternative patterns matches.</p>
 <div class="highlight"><pre class="chroma"><code class="language-scheme" data-lang="scheme"><span class="p">[(</span><span class="nf">self</span><span class="p">)</span> <span class="p">(</span><span class="nf">super</span><span class="p">)</span> <span class="p">(</span><span class="nf">crate</span><span class="p">)</span>
