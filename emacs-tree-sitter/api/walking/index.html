@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Emacs Tree-sitter</title>
     
       <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="revised" content="2020-08-02T19:55:27 &#43;07">
-<title>404 Page not found :: Emacs Tree-sitter</title>
+<title>Walking :: Emacs Tree-sitter</title>
 <link rel="shortcut icon" href="/emacs-tree-sitter/images/favicon.png" type="image/x-icon" />
 <link href="/emacs-tree-sitter/css/nucleus.css" rel="stylesheet">
 <link href="/emacs-tree-sitter/css/font-awesome.min.css" rel="stylesheet">
@@ -40,7 +39,7 @@ if (!doNotTrack) {
 
     
   </head>
-  <body data-url="/emacs-tree-sitter/404.html">
+  <body data-url="/emacs-tree-sitter/api/walking/">
     
       <div id="headermain"></div>
 <nav id="sidebar" class="">
@@ -226,7 +225,7 @@ if (!doNotTrack) {
   
     
     <li data-nav-id="/emacs-tree-sitter/api/" title="Core APIs" class="dd-item
-        
+        parent
         
         parent
         ">
@@ -294,7 +293,7 @@ if (!doNotTrack) {
  
   
     
-      <li data-nav-id="/emacs-tree-sitter/api/walking/" title="Walking" class="dd-item ">
+      <li data-nav-id="/emacs-tree-sitter/api/walking/" title="Walking" class="dd-item active">
         <a href="/emacs-tree-sitter/api/walking/">
         Walking
         
@@ -385,7 +384,12 @@ if (!doNotTrack) {
 
 
 
- <a href='https://ubolonton.github.io/emacs-tree-sitter/'>Tree-sitter</a> > 404 Page not found
+
+
+
+ <a href='https://ubolonton.github.io/emacs-tree-sitter/'>Tree-sitter</a> > <a href='https://ubolonton.github.io/emacs-tree-sitter/api/'>Core APIs</a> > Walking
+
+ 
 
  
 
@@ -396,7 +400,7 @@ if (!doNotTrack) {
     
     <div class="progress">
         <div class="wrapper">
-    
+    <nav id="TableOfContents"></nav>
         </div>
     </div>
     
@@ -406,21 +410,38 @@ if (!doNotTrack) {
 
 <div id="body-inner">
   
-    <h1>404 Page not found</h1>
+    <h1>Walking</h1>
   
 
 
 
     
+
     
-	<h1>Error</h1>
-	<p>
-	</p>
-	<p>Woops. Looks like this page doesn&#39;t exist.</p>
-	<p></p>
-	<p><a href="https://ubolonton.github.io/emacs-tree-sitter">Go to homepage</a></p>
-	<p><img src="/emacs-tree-sitter/images/gopher-404.jpg" style="width:50%"></img></p>    
-    
+    <p>Tree-walking functions enable efficient traversal of the syntax tree with the help of a stateful <code>cursor</code> object.</p>
+<dl>
+<dt><code>ts-make-cursor</code> <em><code>node-or-tree</code></em></dt>
+<dd>Create a new cursor on a node. The cursor <em>cannot move out</em> of this node. If called on a tree, the cursor is created on the tree&rsquo;s root node.</dd>
+<dt><code>ts-goto-parent</code> <em><code>cursor</code></em></dt>
+<dd><!-- raw HTML omitted -->
+</dd>
+<dt><code>ts-goto-first-child</code> <em><code>cursor</code></em></dt>
+<dd><!-- raw HTML omitted -->
+</dd>
+<dt><code>ts-goto-next-sibling</code> <em><code>cursor</code></em></dt>
+<dd>Attempt to move the cursor to the parent node, the first child node, or the next sibling node. This function returns t if the move was successful, nil if the move is invalid.</dd>
+<dt><code>ts-goto-first-child-for-position</code> <em><code>cursor pos</code></em></dt>
+<dd>Attempt to move the cursor to the first child node that extends beyond the given position. This function returns the index of the child node found, nil otherwise.</dd>
+<dt><code>ts-reset-cursor</code> <em><code>cursor node</code></em></dt>
+<dd>Re-initialize the cursor to start on a different node.</dd>
+<dt><code>ts-current-node</code> <em><code>cursor</code></em></dt>
+<dd>Get the node that the cursor is currently on.</dd>
+<dt><code>ts-current-field</code> <em><code>cursor</code></em></dt>
+<dd>Get the field name (as a keyword) associated with the current node.</dd>
+</dl>
+
+
+
     
           <footer class=" footline" >
 	
@@ -429,7 +450,8 @@ if (!doNotTrack) {
 </div>
 
 <div id="navigation">
-  </div>
+  <a class="nav nav-prev" href="/emacs-tree-sitter/api/inspecting/" title="Inspecting"> <i class="fa fa-chevron-left"></i><label>Inspecting</label></a>
+    <a class="nav nav-next" href="/emacs-tree-sitter/api/querying/" title="Querying" style="margin-right: 0px;"><label>Querying</label><i class="fa fa-chevron-right"></i></a></div>
 
 
 </section>
@@ -454,5 +476,3 @@ if (!doNotTrack) {
     
   </body>
 </html>
-
-

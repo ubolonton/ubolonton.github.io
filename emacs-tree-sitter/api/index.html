@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Emacs Tree-sitter</title>
     
       <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="revised" content="2020-08-02T19:55:27 &#43;07">
-<title>404 Page not found :: Emacs Tree-sitter</title>
+<title>Core APIs :: Emacs Tree-sitter</title>
 <link rel="shortcut icon" href="/emacs-tree-sitter/images/favicon.png" type="image/x-icon" />
 <link href="/emacs-tree-sitter/css/nucleus.css" rel="stylesheet">
 <link href="/emacs-tree-sitter/css/font-awesome.min.css" rel="stylesheet">
@@ -40,7 +39,7 @@ if (!doNotTrack) {
 
     
   </head>
-  <body data-url="/emacs-tree-sitter/404.html">
+  <body data-url="/emacs-tree-sitter/api/">
     
       <div id="headermain"></div>
 <nav id="sidebar" class="">
@@ -226,8 +225,8 @@ if (!doNotTrack) {
   
     
     <li data-nav-id="/emacs-tree-sitter/api/" title="Core APIs" class="dd-item
-        
-        
+        parent
+        active
         parent
         ">
       <a href="/emacs-tree-sitter/api/">
@@ -385,7 +384,7 @@ if (!doNotTrack) {
 
 
 
- <a href='https://ubolonton.github.io/emacs-tree-sitter/'>Tree-sitter</a> > 404 Page not found
+ <a href='https://ubolonton.github.io/emacs-tree-sitter/'>Tree-sitter</a> > Core APIs
 
  
 
@@ -396,7 +395,11 @@ if (!doNotTrack) {
     
     <div class="progress">
         <div class="wrapper">
-    
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#data-types">Data Types</a></li>
+  </ul>
+</nav>
         </div>
     </div>
     
@@ -406,21 +409,48 @@ if (!doNotTrack) {
 
 <div id="body-inner">
   
-    <h1>404 Page not found</h1>
+    <h1>Core APIs</h1>
   
 
 
 
     
+
     
-	<h1>Error</h1>
-	<p>
-	</p>
-	<p>Woops. Looks like this page doesn&#39;t exist.</p>
-	<p></p>
-	<p><a href="https://ubolonton.github.io/emacs-tree-sitter">Go to homepage</a></p>
-	<p><img src="/emacs-tree-sitter/images/gopher-404.jpg" style="width:50%"></img></p>    
-    
+
+<p>Functions and variables in this package have 2 prefixes:</p>
+<ul>
+<li><code>tree-sitter-</code>: High-level features, i.e. the <strong>apps</strong>. For example, <a href="syntax-highlighting/.org">Syntax Highlighting</a>.</li>
+<li><code>ts-</code>: Core functionalities, i.e. the <strong>lib</strong>, which is the focus of this section.</li>
+</ul>
+<p><a href="https://tree-sitter.github.io/tree-sitter/using-parsers">Tree-sitter&rsquo;s own documentation</a> is a good read to understand its concepts and features. This documentation focuses more on details that are specific to Emacs Lisp.</p>
+<p>In order to follow Emacs Lisp&rsquo;s conventions, functions and data types in this package may differ from those in Tree-sitter&rsquo;s C/Rust APIs. These differences are discussed in their corresponding sections.</p>
+<h2 id="data-types">Data Types</h2>
+<ul>
+<li><code>language</code>, <code>parser</code>, <code>tree</code>, <code>node</code>, <code>cursor</code>, <code>query</code>, <code>query-cursor</code>: corresponding Tree-sitter&rsquo;s data types, embedded in <code>user-ptr</code> objects.</li>
+<li><code>point</code>: a pair of <em><code>(line-number . byte-column)</code></em>.
+<ul>
+<li><em><code>line-number</code></em> is the absolute line number returned by <code>line-number-at-pos</code>, counting from 1.</li>
+<li><em><code>byte-column</code></em> counts from 0, like <code>current-column</code>. However, unlike that function, it counts bytes, instead of displayed glyphs.</li>
+</ul>
+</li>
+<li><code>range</code>: a vector in the form of <em><code>[start-bytepos end-bytepos start-point end-point]</code></em>.</li>
+</ul>
+
+<div class="notices info" ><p><p>These types are understood only by this package and its type-checking predicates, which are useful for debugging: <code>ts-language-p</code>, <code>ts-tree-p</code>, <code>ts-node-p</code>&hellip; They are not recognized by <code>type-of</code>.</p>
+</p></div>
+
+<p>For consistency with Emacs&rsquo;s conventions, there are some differences compared to Tree-Sitter&rsquo;s C/Rust APIs:</p>
+<ul>
+<li><strong>1-based</strong> byte positions are used, instead of 0-based byte offsets.</li>
+<li><strong>1-based</strong> line numbers are used, instead of 0-based row coordinates.</li>
+<li>Node types are <strong>symbols</strong> (named nodes) and <strong>strings</strong> (anonymous nodes), instead of always being strings.</li>
+<li>Field names are <strong>keywords</strong>, instead of strings.</li>
+</ul>
+
+
+
+
     
           <footer class=" footline" >
 	
@@ -429,7 +459,8 @@ if (!doNotTrack) {
 </div>
 
 <div id="navigation">
-  </div>
+  <a class="nav nav-prev" href="/emacs-tree-sitter/syntax-highlighting/interface-for-modes/" title="Interface for Modes"> <i class="fa fa-chevron-left"></i><label>Interface for Modes</label></a>
+    <a class="nav nav-next" href="/emacs-tree-sitter/api/parsing/" title="Parsing" style="margin-right: 0px;"><label>Parsing</label><i class="fa fa-chevron-right"></i></a></div>
 
 
 </section>
@@ -454,5 +485,3 @@ if (!doNotTrack) {
     
   </body>
 </html>
-
-

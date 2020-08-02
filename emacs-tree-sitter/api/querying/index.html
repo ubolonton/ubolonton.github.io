@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Emacs Tree-sitter</title>
     
       <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="revised" content="2020-08-02T19:55:27 &#43;07">
-<title>404 Page not found :: Emacs Tree-sitter</title>
+<title>Querying :: Emacs Tree-sitter</title>
 <link rel="shortcut icon" href="/emacs-tree-sitter/images/favicon.png" type="image/x-icon" />
 <link href="/emacs-tree-sitter/css/nucleus.css" rel="stylesheet">
 <link href="/emacs-tree-sitter/css/font-awesome.min.css" rel="stylesheet">
@@ -40,7 +39,7 @@ if (!doNotTrack) {
 
     
   </head>
-  <body data-url="/emacs-tree-sitter/404.html">
+  <body data-url="/emacs-tree-sitter/api/querying/">
     
       <div id="headermain"></div>
 <nav id="sidebar" class="">
@@ -226,7 +225,7 @@ if (!doNotTrack) {
   
     
     <li data-nav-id="/emacs-tree-sitter/api/" title="Core APIs" class="dd-item
-        
+        parent
         
         parent
         ">
@@ -315,7 +314,7 @@ if (!doNotTrack) {
  
   
     
-      <li data-nav-id="/emacs-tree-sitter/api/querying/" title="Querying" class="dd-item ">
+      <li data-nav-id="/emacs-tree-sitter/api/querying/" title="Querying" class="dd-item active">
         <a href="/emacs-tree-sitter/api/querying/">
         Querying
         
@@ -385,7 +384,12 @@ if (!doNotTrack) {
 
 
 
- <a href='https://ubolonton.github.io/emacs-tree-sitter/'>Tree-sitter</a> > 404 Page not found
+
+
+
+ <a href='https://ubolonton.github.io/emacs-tree-sitter/'>Tree-sitter</a> > <a href='https://ubolonton.github.io/emacs-tree-sitter/api/'>Core APIs</a> > Querying
+
+ 
 
  
 
@@ -396,7 +400,7 @@ if (!doNotTrack) {
     
     <div class="progress">
         <div class="wrapper">
-    
+    <nav id="TableOfContents"></nav>
         </div>
     </div>
     
@@ -406,21 +410,37 @@ if (!doNotTrack) {
 
 <div id="body-inner">
   
-    <h1>404 Page not found</h1>
+    <h1>Querying</h1>
   
 
 
 
     
+
     
-	<h1>Error</h1>
-	<p>
-	</p>
-	<p>Woops. Looks like this page doesn&#39;t exist.</p>
-	<p></p>
-	<p><a href="https://ubolonton.github.io/emacs-tree-sitter">Go to homepage</a></p>
-	<p><img src="/emacs-tree-sitter/images/gopher-404.jpg" style="width:50%"></img></p>    
-    
+    <p>Tree-sitter provides a Lisp-like <a href="/emacs-tree-sitter/syntax-highlighting/queries/">query language</a> to search for patterns in the syntax tree.</p>
+<dl>
+<dt><code>ts-make-query</code> <em><code>language patterns [tag-assigner]</code></em></dt>
+<dd>Create a new query for the given language. This query cannot be run on syntax nodes of other languages.
+<p><strong>Patterns</strong> can be specified as either a sequence (usually a vector, for convenience) of S-expressions, or their textual representations, concatenated into a string.</p>
+<p>When the query is executed, each captured node is <strong>tagged</strong> with a symbol, whose name is the corresponding capture name defined in <em><code>patterns</code></em>. For example, nodes that are captured as <code>@function.builtin</code> will be tagged with the symbol <code>function.builtin</code>. This behavior can be customized by the optional function <em><code>tag-assigner</code></em>, which should return a tag value when given a capture name (without the prefix <code>@</code>). If it returns nil, the associated capture name is <em>disabled</em>.</p>
+</dd>
+<dt><code>ts-make-query-cursor</code></dt>
+<dd>Create a new <strong>query cursor</strong> to execute queries. It stores the state that is needed to iteratively search for matches.</dd>
+<dt><code>ts-query-captures</code> <em><code>query node text-function [query-cursor]</code></em></dt>
+<dd><!-- raw HTML omitted -->
+</dd>
+<dt><code>ts-query-matches</code> <em><code>query node text-function [query-cursor]</code></em></dt>
+<dd>Execute a query on the given syntax node. <code>ts-query-captures</code> returns a sequence of captures, sorted in the order they appear in the source code. <code>ts-query-matches</code> returns a sequence of matches, sorted in the order they were found.
+<p>Each <strong>capture</strong> has the form <em><code>(capture-tag . captured-node)</code></em>, where <em><code>capture-tag</code></em> is a symbol, whose name is the corresponding capture name defined in <em><code>query</code></em> (without the prefix <code>@</code>). If <em><code>query</code></em> was created with a custom <strong>tag assigner</strong>, <em><code>capture-tag</code></em> is instead the value returned by that function.</p>
+<p>Each <strong>match</strong> has the form <em><code>(pattern-index . match-captures)</code></em>, where <em><code>pattern-index</code></em> is the 0-based position of the matched pattern within <em><code>query</code></em>, and <em><code>match-captures</code></em> is a sequence of captures associated with the match.</p>
+<p>Since the syntax tree doesn&rsquo;t store the source code&rsquo;s text, <em><code>text-function</code></em> is called to get nodes&rsquo; texts (for text-based predicates). It should take 2 parameters: <em><code>(beg-byte end-byte)</code></em>, and return the corresponding chunk of text in the source code. Usually this should be <code>#'ts--buffer-substring-no-properties</code>.</p>
+<p>For performance reason, <em><code>query-cursor</code></em> should typically be created once, and reused between query executions. It should be omitted only for one-off experimentation.</p>
+</dd>
+</dl>
+
+
+
     
           <footer class=" footline" >
 	
@@ -429,7 +449,8 @@ if (!doNotTrack) {
 </div>
 
 <div id="navigation">
-  </div>
+  <a class="nav nav-prev" href="/emacs-tree-sitter/api/walking/" title="Walking"> <i class="fa fa-chevron-left"></i><label>Walking</label></a>
+    <a class="nav nav-next" href="/emacs-tree-sitter/tree-sitter-mode/" title="Tree-sitter Minor Mode" style="margin-right: 0px;"><label>Tree-sitter Minor Mode</label><i class="fa fa-chevron-right"></i></a></div>
 
 
 </section>
@@ -454,5 +475,3 @@ if (!doNotTrack) {
     
   </body>
 </html>
-
-

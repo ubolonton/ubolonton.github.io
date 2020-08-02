@@ -15,6 +15,10 @@
   </url>
   
   <url>
+    <loc>https://ubolonton.github.io/emacs-tree-sitter/languages/</loc>
+  </url>
+  
+  <url>
     <loc>https://ubolonton.github.io/emacs-tree-sitter/syntax-highlighting/</loc>
   </url>
   
@@ -28,6 +32,30 @@
   
   <url>
     <loc>https://ubolonton.github.io/emacs-tree-sitter/syntax-highlighting/interface-for-modes/</loc>
+  </url>
+  
+  <url>
+    <loc>https://ubolonton.github.io/emacs-tree-sitter/api/</loc>
+  </url>
+  
+  <url>
+    <loc>https://ubolonton.github.io/emacs-tree-sitter/api/parsing/</loc>
+  </url>
+  
+  <url>
+    <loc>https://ubolonton.github.io/emacs-tree-sitter/api/inspecting/</loc>
+  </url>
+  
+  <url>
+    <loc>https://ubolonton.github.io/emacs-tree-sitter/api/walking/</loc>
+  </url>
+  
+  <url>
+    <loc>https://ubolonton.github.io/emacs-tree-sitter/api/querying/</loc>
+  </url>
+  
+  <url>
+    <loc>https://ubolonton.github.io/emacs-tree-sitter/tree-sitter-mode/</loc>
   </url>
   
   <url>

@@ -34,6 +34,17 @@ Turn on Syntax Highlighting Run M-x tree-sitter-hl-mode to replace the regex-bas
     </item>
     
     <item>
+      <title>Languages</title>
+      <link>https://ubolonton.github.io/emacs-tree-sitter/languages/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://ubolonton.github.io/emacs-tree-sitter/languages/</guid>
+      <description>A language object defines how to parse a particular programming language. It is usually dynamically loaded from a shared library (.dylib, .so, .dll).
+The variable tree-sitter-load-path is a list of directories that the function tree-sitter-require uses to search for these shared libraries. This is similar to how the built-in function require searches for Emacs libraries on load-path. The default value contains the directory used by the tree-sitter CLI tool.
+;; Load the language definition for Rust, if it hasn&amp;#39;t been loaded.</description>
+    </item>
+    
+    <item>
       <title>Queries</title>
       <link>https://ubolonton.github.io/emacs-tree-sitter/syntax-highlighting/queries/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -65,6 +76,59 @@ Face Mappings By default, when the highlighting query associates a node with CAP
       <description>Major modes that want to integrate with tree-sitter-hl-mode should set the variable tree-sitter-hl-default-patterns. It plays a similar role to font-lock-defaults.
 Minor modes that want to customize syntax highlighting should call the function tree-sitter-hl-add-patterns.
 The language-bundle package tree-sitter-langs provides highlighting queries for several languages. These queries will be used when the corresponding major modes do not set tree-sitter-hl-default-patterns.</description>
+    </item>
+    
+    <item>
+      <title>Parsing</title>
+      <link>https://ubolonton.github.io/emacs-tree-sitter/api/parsing/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://ubolonton.github.io/emacs-tree-sitter/api/parsing/</guid>
+      <description>The minor mode tree-sitter-mode provides the high-level interface for working with an up-to-date buffer-local syntax tree. Writing a Dependent Minor Mode is recommended over directly using the low level parsing APIs below.
+ Parsing is done through stateful parser objects.
+ ts-make-parser Create a new parser without setting a language. ts-set-language parser language Set a parser&amp;rsquo;s active language. ts-parse-string parser string Parse a single string of source code. This is useful for quick, one-off parsing needs.</description>
+    </item>
+    
+    <item>
+      <title>Inspecting</title>
+      <link>https://ubolonton.github.io/emacs-tree-sitter/api/inspecting/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://ubolonton.github.io/emacs-tree-sitter/api/inspecting/</guid>
+      <description>The result of parsing is a syntax tree of the entire source code (string, buffer). It contains syntax nodes that indicate the structure of the source code. Tree-sitter provides APIs to inspect and traverse this structure, but does not support modifying it directly (for source code transformation/generation purposes).
+ ts-root-node tree Get the root node of a syntax tree. ts-changed-ranges old-tree new-tree Compare an edited old syntax tree to a newly parsed one.</description>
+    </item>
+    
+    <item>
+      <title>Walking</title>
+      <link>https://ubolonton.github.io/emacs-tree-sitter/api/walking/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://ubolonton.github.io/emacs-tree-sitter/api/walking/</guid>
+      <description>Tree-walking functions enable efficient traversal of the syntax tree with the help of a stateful cursor object.
+ ts-make-cursor node-or-tree Create a new cursor on a node. The cursor cannot move out of this node. If called on a tree, the cursor is created on the tree&amp;rsquo;s root node. ts-goto-parent cursor  ts-goto-first-child cursor  ts-goto-next-sibling cursor Attempt to move the cursor to the parent node, the first child node, or the next sibling node.</description>
+    </item>
+    
+    <item>
+      <title>Querying</title>
+      <link>https://ubolonton.github.io/emacs-tree-sitter/api/querying/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://ubolonton.github.io/emacs-tree-sitter/api/querying/</guid>
+      <description>Tree-sitter provides a Lisp-like query language to search for patterns in the syntax tree.
+ ts-make-query language patterns [tag-assigner] Create a new query for the given language. This query cannot be run on syntax nodes of other languages. Patterns can be specified as either a sequence (usually a vector, for convenience) of S-expressions, or their textual representations, concatenated into a string.
+When the query is executed, each captured node is tagged with a symbol, whose name is the corresponding capture name defined in patterns.</description>
+    </item>
+    
+    <item>
+      <title>Tree-sitter Minor Mode</title>
+      <link>https://ubolonton.github.io/emacs-tree-sitter/tree-sitter-mode/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://ubolonton.github.io/emacs-tree-sitter/tree-sitter-mode/</guid>
+      <description>tree-sitter-mode is a minor mode that provides a buffer-local up-to-date syntax tree.
+TODO: Write this.
+ Hook: tree-sitter-after-on-hook  Hook: tree-sitter-after-first-parse-hook  Hook: tree-sitter-after-change-functions  Variable: tree-sitter-major-mode-language-alist  Variable: tree-sitter-language  Variable: tree-sitter-tree  Function: tree-sitter-node-at-point [node-type]   Writing a Dependent Minor Mode See the docstring of tree-sitter--handle-dependent.</description>
     </item>
     
   </channel>

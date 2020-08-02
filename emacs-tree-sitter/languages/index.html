@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Emacs Tree-sitter</title>
     
       <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="revised" content="2020-08-02T19:55:27 &#43;07">
-<title>404 Page not found :: Emacs Tree-sitter</title>
+<title>Languages :: Emacs Tree-sitter</title>
 <link rel="shortcut icon" href="/emacs-tree-sitter/images/favicon.png" type="image/x-icon" />
 <link href="/emacs-tree-sitter/css/nucleus.css" rel="stylesheet">
 <link href="/emacs-tree-sitter/css/font-awesome.min.css" rel="stylesheet">
@@ -40,7 +39,7 @@ if (!doNotTrack) {
 
     
   </head>
-  <body data-url="/emacs-tree-sitter/404.html">
+  <body data-url="/emacs-tree-sitter/languages/">
     
       <div id="headermain"></div>
 <nav id="sidebar" class="">
@@ -113,7 +112,7 @@ if (!doNotTrack) {
  
   
     
-      <li data-nav-id="/emacs-tree-sitter/languages/" title="Languages" class="dd-item ">
+      <li data-nav-id="/emacs-tree-sitter/languages/" title="Languages" class="dd-item active">
         <a href="/emacs-tree-sitter/languages/">
         Languages
         
@@ -385,7 +384,7 @@ if (!doNotTrack) {
 
 
 
- <a href='https://ubolonton.github.io/emacs-tree-sitter/'>Tree-sitter</a> > 404 Page not found
+ <a href='https://ubolonton.github.io/emacs-tree-sitter/'>Tree-sitter</a> > Languages
 
  
 
@@ -396,7 +395,7 @@ if (!doNotTrack) {
     
     <div class="progress">
         <div class="wrapper">
-    
+    <nav id="TableOfContents"></nav>
         </div>
     </div>
     
@@ -406,21 +405,46 @@ if (!doNotTrack) {
 
 <div id="body-inner">
   
-    <h1>404 Page not found</h1>
+    <h1>Languages</h1>
   
 
 
 
     
+
     
-	<h1>Error</h1>
-	<p>
-	</p>
-	<p>Woops. Looks like this page doesn&#39;t exist.</p>
-	<p></p>
-	<p><a href="https://ubolonton.github.io/emacs-tree-sitter">Go to homepage</a></p>
-	<p><img src="/emacs-tree-sitter/images/gopher-404.jpg" style="width:50%"></img></p>    
-    
+    <p>A language object defines how to parse a particular programming language. It is usually dynamically loaded from a <strong>shared library</strong> (<code>.dylib</code>, <code>.so</code>, <code>.dll</code>).</p>
+<p>The variable <code>tree-sitter-load-path</code> is a list of directories that the function <code>tree-sitter-require</code> uses to search for these shared libraries. This is similar to how the built-in function <code>require</code> searches for Emacs libraries on <code>load-path</code>. The default value contains the directory used by the <code>tree-sitter</code> CLI tool.</p>
+<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="c1">;; Load the language definition for Rust, if it hasn&#39;t been loaded.</span>
+<span class="c1">;; Return the language object.</span>
+<span class="p">(</span><span class="nv">tree-sitter-require</span> <span class="ss">&#39;rust</span><span class="p">)</span>
+</code></pre></div><p>The package <code>tree-sitter-langs</code> is a language bundle that contains shared libraries for some languages (as well as syntax highlighting queries). When it is loaded, its shared libraries are prioritized over the CLI&rsquo;s directory.</p>
+<p>Currently, there are <strong>no language major modes</strong> built on top of <code>tree-sitter</code>. Instead, syntax-aware functionalities are provided by <code>tree-sitter-mode</code> and its dependent minor modes. They determine the language object to use by consulting the variable <code>tree-sitter-major-mode-language-alist</code>. This list is empty by default, and gets populated by <code>tree-sitter-langs</code> when it is loaded.</p>
+<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="o">&#39;</span><span class="p">((</span><span class="nv">agda-mode</span>       <span class="o">.</span> <span class="nv">agda</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">sh-mode</span>         <span class="o">.</span> <span class="nv">bash</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">c-mode</span>          <span class="o">.</span> <span class="nv">c</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">c++-mode</span>        <span class="o">.</span> <span class="nv">cpp</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">css-mode</span>        <span class="o">.</span> <span class="nv">css</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">go-mode</span>         <span class="o">.</span> <span class="nv">go</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">haskell-mode</span>    <span class="o">.</span> <span class="nv">haskell</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">html-mode</span>       <span class="o">.</span> <span class="nv">html</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">java-mode</span>       <span class="o">.</span> <span class="nv">java</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">js-mode</span>         <span class="o">.</span> <span class="nv">javascript</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">js2-mode</span>        <span class="o">.</span> <span class="nv">javascript</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">json-mode</span>       <span class="o">.</span> <span class="nv">json</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">julia-mode</span>      <span class="o">.</span> <span class="nv">julia</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">ocaml-mode</span>      <span class="o">.</span> <span class="nv">ocaml</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">php-mode</span>        <span class="o">.</span> <span class="nv">php</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">python-mode</span>     <span class="o">.</span> <span class="nv">python</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">ruby-mode</span>       <span class="o">.</span> <span class="nv">ruby</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">rust-mode</span>       <span class="o">.</span> <span class="nv">rust</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">rustic-mode</span>     <span class="o">.</span> <span class="nv">rust</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">scala-mode</span>      <span class="o">.</span> <span class="nv">scala</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">swift-mode</span>      <span class="o">.</span> <span class="nv">swift</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">typescript-mode</span> <span class="o">.</span> <span class="nv">typescript</span><span class="p">))</span>
+</code></pre></div>
+
+
     
           <footer class=" footline" >
 	
@@ -429,7 +453,8 @@ if (!doNotTrack) {
 </div>
 
 <div id="navigation">
-  </div>
+  <a class="nav nav-prev" href="/emacs-tree-sitter/getting-started/" title="Getting Started"> <i class="fa fa-chevron-left"></i><label>Getting Started</label></a>
+    <a class="nav nav-next" href="/emacs-tree-sitter/syntax-highlighting/" title="Syntax Highlighting" style="margin-right: 0px;"><label>Syntax Highlighting</label><i class="fa fa-chevron-right"></i></a></div>
 
 
 </section>
@@ -454,5 +479,3 @@ if (!doNotTrack) {
     
   </body>
 </html>
-
-
