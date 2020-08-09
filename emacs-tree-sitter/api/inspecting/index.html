@@ -4,7 +4,7 @@
     
       <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="revised" content="2020-08-02T19:55:27 &#43;07">
+<meta name="revised" content="2020-08-09T14:15:01 &#43;07">
 <title>Inspecting :: Emacs Tree-sitter</title>
 <link rel="shortcut icon" href="/emacs-tree-sitter/images/favicon.png" type="image/x-icon" />
 <link href="/emacs-tree-sitter/css/nucleus.css" rel="stylesheet">
@@ -423,7 +423,7 @@ if (!doNotTrack) {
     
 
     
-    <p>The result of parsing is a syntax tree of the entire source code (string, buffer). It contains syntax nodes that indicate the structure of the source code. Tree-sitter provides APIs to inspect and <a href="/emacs-tree-sitter/api/walking/">traverse</a> this structure, but does not support modifying it directly (for source code transformation/generation purposes).</p>
+    <p>The result of parsing is a syntax tree of the entire source code (string, buffer). It contains syntax nodes that indicate the structure of the source code. Tree-sitter provides APIs to inspect and <a href="/emacs-tree-sitter/api/walking/">traverse</a> this structure, but does not support modifying it directly (for the purposes of source code transformation or generation).</p>
 <dl>
 <dt><code>ts-root-node</code> <em><code>tree</code></em></dt>
 <dd>Get the root node of a syntax tree.</dd>
@@ -474,7 +474,7 @@ if (!doNotTrack) {
 <dd>A node&rsquo;s <em><code>[start-bytepos end-bytepos start-point end-point]</code></em>.</dd>
 </dl>
 <h2 id="related-nodes">Related Nodes</h2>
-<p>As described in the previous section, the <code>-named-</code>  variants of the functions in this section allow working on the parse tree as an abstract syntax tree.</p>
+<p>As described in the previous section, the <code>-named-</code>  variants of the functions in this section allow working on the parse tree as if it is an abstract syntax tree.</p>
 <dl>
 <dt><code>ts-get-parent</code> <em><code>node</code></em></dt>
 <dd>Get a node&rsquo;s parent node.</dd>

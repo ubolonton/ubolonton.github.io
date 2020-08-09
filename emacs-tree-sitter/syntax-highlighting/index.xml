@@ -40,8 +40,9 @@ Face Mappings By default, when the highlighting query associates a node with CAP
       
       <guid>https://ubolonton.github.io/emacs-tree-sitter/syntax-highlighting/interface-for-modes/</guid>
       <description>Major modes that want to integrate with tree-sitter-hl-mode should set the variable tree-sitter-hl-default-patterns. It plays a similar role to font-lock-defaults.
-Minor modes that want to customize syntax highlighting should call the function tree-sitter-hl-add-patterns.
-The language-bundle package tree-sitter-langs provides highlighting queries for several languages. These queries will be used when the corresponding major modes do not set tree-sitter-hl-default-patterns.</description>
+Minor modes that want to customize syntax highlighting should call the function tree-sitter-hl-add-patterns. It plays a similar role to font-lock-add-keywords.
+The language bundle tree-sitter-langs provides highlighting queries for several languages. These queries will be used when the corresponding major modes do not set tree-sitter-hl-default-patterns.
+ </description>
     </item>
     
   </channel>

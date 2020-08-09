@@ -4,7 +4,7 @@
     
       <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="revised" content="2020-08-02T19:55:27 &#43;07">
+<meta name="revised" content="2020-08-09T14:15:01 &#43;07">
 <title>Interface for Modes :: Emacs Tree-sitter</title>
 <link rel="shortcut icon" href="/emacs-tree-sitter/images/favicon.png" type="image/x-icon" />
 <link href="/emacs-tree-sitter/css/nucleus.css" rel="stylesheet">
@@ -419,8 +419,11 @@ if (!doNotTrack) {
 
     
     <p><em>Major modes</em> that want to integrate with <code>tree-sitter-hl-mode</code> should set the variable <code>tree-sitter-hl-default-patterns</code>. It plays a similar role to <code>font-lock-defaults</code>.</p>
-<p><em>Minor modes</em> that want to customize syntax highlighting should call the function <code>tree-sitter-hl-add-patterns</code>.</p>
-<p>The language-bundle package <code>tree-sitter-langs</code> provides highlighting queries for several languages. These queries will be used when the corresponding major modes do not set <code>tree-sitter-hl-default-patterns</code>.</p>
+<p><em>Minor modes</em> that want to customize syntax highlighting should call the function <code>tree-sitter-hl-add-patterns</code>. It plays a similar role to <code>font-lock-add-keywords</code>.</p>
+
+<div class="notices info" ><p><p>The language bundle <code>tree-sitter-langs</code> provides <a href="https://github.com/ubolonton/emacs-tree-sitter/tree/master/langs/queries">highlighting queries</a> for several languages. These queries will be used when the corresponding major modes do not set <code>tree-sitter-hl-default-patterns</code>.</p>
+</p></div>
+
 
 
 

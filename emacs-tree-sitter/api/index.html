@@ -4,7 +4,7 @@
     
       <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="revised" content="2020-08-02T19:55:27 &#43;07">
+<meta name="revised" content="2020-08-09T14:15:01 &#43;07">
 <title>Core APIs :: Emacs Tree-sitter</title>
 <link rel="shortcut icon" href="/emacs-tree-sitter/images/favicon.png" type="image/x-icon" />
 <link href="/emacs-tree-sitter/css/nucleus.css" rel="stylesheet">
@@ -420,30 +420,35 @@ if (!doNotTrack) {
 
 <p>Functions and variables in this package have 2 prefixes:</p>
 <ul>
-<li><code>tree-sitter-</code>: High-level features, i.e. the <strong>apps</strong>. For example, <a href="syntax-highlighting/.org">Syntax Highlighting</a>.</li>
+<li><code>tree-sitter-</code>: High-level features, i.e. the <strong>apps</strong>. For example, <a href="../syntax-highlighting/">Syntax Highlighting</a>.</li>
 <li><code>ts-</code>: Core functionalities, i.e. the <strong>lib</strong>, which is the focus of this section.</li>
 </ul>
-<p><a href="https://tree-sitter.github.io/tree-sitter/using-parsers">Tree-sitter&rsquo;s own documentation</a> is a good read to understand its concepts and features. This documentation focuses more on details that are specific to Emacs Lisp.</p>
+<p>Tree-sitter&rsquo;s <a href="https://tree-sitter.github.io/tree-sitter/using-parsers">own documentation</a> is a good read to understand its concepts and features. This documentation focuses more on details that are specific to Emacs Lisp.</p>
 <p>In order to follow Emacs Lisp&rsquo;s conventions, functions and data types in this package may differ from those in Tree-sitter&rsquo;s C/Rust APIs. These differences are discussed in their corresponding sections.</p>
 <h2 id="data-types">Data Types</h2>
 <ul>
-<li><code>language</code>, <code>parser</code>, <code>tree</code>, <code>node</code>, <code>cursor</code>, <code>query</code>, <code>query-cursor</code>: corresponding Tree-sitter&rsquo;s data types, embedded in <code>user-ptr</code> objects.</li>
-<li><code>point</code>: a pair of <em><code>(line-number . byte-column)</code></em>.
+<li><code>language</code>: A <a href="/emacs-tree-sitter/languages/">language object</a> that defines how to parse a language.</li>
+<li><code>parser</code>: A stateful object that consumes source code and <a href="/emacs-tree-sitter/api/parsing/">produces a parse tree</a>.</li>
+<li><code>tree</code>: A parse tree that contains syntax <code>node</code>'s, which can be <a href="/emacs-tree-sitter/api/inspecting/">inspected</a>.</li>
+<li><code>cursor</code>: A stateful object used to <a href="/emacs-tree-sitter/api/walking/">traverse a parse tree</a>.</li>
+<li><code>query</code>: A compiled list of <a href="/emacs-tree-sitter/syntax-highlighting/queries/">structural patterns</a> to search for in a parse tree.</li>
+<li><code>query-cursor</code> A stateful object used to <a href="/emacs-tree-sitter/api/querying/">execute a query</a>.</li>
+<li><code>point</code>: A pair of <em><code>(line-number . byte-column)</code></em>.
 <ul>
 <li><em><code>line-number</code></em> is the absolute line number returned by <code>line-number-at-pos</code>, counting from 1.</li>
 <li><em><code>byte-column</code></em> counts from 0, like <code>current-column</code>. However, unlike that function, it counts bytes, instead of displayed glyphs.</li>
 </ul>
 </li>
-<li><code>range</code>: a vector in the form of <em><code>[start-bytepos end-bytepos start-point end-point]</code></em>.</li>
+<li><code>range</code>: A vector in the form of <em><code>[start-bytepos end-bytepos start-point end-point]</code></em>.</li>
 </ul>
 
 <div class="notices info" ><p><p>These types are understood only by this package and its type-checking predicates, which are useful for debugging: <code>ts-language-p</code>, <code>ts-tree-p</code>, <code>ts-node-p</code>&hellip; They are not recognized by <code>type-of</code>.</p>
 </p></div>
 
-<p>For consistency with Emacs&rsquo;s conventions, there are some differences compared to Tree-Sitter&rsquo;s C/Rust APIs:</p>
+<p>For consistency with Emacs&rsquo;s conventions, there are some differences compared to Tree-sitter&rsquo;s C/Rust APIs:</p>
 <ul>
-<li><strong>1-based</strong> byte positions are used, instead of 0-based byte offsets.</li>
-<li><strong>1-based</strong> line numbers are used, instead of 0-based row coordinates.</li>
+<li>It uses <strong>1-based</strong> byte positions, instead of 0-based byte offsets.</li>
+<li>It uses <strong>1-based</strong> line numbers, instead of 0-based row coordinates.</li>
 <li>Node types are <strong>symbols</strong> (named nodes) and <strong>strings</strong> (anonymous nodes), instead of always being strings.</li>
 <li>Field names are <strong>keywords</strong>, instead of strings.</li>
 </ul>

@@ -4,7 +4,7 @@
     
       <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="revised" content="2020-08-02T19:55:27 &#43;07">
+<meta name="revised" content="2020-08-09T14:15:01 &#43;07">
 <title>Customization :: Emacs Tree-sitter</title>
 <link rel="shortcut icon" href="/emacs-tree-sitter/images/favicon.png" type="image/x-icon" />
 <link href="/emacs-tree-sitter/css/nucleus.css" rel="stylesheet">
@@ -404,7 +404,7 @@ if (!doNotTrack) {
   <ul>
     <li><a href="#theming">Theming</a></li>
     <li><a href="#face-mappings">Face Mappings</a></li>
-    <li><a href="#highlighting-patterns">Highlighting Patterns</a></li>
+    <li><a href="#additional-patterns">Additional Patterns</a></li>
   </ul>
 </nav>
         </div>
@@ -446,14 +446,14 @@ if (!doNotTrack) {
       <span class="p">(</span><span class="nb">lambda</span> <span class="p">(</span><span class="nv">capture-name</span><span class="p">)</span>
         <span class="p">(</span><span class="nb">pcase</span> <span class="nv">capture-name</span>
           <span class="p">(</span><span class="s">&#34;doc&#34;</span> <span class="ss">&#39;font-lock-comment-face</span><span class="p">))))))</span>
-</code></pre></div><h2 id="highlighting-patterns">Highlighting Patterns</h2>
+</code></pre></div><h2 id="additional-patterns">Additional Patterns</h2>
 <p>You can use the function <code>tree-sitter-hl-add-patterns</code> to add custom highlighting patterns for a specific language, or in a buffer. These patterns will be prioritized over patterns defined by major modes or language bundles (<code>tree-sitter-hl-default-patterns</code>). Below are some examples:</p>
-<p>Adding language-specific patterns:</p>
+<p>Language-specific patterns:</p>
 <div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="c1">;; Highlight Python&#39;s single-quoted strings as constants.</span>
 <span class="p">(</span><span class="nv">tree-sitter-hl-add-patterns</span> <span class="ss">&#39;python</span>
   <span class="p">[((</span><span class="nf">string</span><span class="p">)</span> <span class="nv">@constant</span>
     <span class="p">(</span><span class="o">.</span><span class="nv">match?</span> <span class="nv">@constant</span> <span class="s">&#34;^&#39;&#34;</span><span class="p">))])</span>
-</code></pre></div><p>Adding buffer-local patterns:</p>
+</code></pre></div><p>Buffer-local patterns:</p>
 <div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="c1">;; Map @rust.unsafe.use capture to a custom face.</span>
 <span class="p">(</span><span class="nv">add-function</span> <span class="nb">:before-until</span> <span class="nv">tree-sitter-hl-face-mapping-function</span>
   <span class="p">(</span><span class="nb">lambda</span> <span class="p">(</span><span class="nv">capture-name</span><span class="p">)</span>
@@ -466,7 +466,7 @@ if (!doNotTrack) {
     <span class="p">(</span><span class="nv">tree-sitter-hl-add-patterns</span> <span class="no">nil</span>
       <span class="p">[(</span><span class="nv">unsafe_block</span><span class="p">)</span> <span class="nv">@rust.unsafe.use</span>
        <span class="p">(</span><span class="nv">impl_item</span> <span class="s">&#34;unsafe&#34;</span><span class="p">)</span> <span class="nv">@rust.unsafe.use</span><span class="p">])))</span>
-</code></pre></div><p>Adding project-specific patterns through <code>.dir-locals.el</code>:</p>
+</code></pre></div><p>Project-specific patterns (through <code>.dir-locals.el</code>):</p>
 <div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="c1">;; Highlight DEFUN macros (in Emacs&#39;s C source).</span>
 <span class="p">((</span><span class="nv">c-mode</span> <span class="o">.</span> <span class="p">((</span><span class="nv">tree-sitter-hl--extra-patterns-list</span>
              <span class="p">[((</span><span class="nv">call_expression</span>
@@ -474,12 +474,15 @@ if (!doNotTrack) {
                 <span class="nv">arguments:</span> <span class="p">(</span><span class="nv">argument_list</span>
                             <span class="p">(</span><span class="nv">string_literal</span><span class="p">)</span> <span class="nv">@function</span><span class="p">))</span>
                <span class="p">(</span><span class="o">.</span><span class="nv">eq?</span> <span class="nv">@keyword</span> <span class="s">&#34;DEFUN&#34;</span><span class="p">))]))))</span>
-</code></pre></div><p>When writing custom highlighting patterns, keep in mind that if a node matches multiple patterns in a highlighting query, earlier patterns are prioritized.</p>
+</code></pre></div>
+<div class="notices info" ><p><p>When a node matches multiple patterns in a highlighting query, earlier patterns are prioritized.</p>
 <div class="highlight"><pre class="chroma"><code class="language-scheme" data-lang="scheme"><span class="c1">;; More specific patterns should be written earlier.</span>
 <span class="p">((</span><span class="nf">lifetime</span> <span class="p">(</span><span class="nf">identifier</span><span class="p">)</span> <span class="nv">@type</span><span class="o">.</span><span class="nv">builtin</span><span class="p">)</span>
  <span class="p">(</span><span class="o">.</span><span class="nv">eq?</span> <span class="nv">@type</span><span class="o">.</span><span class="nv">builtin</span> <span class="s">&#34;static&#34;</span><span class="p">))</span>
 <span class="p">(</span><span class="nf">lifetime</span> <span class="p">(</span><span class="nf">identifier</span><span class="p">)</span> <span class="nv">@label</span><span class="p">)</span>
-</code></pre></div>
+</code></pre></div></p></div>
+
+
 
 
     

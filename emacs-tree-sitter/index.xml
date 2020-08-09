@@ -16,8 +16,8 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://ubolonton.github.io/emacs-tree-sitter/installation/</guid>
-      <description>emacs-tree-sitter requires Emacs 25.1 or above, built with dynamic module support. Some Emacs distributions have this disabled by default. To check whether your Emacs has dynamic module support enabled, try evaluating one of these:
-(functionp &amp;#39;module-load) ; should be t module-file-suffix ; should be non-nil  The methods below only work for macOS, Windows, Linux on x86_64, since they download pre-compiled binaries. For other systems, you will have to build from source.</description>
+      <description>tree-sitter requires Emacs 25.1 or above, built with dynamic module support. Some Emacs distributions have this disabled by default. To check whether your Emacs has dynamic module support enabled, try evaluating one of these:
+(functionp &amp;#39;module-load) ; should be t module-file-suffix ; should be non-nil  The methods below download pre-compiled binaries, so they only work for macOS, Linux and Windows, on x86_64 machines. For other systems, you will have to build from source.</description>
     </item>
     
     <item>
@@ -74,8 +74,9 @@ Face Mappings By default, when the highlighting query associates a node with CAP
       
       <guid>https://ubolonton.github.io/emacs-tree-sitter/syntax-highlighting/interface-for-modes/</guid>
       <description>Major modes that want to integrate with tree-sitter-hl-mode should set the variable tree-sitter-hl-default-patterns. It plays a similar role to font-lock-defaults.
-Minor modes that want to customize syntax highlighting should call the function tree-sitter-hl-add-patterns.
-The language-bundle package tree-sitter-langs provides highlighting queries for several languages. These queries will be used when the corresponding major modes do not set tree-sitter-hl-default-patterns.</description>
+Minor modes that want to customize syntax highlighting should call the function tree-sitter-hl-add-patterns. It plays a similar role to font-lock-add-keywords.
+The language bundle tree-sitter-langs provides highlighting queries for several languages. These queries will be used when the corresponding major modes do not set tree-sitter-hl-default-patterns.
+ </description>
     </item>
     
     <item>
@@ -95,7 +96,7 @@ The language-bundle package tree-sitter-langs provides highlighting queries for 
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://ubolonton.github.io/emacs-tree-sitter/api/inspecting/</guid>
-      <description>The result of parsing is a syntax tree of the entire source code (string, buffer). It contains syntax nodes that indicate the structure of the source code. Tree-sitter provides APIs to inspect and traverse this structure, but does not support modifying it directly (for source code transformation/generation purposes).
+      <description>The result of parsing is a syntax tree of the entire source code (string, buffer). It contains syntax nodes that indicate the structure of the source code. Tree-sitter provides APIs to inspect and traverse this structure, but does not support modifying it directly (for the purposes of source code transformation or generation).
  ts-root-node tree Get the root node of a syntax tree. ts-changed-ranges old-tree new-tree Compare an edited old syntax tree to a newly parsed one.</description>
     </item>
     

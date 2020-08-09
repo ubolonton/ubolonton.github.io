@@ -4,7 +4,7 @@
     
       <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="revised" content="2020-08-02T19:55:27 &#43;07">
+<meta name="revised" content="2020-08-09T14:15:01 &#43;07">
 <title>Querying :: Emacs Tree-sitter</title>
 <link rel="shortcut icon" href="/emacs-tree-sitter/images/favicon.png" type="image/x-icon" />
 <link href="/emacs-tree-sitter/css/nucleus.css" rel="stylesheet">
@@ -423,7 +423,7 @@ if (!doNotTrack) {
 <dt><code>ts-make-query</code> <em><code>language patterns [tag-assigner]</code></em></dt>
 <dd>Create a new query for the given language. This query cannot be run on syntax nodes of other languages.
 <p><strong>Patterns</strong> can be specified as either a sequence (usually a vector, for convenience) of S-expressions, or their textual representations, concatenated into a string.</p>
-<p>When the query is executed, each captured node is <strong>tagged</strong> with a symbol, whose name is the corresponding capture name defined in <em><code>patterns</code></em>. For example, nodes that are captured as <code>@function.builtin</code> will be tagged with the symbol <code>function.builtin</code>. This behavior can be customized by the optional function <em><code>tag-assigner</code></em>, which should return a tag value when given a capture name (without the prefix <code>@</code>). If it returns nil, the associated capture name is <em>disabled</em>.</p>
+<p>When the query is executed, each captured node is <strong>tagged</strong> with a symbol, whose name is the corresponding capture name defined in <em><code>patterns</code></em>. For example, nodes that are captured as <code>@function.builtin</code> will be tagged with the symbol <code>function.builtin</code>. This behavior can be customized by the optional function <em><code>tag-assigner</code></em>, which should return a tag value when given a capture name (without the prefix <code>@</code>). If it returns nil, the associated capture name is disabled.</p>
 </dd>
 <dt><code>ts-make-query-cursor</code></dt>
 <dd>Create a new <strong>query cursor</strong> to execute queries. It stores the state that is needed to iteratively search for matches.</dd>

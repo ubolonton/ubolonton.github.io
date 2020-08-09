@@ -4,7 +4,7 @@
     
       <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="revised" content="2020-08-02T19:55:27 &#43;07">
+<meta name="revised" content="2020-08-09T14:15:01 &#43;07">
 <title>Languages :: Emacs Tree-sitter</title>
 <link rel="shortcut icon" href="/emacs-tree-sitter/images/favicon.png" type="image/x-icon" />
 <link href="/emacs-tree-sitter/css/nucleus.css" rel="stylesheet">
@@ -413,7 +413,7 @@ if (!doNotTrack) {
     
 
     
-    <p>A language object defines how to parse a particular programming language. It is usually dynamically loaded from a <strong>shared library</strong> (<code>.dylib</code>, <code>.so</code>, <code>.dll</code>).</p>
+    <p>A <strong>language object</strong> defines how to parse a particular programming language. It is usually dynamically loaded from a <strong>shared library</strong> (<code>.dylib</code>, <code>.so</code>, <code>.dll</code>).</p>
 <p>The variable <code>tree-sitter-load-path</code> is a list of directories that the function <code>tree-sitter-require</code> uses to search for these shared libraries. This is similar to how the built-in function <code>require</code> searches for Emacs libraries on <code>load-path</code>. The default value contains the directory used by the <code>tree-sitter</code> CLI tool.</p>
 <div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="c1">;; Load the language definition for Rust, if it hasn&#39;t been loaded.</span>
 <span class="c1">;; Return the language object.</span>
