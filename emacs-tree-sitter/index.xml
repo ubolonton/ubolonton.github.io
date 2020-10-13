@@ -87,7 +87,7 @@ The language bundle tree-sitter-langs provides highlighting queries for several 
       <guid>https://ubolonton.github.io/emacs-tree-sitter/api/parsing/</guid>
       <description>The minor mode tree-sitter-mode provides the high-level interface for working with an up-to-date buffer-local syntax tree. Writing a Dependent Minor Mode is recommended over directly using the low level parsing APIs below.
  Parsing is done through stateful parser objects.
- ts-make-parser Create a new parser without setting a language. ts-set-language parser language Set a parser&amp;rsquo;s active language. ts-parse-string parser string Parse a single string of source code. This is useful for quick, one-off parsing needs.</description>
+ tsc-make-parser Create a new parser without setting a language. tsc-set-language parser language Set a parser&amp;rsquo;s active language. tsc-parse-string parser string Parse a single string of source code. This is useful for quick, one-off parsing needs.</description>
     </item>
     
     <item>
@@ -97,7 +97,7 @@ The language bundle tree-sitter-langs provides highlighting queries for several 
       
       <guid>https://ubolonton.github.io/emacs-tree-sitter/api/inspecting/</guid>
       <description>The result of parsing is a syntax tree of the entire source code (string, buffer). It contains syntax nodes that indicate the structure of the source code. Tree-sitter provides APIs to inspect and traverse this structure, but does not support modifying it directly (for the purposes of source code transformation or generation).
- ts-root-node tree Get the root node of a syntax tree. ts-changed-ranges old-tree new-tree Compare an edited old syntax tree to a newly parsed one.</description>
+ tsc-root-node tree Get the root node of a syntax tree. tsc-changed-ranges old-tree new-tree Compare an edited old syntax tree to a newly parsed one.</description>
     </item>
     
     <item>
@@ -107,7 +107,7 @@ The language bundle tree-sitter-langs provides highlighting queries for several 
       
       <guid>https://ubolonton.github.io/emacs-tree-sitter/api/walking/</guid>
       <description>Tree-walking functions enable efficient traversal of the syntax tree with the help of a stateful cursor object.
- ts-make-cursor node-or-tree Create a new cursor on a node. The cursor cannot move out of this node. If called on a tree, the cursor is created on the tree&amp;rsquo;s root node. ts-goto-parent cursor  ts-goto-first-child cursor  ts-goto-next-sibling cursor Attempt to move the cursor to the parent node, the first child node, or the next sibling node.</description>
+ tsc-make-cursor node-or-tree Create a new cursor on a node. The cursor cannot move out of this node. If called on a tree, the cursor is created on the tree&amp;rsquo;s root node. tsc-goto-parent cursor  tsc-goto-first-child cursor  tsc-goto-next-sibling cursor Attempt to move the cursor to the parent node, the first child node, or the next sibling node.</description>
     </item>
     
     <item>
@@ -117,7 +117,7 @@ The language bundle tree-sitter-langs provides highlighting queries for several 
       
       <guid>https://ubolonton.github.io/emacs-tree-sitter/api/querying/</guid>
       <description>Tree-sitter provides a Lisp-like query language to search for patterns in the syntax tree.
- ts-make-query language patterns [tag-assigner] Create a new query for the given language. This query cannot be run on syntax nodes of other languages. Patterns can be specified as either a sequence (usually a vector, for convenience) of S-expressions, or their textual representations, concatenated into a string.
+ tsc-make-query language patterns [tag-assigner] Create a new query for the given language. This query cannot be run on syntax nodes of other languages. Patterns can be specified as either a sequence (usually a vector, for convenience) of S-expressions, or their textual representations, concatenated into a string.
 When the query is executed, each captured node is tagged with a symbol, whose name is the corresponding capture name defined in patterns.</description>
     </item>
     
