@@ -4,7 +4,7 @@
     
       <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="revised" content="2020-10-13T12:00:03 &#43;07">
+<meta name="revised" content="2020-10-26T13:07:19 &#43;07">
 <title>Installation :: Emacs Tree-sitter</title>
 <link rel="shortcut icon" href="/emacs-tree-sitter/images/favicon.png" type="image/x-icon" />
 <link href="/emacs-tree-sitter/css/nucleus.css" rel="stylesheet">
@@ -187,7 +187,7 @@ if (!doNotTrack) {
         <div class="wrapper">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#installing-from-an-elpa">Installing from an ELPA</a></li>
+    <li><a href="#installing-from-melpa">Installing from MELPA</a></li>
     <li><a href="#installing-with-straight-dot-el">Installing with straight.el</a></li>
     <li><a href="#installing-from-source">Installing from Source</a></li>
   </ul>
@@ -217,12 +217,8 @@ if (!doNotTrack) {
 <div class="notices note" ><p><p>The methods below download pre-compiled binaries, so they only work for macOS, Linux and Windows, on x86_64 machines. For other systems, you will have to build from source.</p>
 </p></div>
 
-<h2 id="installing-from-an-elpa">Installing from an ELPA</h2>
+<h2 id="installing-from-melpa">Installing from MELPA</h2>
 <ul>
-<li>
-<p>Add <code>tree-sitter</code>'s ELPA to <code>package-archives</code>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nv">add-to-list</span> <span class="ss">&#39;package-archives</span> <span class="o">&#39;</span><span class="p">(</span><span class="s">&#34;ublt&#34;</span> <span class="o">.</span> <span class="s">&#34;https://elpa.ubolonton.org/packages/&#34;</span><span class="p">))</span>
-</code></pre></div></li>
 <li>
 <p>Run <code>M-x package-refresh-contents</code>.</p>
 </li>
@@ -230,33 +226,25 @@ if (!doNotTrack) {
 <p>Install <code>tree-sitter</code> and <code>tree-sitter-langs</code> packages.</p>
 </li>
 <li>
-<p>Load the language bundle:</p>
-<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">require</span> <span class="ss">&#39;tree-sitter-langs</span><span class="p">)</span>
+<p>Load the framework and the language bundle:</p>
+<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">require</span> <span class="ss">&#39;tree-sitter</span><span class="p">)</span>
+<span class="p">(</span><span class="nb">require</span> <span class="ss">&#39;tree-sitter-langs</span><span class="p">)</span>
 </code></pre></div></li>
 </ul>
 <h2 id="installing-with-straight-dot-el">Installing with straight.el</h2>
 <ul>
 <li>
-<p>Install <code>tree-sitter</code> and <code>tree-sitter-langs</code> with custom recipes:</p>
-<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="c1">;; Core APIs.</span>
-<span class="p">(</span><span class="nv">straight-register-package</span>
- <span class="o">&#39;</span><span class="p">(</span><span class="nv">tsc</span> <span class="nb">:host</span> <span class="nv">github</span>
-       <span class="nb">:repo</span> <span class="s">&#34;ubolonton/emacs-tree-sitter&#34;</span>
-       <span class="nb">:files</span> <span class="p">(</span><span class="s">&#34;core/*.el&#34;</span><span class="p">)))</span>
-<span class="c1">;; Base framework, syntax highlighting.</span>
-<span class="p">(</span><span class="nv">straight-use-package</span>
- <span class="o">&#39;</span><span class="p">(</span><span class="nv">tree-sitter</span> <span class="nb">:host</span> <span class="nv">github</span>
-               <span class="nb">:repo</span> <span class="s">&#34;ubolonton/emacs-tree-sitter&#34;</span>
-               <span class="nb">:files</span> <span class="p">(</span><span class="s">&#34;lisp/*.el&#34;</span><span class="p">)))</span>
-<span class="c1">;; Language bundle.</span>
-<span class="p">(</span><span class="nv">straight-use-package</span>
- <span class="o">&#39;</span><span class="p">(</span><span class="nv">tree-sitter-langs</span> <span class="nb">:host</span> <span class="nv">github</span>
-                     <span class="nb">:repo</span> <span class="s">&#34;ubolonton/emacs-tree-sitter&#34;</span>
-                     <span class="nb">:files</span> <span class="p">(</span><span class="s">&#34;langs/*.el&#34;</span> <span class="s">&#34;langs/queries&#34;</span><span class="p">)))</span>
+<p>Run <code>(straight-pull-package &quot;melpa&quot;)</code> to update MELPA recipes, if necessary.</p>
+</li>
+<li>
+<p>Install <code>tree-sitter</code> and <code>tree-sitter-langs</code> packages.</p>
+<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nv">straight-use-package</span> <span class="ss">&#39;tree-sitter</span><span class="p">)</span>
+<span class="p">(</span><span class="nv">straight-use-package</span> <span class="ss">&#39;tree-sitter-langs</span><span class="p">)</span>
 </code></pre></div></li>
 <li>
-<p>Load the language bundle:</p>
-<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">require</span> <span class="ss">&#39;tree-sitter-langs</span><span class="p">)</span>
+<p>Load the framework and the language bundle:</p>
+<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nb">require</span> <span class="ss">&#39;tree-sitter</span><span class="p">)</span>
+<span class="p">(</span><span class="nb">require</span> <span class="ss">&#39;tree-sitter-langs</span><span class="p">)</span>
 </code></pre></div></li>
 </ul>
 <h2 id="installing-from-source">Installing from Source</h2>
