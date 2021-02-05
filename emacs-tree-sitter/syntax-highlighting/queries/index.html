@@ -4,7 +4,7 @@
     
       <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="revised" content="2020-10-13T12:00:03 &#43;07">
+<meta name="revised" content="2021-02-05T18:57:19 &#43;07">
 <title>Queries :: Emacs Tree-sitter</title>
 <link rel="shortcut icon" href="/emacs-tree-sitter/images/favicon.png" type="image/x-icon" />
 <link href="/emacs-tree-sitter/css/nucleus.css" rel="stylesheet">
@@ -197,6 +197,7 @@ if (!doNotTrack) {
     <li><a href="#groups-and-predicates">Groups and Predicates</a></li>
     <li><a href="#alternations">Alternations</a></li>
     <li><a href="#repetitions-and-wildcards">Repetitions and Wildcards</a></li>
+    <li><a href="#anchors">Anchors</a></li>
   </ul>
 </nav>
         </div>
@@ -276,7 +277,29 @@ if (!doNotTrack) {
 <span class="p">(</span><span class="nf">call_expression</span>
  <span class="nv">function:</span> <span class="p">(</span><span class="nf">_</span><span class="p">)</span> <span class="nv">@function</span><span class="o">.</span><span class="nv">call</span>
  <span class="nv">arguments:</span> <span class="p">(</span><span class="nf">_</span><span class="p">)</span> <span class="nv">@function</span><span class="o">.</span><span class="nv">args</span><span class="p">)</span>
-</code></pre></div><p>For more details, see Tree-sitter&rsquo;s documentation:</p>
+</code></pre></div><h2 id="anchors">Anchors</h2>
+<p>The special dot symbol <code>.</code> denotes an <strong>anchor</strong>, which effectively &ldquo;glues together&rdquo; its 2 sides, disallowing any nodes in between (except for anonymous nodes).</p>
+<div class="highlight"><pre class="chroma"><code class="language-scheme" data-lang="scheme"><span class="c1">;; A string anywhere in the argument list.</span>
+<span class="p">(</span><span class="nf">call_expression</span> <span class="p">(</span><span class="nf">arguments</span> <span class="p">(</span><span class="nf">string_literal</span><span class="p">)))</span>
+
+<span class="c1">;; 2 consecutive strings anywhere in the argument list.</span>
+<span class="p">(</span><span class="nf">call_expression</span> <span class="p">(</span><span class="nf">arguments</span> <span class="p">(</span><span class="nf">string_literal</span><span class="p">)</span> <span class="o">.</span> <span class="p">(</span><span class="nf">string_literal</span><span class="p">)))</span>
+
+<span class="c1">;; First argument is a string.</span>
+<span class="p">(</span><span class="nf">call_expression</span> <span class="p">(</span><span class="nf">arguments</span> <span class="o">.</span> <span class="p">(</span><span class="nf">string_literal</span><span class="p">)))</span>
+
+<span class="c1">;; Last argument is a string.</span>
+<span class="p">(</span><span class="nf">call_expression</span> <span class="p">(</span><span class="nf">arguments</span> <span class="p">(</span><span class="nf">string_literal</span><span class="p">)</span> <span class="o">.</span><span class="p">))</span>
+</code></pre></div>
+<div class="notices info" ><p><p>The dot symbol <code>.</code> is not a valid read syntax in Emacs Lisp, so it has to be escaped in query patterns embedded in code:</p>
+<div class="highlight"><pre class="chroma"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span class="p">(</span><span class="nv">tree-sitter-hl-add-patterns</span> <span class="ss">&#39;c</span>
+ <span class="p">[((</span><span class="nv">call_expression</span>
+    <span class="nv">function:</span> <span class="p">(</span><span class="nv">identifier</span><span class="p">)</span> <span class="nv">@keyword</span>
+    <span class="nv">arguments:</span> <span class="p">(</span><span class="nv">argument_list</span> <span class="nv">\.</span> <span class="p">(</span><span class="nv">string_literal</span><span class="p">)</span> <span class="nv">@function</span><span class="p">))</span>
+   <span class="p">(</span><span class="o">.</span><span class="nv">eq?</span> <span class="nv">@keyword</span> <span class="s">&#34;DEFUN&#34;</span><span class="p">))])</span>
+</code></pre></div></p></div>
+
+<p>For more details, see Tree-sitter&rsquo;s documentation:</p>
 <ul>
 <li><a href="https://tree-sitter.github.io/tree-sitter/using-parsers#pattern-matching-with-queries">https://tree-sitter.github.io/tree-sitter/using-parsers#pattern-matching-with-queries</a></li>
 <li><a href="https://tree-sitter.github.io/tree-sitter/syntax-highlighting#queries">https://tree-sitter.github.io/tree-sitter/syntax-highlighting#queries</a></li>
