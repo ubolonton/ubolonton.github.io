@@ -4,7 +4,7 @@
     
       <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="revised" content="2021-02-05T18:57:19 &#43;07">
+<meta name="revised" content="2021-03-20T16:29:00 &#43;07">
 <title>Querying :: Emacs Tree-sitter</title>
 <link rel="shortcut icon" href="/emacs-tree-sitter/images/favicon.png" type="image/x-icon" />
 <link href="/emacs-tree-sitter/css/nucleus.css" rel="stylesheet">
@@ -224,7 +224,7 @@ if (!doNotTrack) {
 <dd>Execute a query on the given syntax node. <code>tsc-query-captures</code> returns a sequence of captures, sorted in the order they appear in the source code. <code>tsc-query-matches</code> returns a sequence of matches, sorted in the order they were found.
 <p>Each <strong>capture</strong> has the form <em><code>(capture-tag . captured-node)</code></em>, where <em><code>capture-tag</code></em> is a symbol, whose name is the corresponding capture name defined in <em><code>query</code></em> (without the prefix <code>@</code>). If <em><code>query</code></em> was created with a custom <strong>tag assigner</strong>, <em><code>capture-tag</code></em> is instead the value returned by that function.</p>
 <p>Each <strong>match</strong> has the form <em><code>(pattern-index . match-captures)</code></em>, where <em><code>pattern-index</code></em> is the 0-based position of the matched pattern within <em><code>query</code></em>, and <em><code>match-captures</code></em> is a sequence of captures associated with the match.</p>
-<p>Since the syntax tree doesn&rsquo;t store the source code&rsquo;s text, <em><code>text-function</code></em> is called to get nodes&rsquo; texts (for text-based predicates). It should take 2 parameters: <em><code>(beg-byte end-byte)</code></em>, and return the corresponding chunk of text in the source code. Usually this should be <code>#'ts--buffer-substring-no-properties</code>.</p>
+<p>Since the syntax tree doesn&rsquo;t store the source code&rsquo;s text, <em><code>text-function</code></em> is called to get nodes' texts (for text-based predicates). It should take 2 parameters: <em><code>(beg-byte end-byte)</code></em>, and return the corresponding chunk of text in the source code. Usually this should be <code>#'ts--buffer-substring-no-properties</code>.</p>
 <p>For performance reason, <em><code>query-cursor</code></em> should typically be created once, and reused between query executions. It should be omitted only for one-off experimentation.</p>
 </dd>
 </dl>

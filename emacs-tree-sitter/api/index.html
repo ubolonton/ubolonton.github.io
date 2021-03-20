@@ -4,7 +4,7 @@
     
       <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="revised" content="2021-02-05T18:57:19 &#43;07">
+<meta name="revised" content="2021-03-20T16:29:00 &#43;07">
 <title>Core APIs :: Emacs Tree-sitter</title>
 <link rel="shortcut icon" href="/emacs-tree-sitter/images/favicon.png" type="image/x-icon" />
 <link href="/emacs-tree-sitter/css/nucleus.css" rel="stylesheet">
@@ -91,6 +91,26 @@ if (!doNotTrack) {
       <a href="/emacs-tree-sitter/syntax-highlighting/">Syntax Highlighting</a>
             <i class="fa fa-angle-down fa-lg category-icon"></i>
         <ul>
+      <li data-nav-id="https://ubolonton.github.io/emacs-tree-sitter/installation/" class="dd-item">
+        <a href="/emacs-tree-sitter/installation/">
+          Installation
+        </a>
+    </li>
+      <li data-nav-id="https://ubolonton.github.io/emacs-tree-sitter/getting-started/" class="dd-item">
+        <a href="/emacs-tree-sitter/getting-started/">
+          Getting Started
+        </a>
+    </li>
+      <li data-nav-id="https://ubolonton.github.io/emacs-tree-sitter/languages/" class="dd-item">
+        <a href="/emacs-tree-sitter/languages/">
+          Languages
+        </a>
+    </li>
+    <li data-nav-id="https://ubolonton.github.io/emacs-tree-sitter/syntax-highlighting/" class="dd-item alwaysopen haschildren
+        ">
+      <a href="/emacs-tree-sitter/syntax-highlighting/">Syntax Highlighting</a>
+            <i class="fa fa-angle-down fa-lg category-icon"></i>
+        <ul>
       <li data-nav-id="https://ubolonton.github.io/emacs-tree-sitter/syntax-highlighting/queries/" class="dd-item">
         <a href="/emacs-tree-sitter/syntax-highlighting/queries/">
           Queries
@@ -104,6 +124,40 @@ if (!doNotTrack) {
       <li data-nav-id="https://ubolonton.github.io/emacs-tree-sitter/syntax-highlighting/interface-for-modes/" class="dd-item">
         <a href="/emacs-tree-sitter/syntax-highlighting/interface-for-modes/">
           Interface for Modes
+        </a>
+    </li>
+        </ul>
+    </li>
+    <li data-nav-id="https://ubolonton.github.io/emacs-tree-sitter/api/" class="dd-item parent active alwaysopen haschildren
+        ">
+      <a href="/emacs-tree-sitter/api/">Core APIs</a>
+            <i class="fa fa-angle-down fa-lg category-icon"></i>
+        <ul>
+      <li data-nav-id="https://ubolonton.github.io/emacs-tree-sitter/api/parsing/" class="dd-item">
+        <a href="/emacs-tree-sitter/api/parsing/">
+          Parsing
+        </a>
+    </li>
+      <li data-nav-id="https://ubolonton.github.io/emacs-tree-sitter/api/inspecting/" class="dd-item">
+        <a href="/emacs-tree-sitter/api/inspecting/">
+          Inspecting
+        </a>
+    </li>
+      <li data-nav-id="https://ubolonton.github.io/emacs-tree-sitter/api/walking/" class="dd-item">
+        <a href="/emacs-tree-sitter/api/walking/">
+          Walking
+        </a>
+    </li>
+      <li data-nav-id="https://ubolonton.github.io/emacs-tree-sitter/api/querying/" class="dd-item">
+        <a href="/emacs-tree-sitter/api/querying/">
+          Querying
+        </a>
+    </li>
+        </ul>
+    </li>
+      <li data-nav-id="https://ubolonton.github.io/emacs-tree-sitter/tree-sitter-mode/" class="dd-item">
+        <a href="/emacs-tree-sitter/tree-sitter-mode/">
+          Tree-sitter Minor Mode
         </a>
     </li>
         </ul>
@@ -224,7 +278,7 @@ if (!doNotTrack) {
 <ul>
 <li><code>language</code>: A <a href="/emacs-tree-sitter/languages/">language object</a> that defines how to parse a language.</li>
 <li><code>parser</code>: A stateful object that consumes source code and <a href="/emacs-tree-sitter/api/parsing/">produces a parse tree</a>.</li>
-<li><code>tree</code>: A parse tree that contains syntax <code>node</code>'s, which can be <a href="/emacs-tree-sitter/api/inspecting/">inspected</a>.</li>
+<li><code>tree</code>: A parse tree that contains syntax <code>node</code>&rsquo;s, which can be <a href="/emacs-tree-sitter/api/inspecting/">inspected</a>.</li>
 <li><code>cursor</code>: A stateful object used to <a href="/emacs-tree-sitter/api/walking/">traverse a parse tree</a>.</li>
 <li><code>query</code>: A compiled list of <a href="/emacs-tree-sitter/syntax-highlighting/queries/">structural patterns</a> to search for in a parse tree.</li>
 <li><code>query-cursor</code> A stateful object used to <a href="/emacs-tree-sitter/api/querying/">execute a query</a>.</li>

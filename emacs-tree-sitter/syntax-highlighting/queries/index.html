@@ -4,7 +4,7 @@
     
       <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="revised" content="2021-02-05T18:57:19 &#43;07">
+<meta name="revised" content="2021-03-20T16:29:00 &#43;07">
 <title>Queries :: Emacs Tree-sitter</title>
 <link rel="shortcut icon" href="/emacs-tree-sitter/images/favicon.png" type="image/x-icon" />
 <link href="/emacs-tree-sitter/css/nucleus.css" rel="stylesheet">
@@ -246,6 +246,11 @@ if (!doNotTrack) {
 <span class="p">(</span><span class="nf">call_expression</span>
  <span class="nv">function:</span> <span class="p">(</span><span class="nf">identifier</span><span class="p">)</span> <span class="nv">@function</span><span class="o">.</span><span class="nv">call</span>
  <span class="nv">arguments:</span> <span class="p">(</span><span class="nf">arguments</span><span class="p">)</span> <span class="nv">@function</span><span class="o">.</span><span class="nv">args</span><span class="p">)</span>
+</code></pre></div><p>A symbol prefixed with the character <code>!</code> denotes a <strong>negated field</strong>, which requires that the pattern matches only nodes that lack the specified field.</p>
+<div class="highlight"><pre class="chroma"><code class="language-scheme" data-lang="scheme"><span class="c1">;; Match non-generic struct definitions.</span>
+<span class="p">(</span><span class="nf">struct_item</span>
+ <span class="nv">name:</span> <span class="p">(</span><span class="nf">type_identifier</span><span class="p">)</span> <span class="nv">@struct_name</span>
+ <span class="nv">!type_parameters</span><span class="p">)</span>
 </code></pre></div><h2 id="groups-and-predicates">Groups and Predicates</h2>
 <p>A <strong>group</strong> form is a list form whose first element is a node form. It is used to denote a sequence of sibling nodes, and to group predicate forms with node forms.</p>
 <div class="highlight"><pre class="chroma"><code class="language-scheme" data-lang="scheme"><span class="c1">;; Match a comment followed by a function declaration.</span>
