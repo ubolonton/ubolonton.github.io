@@ -4,7 +4,7 @@
     
       <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="revised" content="2021-03-20T16:29:00 &#43;07">
+<meta name="revised" content="2021-08-01T20:34:03 &#43;07">
 <title>Inspecting :: Emacs Tree-sitter</title>
 <link rel="shortcut icon" href="/emacs-tree-sitter/images/favicon.png" type="image/x-icon" />
 <link href="/emacs-tree-sitter/css/nucleus.css" rel="stylesheet">
@@ -220,7 +220,7 @@ if (!doNotTrack) {
 <dt><code>tsc-changed-ranges</code> <em><code>old-tree new-tree</code></em></dt>
 <dd>Compare an edited old syntax tree to a newly parsed one. It is typically used in <code>tree-sitter-after-change-functions</code> hook. This function returns a sequence of ranges whose syntactic structure has changed. Each range is a vector in the form of <em><code>[start-bytepos end-bytepos start-point end-point]</code></em>.
 
-<div class="notices info" ><p>In <code>tree-sitter</code>&rsquo;s context, <code>point</code> typically means a pair of <em><code>(line-number . byte-column)</code></em>, instead of its usual meaning of <em>current position</em>. See <a href="../#data-types">Data Types</a>.</p></div>
+<div class="notices info" ><p>In <code>tree-sitter</code>'s context, <code>point</code> typically means a pair of <em><code>(line-number . byte-column)</code></em>, instead of its usual meaning of <em>current position</em>. See <a href="../#data-types">Data Types</a>.</p></div>
 
 </dd>
 <dt><code>tsc-tree-to-sexp</code></dt>

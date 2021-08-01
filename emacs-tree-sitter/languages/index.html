@@ -4,7 +4,7 @@
     
       <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="revised" content="2021-03-20T16:29:00 &#43;07">
+<meta name="revised" content="2021-08-01T20:34:03 &#43;07">
 <title>Languages :: Emacs Tree-sitter</title>
 <link rel="shortcut icon" href="/emacs-tree-sitter/images/favicon.png" type="image/x-icon" />
 <link href="/emacs-tree-sitter/css/nucleus.css" rel="stylesheet">
@@ -212,6 +212,11 @@ if (!doNotTrack) {
 <p>Syntax-aware language-agnostic mechanisms are meant to be defined by <code>tree-sitter-mode</code> and its dependent minor modes. They determine the language object to use by consulting the variable <code>tree-sitter-major-mode-language-alist</code>. This list is empty by default, and gets populated by <code>tree-sitter-langs</code> when it is loaded, and by language major modes that are <code>tree-sitter</code>-aware.</p>
 <p>Language major modes use these generic mechanisms to provide functionalities specific to their languages. Currently, there are <strong>not many language major modes</strong> built on top of <code>tree-sitter</code>. An example is <a href="https://github.com/emacs-csharp/csharp-mode/">csharp-mode</a>.</p>
 <p>For the full list of languages bundled by <code>tree-sitter-langs</code>, see the submodules under its <a href="https://github.com/ubolonton/tree-sitter-langs/tree/master/repos">repos/</a> directory.</p>
+
+<div class="notices warning" ><p><p>Binaries for older versions were hosted on bintray, which was <a href="https://www.infoq.com/news/2021/02/jfrog-jcenter-bintray-closure/">shut down</a>. If you install from source, you should update the code to a newer version whose binaries are hosted <a href="https://github.com/ubolonton/emacs-tree-sitter/releases">on GitHub</a>.</p>
+<p>If, for some reason, you cannot update, the older binaries can be downloaded from <a href="https://elpa.ubolonton.org/packages/bin/">here</a>.</p>
+</p></div>
+
 
 
 
