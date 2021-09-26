@@ -1,0 +1,342 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Custom Types - emacs-module-rs 0.16.0</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="custom.css">
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "coal" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="overview.html">Overview</a></li><li class="chapter-item expanded "><a href="hello.html"><strong aria-hidden="true">1.</strong> Hello, Emacs!</a></li><li class="chapter-item expanded "><a href="module.html"><strong aria-hidden="true">2.</strong> Declaring a Module</a></li><li class="chapter-item expanded "><a href="functions.html"><strong aria-hidden="true">3.</strong> Writing Functions</a></li><li class="chapter-item expanded "><a href="calling-lisp.html"><strong aria-hidden="true">4.</strong> Calling Lisp Functions</a></li><li class="chapter-item expanded "><a href="type-conversions.html"><strong aria-hidden="true">5.</strong> Type Conversions</a></li><li class="chapter-item expanded "><a href="custom-types.html" class="active"><strong aria-hidden="true">6.</strong> Custom Types</a></li><li class="chapter-item expanded "><a href="errors.html"><strong aria-hidden="true">7.</strong> Error Handling</a></li><li class="chapter-item expanded "><a href="testing.html"><strong aria-hidden="true">8.</strong> Testing</a></li><li class="chapter-item expanded "><a href="reloading.html"><strong aria-hidden="true">9.</strong> Live Reloading</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">emacs-module-rs 0.16.0</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="embedding-rust-values-in-lisp"><a class="header" href="#embedding-rust-values-in-lisp">Embedding Rust Values in Lisp</a></h1>
+<p>Speeding up Emacs is one of the goals of dynamic modules. Too many back-and-forth conversions between Rust's data structures and Lisp's can defeat the purpose. The solution to this is embedding Rust data structures in opaque <code>user-ptr</code> Lisp objects.</p>
+<p>If a type implements <code>Transfer</code>, its heap-allocated (<code>Box</code>-wrapped) values can be moved into the Lisp runtime, where the GC will become its owner.</p>
+<p>Lisp code sees these as opaque &quot;embedded user pointers&quot;, whose printed representation is something like <code>#&lt;user-ptr ptr=0x102e10b60 finalizer=0x103c9c390&gt;</code>. For these values to be useful, a Rust module needs to export additional functions to manipulate them.</p>
+<p>Since these values are owned by the GC, Rust code can only safely access them through immutable references. Therefore, interior mutability is usually needed. As a result, <code>Transfer</code> is implemented for the smart pointer types <code>RefCell</code>, <code>Mutex</code>, <code>RwLock</code>, <code>Rc</code>, and <code>Arc</code>.</p>
+<p>To return an embedded value, a function needs to be exported with a <code>user_ptr</code> option:</p>
+<ul>
+<li><code>user_ptr</code>: Embedding through a <code>RefCell</code>. This is suitable for common use cases, where module functions can borrow the underlying data back for read/write. It is safe because Lisp threads are subjected to the GIL. <code>BorrowError</code>/<code>BorrowMutError</code> may be signaled at runtime, depending on how module functions call back into the Lisp runtime.</li>
+<li><code>user_ptr(rwlock)</code>, <code>user_ptr(mutex)</code>: Embedding through a <code>RwLock</code>/<code>Mutex</code>. This is suitable for sharing data between module functions (on Lisp threads, with <code>Env</code> access) and pure Rust code (on background threads, without access to an <code>Env</code>).</li>
+<li><code>user_ptr(direct)</code>: Embedding a <code>Transfer</code> value directly. This is suitable for immutable data that will only be read back (not written to) by module functions (writing requires <code>unsafe</code> access, and is discouraged).</li>
+</ul>
+<p>As an example, a module that allows Emacs to use Rust's <code>HashMap</code> may look like this:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::collections::HashMap;
+use emacs::{defun, Env, Result, Value};
+
+#[emacs::module(name = &quot;rs-hash-map&quot;, separator = &quot;/&quot;)]
+fn init(env: &amp;Env) -&gt; Result&lt;()&gt; {
+    type Map = HashMap&lt;String, String&gt;;
+
+    #[defun(user_ptr)]
+    fn make() -&gt; Result&lt;Map&gt; {
+        Ok(Map::new())
+    }
+
+    #[defun]
+    fn get(map: &amp;Map, key: String) -&gt; Result&lt;Option&lt;&amp;String&gt;&gt; {
+        Ok(map.get(&amp;key))
+    }
+
+    #[defun]
+    fn set(map: &amp;mut Map, key: String, value: String) -&gt; Result&lt;Option&lt;String&gt;&gt; {
+        Ok(map.insert(key,value))
+    }
+
+    Ok(())
+}
+<span class="boring">}
+</span></code></pre></pre>
+<pre><code class="language-lisp">(let ((m (rs-hash-map/make)))
+  (rs-hash-map/get m &quot;a&quot;)     ; -&gt; nil
+
+  (rs-hash-map/set m &quot;a&quot; &quot;1&quot;) ; -&gt; nil
+  (rs-hash-map/get m &quot;a&quot;)     ; -&gt; &quot;1&quot;
+
+  (rs-hash-map/set m &quot;a&quot; &quot;2&quot;) ; -&gt; &quot;1&quot;
+  (rs-hash-map/get m &quot;a&quot;))    ; -&gt; &quot;2&quot;
+</code></pre>
+<p><strong>Notes</strong>:</p>
+<ul>
+<li><code>Value.into_rust()</code> has a runtime type check, which fails with the error <code>'rust-wrong-type-user-ptr</code> if the value is a <code>user-ptr</code> object of a different type.</li>
+<li>Input parameters with reference types are interpreted as <code>RefCell</code>-embedded <code>user-ptr</code> objects. For other kinds of embedding, you will have to use a <code>Value</code> parameter, and acquire the reference manually, since locking strategy (including deadlock avoidance/detection) should be module-specific.
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::sync::RwLock;
+
+#[defun(user_ptr(rwlock))]
+fn make() -&gt; Result&lt;Map&gt; {
+    Ok(Map::new())
+}
+
+#[defun]
+fn get(v: Value&lt;'_&gt;, key: String) -&gt; Result&lt;Value&lt;'_&gt;&gt; {
+    let lock: &amp;RwLock&lt;Map&gt; = v.into_rust()?;
+    let map = lock.try_read().map_err(|_| Error::msg(&quot;map is busy&quot;))?;
+    map.get(&amp;key).into_lisp(v.env)
+}
+<span class="boring">}
+</span></code></pre></pre>
+</li>
+</ul>
+<h2 id="lifetime-constrained-types"><a class="header" href="#lifetime-constrained-types">Lifetime-constrained Types</a></h2>
+<p>When a type is constrained by a (non-static) lifetime, its value cannot be embedded unchanged. Before embedding, the lifetime must be <strong>soundly</strong> elided. In other words, static ownership must be correctly given up.</p>
+<p>The typical example is a struct holding a reference to another struct:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct Tree;
+
+pub struct Node&lt;'t&gt; {
+    pub tree: &amp;'t Tree,
+}
+
+impl Tree {
+    pub fn root_node(&amp;self) -&gt; Node&lt;'_&gt; {
+        ...
+    }
+}
+
+impl&lt;'t&gt; Node&lt;'t&gt; {
+    pub fn child(&amp;self) -&gt; Node&lt;'t&gt; {
+        ...
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>In this case, the lifetime can be elided by turning the static reference into a dynamic ref-counted pointer. The <a href="https://github.com/jpernst/rental">rental crate</a> provides a convenient way to do this:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[macro_use]
+extern crate rental;
+
+use std::{rc::Rc, marker::PhantomData};
+use emacs::{defun, Result};
+
+// PhantomData is need because map_suffix requires a type parameter.
+// See https://github.com/jpernst/rental/issues/35.
+pub struct PhantomNode&lt;'t, T&gt;(Node&lt;'t&gt;, PhantomData&lt;T&gt;);
+
+impl&lt;'t&gt; PhantomNode&lt;'t, ()&gt; {
+    fn child(&amp;self) -&gt; Self {
+        PhantomNode(self.0.child(), PhantomData)
+    }
+}
+
+rental! {
+    pub mod inner {
+        use std::rc::Rc;
+
+        // Self-referential struct that holds both
+        // the actual Node and the ref-counted Tree.
+        #[rental(map_suffix = &quot;T&quot;)]
+        pub struct RentingNode&lt;T: 'static&gt; {
+            tree: Rc&lt;super::Tree&gt;,
+            node: super::PhantomNode&lt;'tree, T&gt;
+        }
+    }
+}
+
+type RentingNode = inner::RentingNode&lt;()&gt;;
+
+#[defun(user_ptr)]
+fn root_node(tree: Value) -&gt; Result&lt;RentingNode&gt; {
+    let rc: &amp;Rc&lt;Tree&gt; = tree.into_rust()?;
+    Ok(RentingNode::new(rc.clone(), |tree| tree.root_node()))
+}
+
+#[defun(user_ptr)]
+fn child(node: &amp;RentingNode) -&gt; Result&lt;RentingNode&gt; {
+    node.map(|n| n.child())
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Note that there's no <code>unsafe</code> involved directly, as the soundness proofs are already encapsulated in <code>rental</code> macros.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="type-conversions.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="errors.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="type-conversions.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="errors.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <!-- Google Analytics Tag -->
+        <script type="text/javascript">
+            var localAddrs = ["localhost", "127.0.0.1", ""];
+
+            // make sure we don't activate google analytics if the developer is
+            // inspecting the book locally...
+            if (localAddrs.indexOf(document.location.hostname) === -1) {
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+                ga('create', 'UA-138609797-1', 'auto');
+                ga('send', 'pageview');
+            }
+        </script>
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="hljs-load-langs.js"></script>
+    </body>
+</html>
