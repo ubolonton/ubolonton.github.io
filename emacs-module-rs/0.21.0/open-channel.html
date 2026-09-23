@@ -23,8 +23,8 @@
         <link rel="icon" href="favicon-de23e50b.svg">
         <link rel="shortcut icon" href="favicon-8114d1fc.png">
         <link rel="stylesheet" href="css/variables-8adf115d.css">
-        <link rel="stylesheet" href="css/general-2459343d.css">
-        <link rel="stylesheet" href="css/chrome-ae938929.css">
+        <link rel="stylesheet" href="css/general-e96d0476.css">
+        <link rel="stylesheet" href="css/chrome-d279d366.css">
         <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
@@ -44,10 +44,10 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "coal";
-            window.path_to_searchindex_js = "searchindex-dd2ef50b.js";
+            window.path_to_searchindex_js = "searchindex-5fa07930.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-aa4acac8.js"></script>
+        <script src="toc-f154c475.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -227,8 +227,15 @@ fn channel_send_from_thread(env: &amp;Env, process: Value&lt;'_&gt;, data: Strin
 </code></pre>
 <p>Dropping the writer closes the write end of the pipe. Emacs’s process sentinel fires when the last writer closes.</p>
 <h2 id="windows-note"><a class="header" href="#windows-note">Windows Note</a></h2>
-<p>On Windows, the write end of the pipe is a CRT (C runtime) file descriptor created by Emacs. Your module must link against the same CRT as Emacs — MSVCRT when using the MSYS2 MINGW64 toolchain (which is what the official Windows package and the CI setup use). Linking against a different CRT (e.g. UCRT) causes a crash inside <code>get_osfhandle</code>.</p>
-<p>If you build your module with the MSYS2 MINGW64 toolchain as described in <a href="./hello.html">Hello, Emacs!</a>, this is handled automatically.</p>
+<p>On Windows, the write end of the pipe is a CRT (C runtime) file descriptor created by Emacs. Your module must link against the same CRT as Emacs. Otherwise, <code>open_channel</code> crashes inside <code>get_osfhandle</code>.</p>
+<ul>
+<li>Official GNU builds use MSVCRT. Build your module in the MSYS2 MINGW64 shell.</li>
+<li>Official <code>-UCRT64</code> builds (Emacs 31+) and MSYS2’s <code>mingw-w64-ucrt-x86_64-emacs</code> use UCRT. Build your module in the MSYS2 UCRT64 shell.</li>
+</ul>
+<p>The GNU toolchain uses <code>gcc</code> as the linker, so the first <code>gcc</code> in <code>PATH</code> selects the CRT. To check a binary’s CRT, list its imported DLLs:</p>
+<pre><code class="language-bash">objdump -p "$(which emacs)" | grep 'DLL Name'
+</code></pre>
+<p><code>msvcrt.dll</code> means MSVCRT. <code>ucrtbase.dll</code> or <code>api-ms-win-crt-*.dll</code> means UCRT. See <a href="./overview.html#setting-up">Overview</a> for the setup steps.</p>
 
                     </main>
 
@@ -274,11 +281,11 @@ fn channel_send_from_thread(env: &amp;Env, process: Value&lt;'_&gt;, data: Strin
 
         <script src="elasticlunr-ef4e11c1.min.js"></script>
         <script src="mark-09e88c2c.min.js"></script>
-        <script src="searcher-c2a407aa.js"></script>
+        <script src="searcher-09f2665d.js"></script>
 
         <script src="clipboard-1626706a.min.js"></script>
         <script src="highlight-abc7f01d.js"></script>
-        <script src="book-a0b12cfe.js"></script>
+        <script src="book-609e4cb8.js"></script>
 
         <!-- Custom JS scripts -->
         <script src="hljs-load-langs-aa01eaf8.js"></script>

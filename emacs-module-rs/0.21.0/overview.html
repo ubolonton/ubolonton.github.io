@@ -23,8 +23,8 @@
         <link rel="icon" href="favicon-de23e50b.svg">
         <link rel="shortcut icon" href="favicon-8114d1fc.png">
         <link rel="stylesheet" href="css/variables-8adf115d.css">
-        <link rel="stylesheet" href="css/general-2459343d.css">
-        <link rel="stylesheet" href="css/chrome-ae938929.css">
+        <link rel="stylesheet" href="css/general-e96d0476.css">
+        <link rel="stylesheet" href="css/chrome-d279d366.css">
         <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
@@ -44,10 +44,10 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "coal";
-            window.path_to_searchindex_js = "searchindex-dd2ef50b.js";
+            window.path_to_searchindex_js = "searchindex-5fa07930.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-aa4acac8.js"></script>
+        <script src="toc-f154c475.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -187,21 +187,26 @@
 <p><code>emacs-module-rs</code> provides high-level Rust binding and tools to write Emacs’s dynamic modules. It is easy to use if you know either Rust or Emacs.</p>
 <p>It currently supports:</p>
 <ul>
-<li>Stable Rust (latest stable recommended; 1.56 minimum).</li>
+<li>Stable Rust (latest stable recommended; 1.87 minimum).</li>
 <li>Emacs 25 or above, built with module support.</li>
-<li>macOS, Linux, Windows.</li>
+<li>Linux, macOS, FreeBSD, Windows.</li>
 </ul>
 <h2 id="setting-up"><a class="header" href="#setting-up">Setting up</a></h2>
 <ul>
 <li>Make sure your Emacs was compiled with module support. Check that <code>module-file-suffix</code> is not <code>nil</code>, and the function <code>module-load</code> is defined.
 <ul>
 <li>On macOS, the recommended installation method is MacPorts (<code>emacs-app</code> and <code>emacs-mac-app</code>).</li>
-<li>On Windows, install Emacs via MSYS2: <code>pacman -S mingw-w64-x86_64-emacs</code>. (Emacs officially supports MSVCRT, not UCRT.)</li>
+<li>On Windows, use either an <a href="https://ftp.gnu.org/gnu/emacs/windows/">official GNU build</a>, or MSYS2’s package: <code>pacman -S mingw-w64-ucrt-x86_64-emacs</code>.</li>
 </ul>
 </li>
 <li>Install the Rust toolchain with <a href="https://www.rustup.rs/">rustup</a>.
 <ul>
-<li>On Windows, use the <code>stable-gnu</code> toolchain, with the <code>gcc</code> from <code>mingw-w64-x86_64-toolchain</code>. This ensures CRT linkages match.</li>
+<li>On Windows, use the <code>stable-gnu</code> toolchain. Build in the MSYS2 shell that matches the C runtime (CRT) of your Emacs:
+<ul>
+<li>MINGW64 (<code>mingw-w64-x86_64-toolchain</code>) for official GNU builds, which use MSVCRT.</li>
+<li>UCRT64 (<code>mingw-w64-ucrt-x86_64-toolchain</code>) for official <code>-UCRT64</code> builds (Emacs 31+) and MSYS2’s package, which use UCRT.</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -261,11 +266,11 @@ cargo build --all
 
         <script src="elasticlunr-ef4e11c1.min.js"></script>
         <script src="mark-09e88c2c.min.js"></script>
-        <script src="searcher-c2a407aa.js"></script>
+        <script src="searcher-09f2665d.js"></script>
 
         <script src="clipboard-1626706a.min.js"></script>
         <script src="highlight-abc7f01d.js"></script>
-        <script src="book-a0b12cfe.js"></script>
+        <script src="book-609e4cb8.js"></script>
 
         <!-- Custom JS scripts -->
         <script src="hljs-load-langs-aa01eaf8.js"></script>
