@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Declaring a Module - emacs-module-rs 0.22.0</title>
+        <title>Canvas Images - emacs-module-rs 0.22.0</title>
 
 
         <!-- Custom HTML head -->
@@ -155,7 +155,7 @@
                         <a href="https://github.com/ubolonton/emacs-module-rs" title="Git repository" aria-label="Git repository">
                             <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
                         </a>
-                        <a href="https://github.com/ubolonton/emacs-module-rs/edit/master/docs/guide/src/module.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                        <a href="https://github.com/ubolonton/emacs-module-rs/edit/master/docs/guide/src/canvas.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
                             <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
                         </a>
 
@@ -189,53 +189,115 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="declaring-a-module"><a class="header" href="#declaring-a-module">Declaring a Module</a></h1>
-<p>Each dynamic module must have an initialization function, marked by the attribute macro <code>#[emacs::module]</code>. The function’s type must be <code>fn(&amp;Env) -&gt; Result&lt;()&gt;</code>.</p>
-<p>In addition, in order to be loadable by Emacs, the module must be declared GPL-compatible.</p>
-<pre><code class="language-rust">emacs::plugin_is_GPL_compatible!();
+                        <h1 id="canvas-images"><a class="header" href="#canvas-images">Canvas Images</a></h1>
+<p><code>Value::with_canvas_data</code> lends your module the pixel buffer of an Emacs 32 canvas image. You draw into the buffer from Rust, then ask Lisp to show it.</p>
+<h2 id="setup"><a class="header" href="#setup">Setup</a></h2>
+<p>This feature is <strong>experimental</strong>. It tracks an unreleased module ABI.</p>
+<p>Enable the feature:</p>
+<pre><code class="language-bash">cargo add emacs --features emacs-32-experimental
+</code></pre>
+<p>The module needs Emacs 32, built with a window system. Older Emacs versions refuse to load it. Without a window system, <code>with_canvas_data</code> signals <code>error</code>.</p>
+<h2 id="drawing"><a class="header" href="#drawing">Drawing</a></h2>
+<p>A canvas is an image spec with <code>:type canvas</code>. <code>:id</code>, <code>:data-width</code> and <code>:data-height</code> are mandatory. The spec object (not an <code>equal</code> copy) identifies the canvas.</p>
+<pre><code class="language-rust">use emacs::{defun, Env, Result, Value};
 
-#[emacs::module]
-fn init(env: &amp;Env) -&gt; Result&lt;()&gt; {
-    // This is run when Emacs loads the module.
-    // More concretely, it is run after all the functions it defines are exported,
-    // but before `(provide 'feature-name)` is (automatically) called.
+/// Fill CANVAS with PIXEL.
+#[defun]
+fn fill(env: &amp;Env, canvas: Value&lt;'_&gt;, pixel: u32) -&gt; Result&lt;()&gt; {
+    canvas.with_canvas_data(|data| data.buffer.fill(pixel))?;
+    env.call("canvas-refresh", [canvas])?;
     Ok(())
 }</code></pre>
-<h2 id="options"><a class="header" href="#options">Options</a></h2>
+<pre><code class="language-elisp">(defvar my-canvas (list 'image :type 'canvas :id 'my-canvas :data-width 320 :data-height 240))
+(insert-image my-canvas)
+(my-module-fill my-canvas #xFF3366CC)
+</code></pre>
+<p>Emacs does not show the changes until Lisp calls <code>canvas-refresh</code> on the spec. In a loop, call <code>redisplay</code> as well.</p>
+<h2 id="rules"><a class="header" href="#rules">Rules</a></h2>
+<p>The closure receives a <code>CanvasData</code> with the fields <code>buffer</code>, <code>width</code> and <code>height</code>.</p>
 <ul>
-<li>
-<p><code>name</code>: By default, the name of the feature provided by the module is the crate’s name (with <code>_</code> replaced by <code>-</code>). There is no need to explicitly call <code>provide</code> inside the initialization function. This option allows the function’s name, or a string, to be used instead.</p>
-<pre><code class="language-rust">// Putting `rs` in crate's name is discouraged so we use the function's name
-// instead. The feature will be `rs-module-helper`.
-#[emacs::module(name(fn))]
-fn rs_module_helper(_: &amp;Env) -&gt; Result&lt;()&gt; { Ok(()) }</code></pre>
-</li>
-<li>
-<p><code>defun_prefix</code> and <code>separator</code>: Function names in Emacs are conventionally prefixed with the feature name followed by <code>-</code>. These 2 options allow a different prefix and separator to be used.</p>
-<pre><code class="language-rust">// Use `/` as the separator that goes after feature name, like some other packages.
-#[emacs::module(separator = "/")]
-fn init(_: &amp;Env) -&gt; Result&lt;()&gt; { Ok(()) }</code></pre>
-<pre><code class="language-rust">// The whole package contains other Lisp files, so the module is named
-// `tree-sitter-dyn`. But we want functions to be `tree-sitter-something`,
-// not `tree-sitter-dyn-something`.
-#[emacs::module(name = "tree-sitter-dyn", defun_prefix = "tree-sitter")]
-fn init(_: &amp;Env) -&gt; Result&lt;()&gt; { Ok(()) }</code></pre>
-</li>
-<li>
-<p><code>mod_in_name</code>: Whether to use Rust’s <code>mod</code> path to construct <a href="./functions.html#naming">function names</a>. Default to <code>true</code>. For example, supposed that the crate is named <code>parser</code>, a <code>#[defun]</code> named <code>next_child</code> inside <code>mod cursor</code> will have the Lisp name of <code>parser-cursor-next-child</code>. This can also be overridden for each individual function, by an option of the same name on <code>#[defun]</code>.</p>
-</li>
+<li><code>buffer</code> is a <code>&amp;mut [u32]</code> with <code>width * height</code> elements. Pixels are in row-major order. Use <code>buffer.chunks_exact_mut(width)</code> to get rows.</li>
+<li>Each pixel is a native-endian <code>0xAARRGGBB</code> value. Emacs ignores alpha when it displays the canvas.</li>
+<li>A resize zeroes the buffer. Lisp resizes a canvas when it changes <code>:data-width</code> or <code>:data-height</code>. Pixels from before are lost.</li>
+<li>The closure must be <code>Send</code>, so it cannot capture <code>&amp;Env</code> or <code>Value</code>. Thus it cannot call Lisp.</li>
 </ul>
-<p><strong>Note</strong>: Often time, there’s no initialization logic needed. A future version of this crate will support putting <code>#![emacs::module]</code> on the crate, without having to define a no-op function. See Rust’s <a href="https://github.com/rust-lang/rust/issues/54726">issue #54726</a>.</p>
+<p>The last rule is the safety argument. Lisp code can resize or free the canvas, and redisplay reads the buffer. The buffer is valid only while no Lisp code runs. Call <code>canvas-refresh</code> after <code>with_canvas_data</code> returns, as <code>fill</code> does.</p>
+<p>The bound also rejects other non-<code>Send</code> captures, such as <code>Rc</code>. Copy the data out of them first.</p>
+<h2 id="background-rendering"><a class="header" href="#background-rendering">Background Rendering</a></h2>
+<p>Emacs reads the buffer only on the Lisp thread. So a render thread must not hold the canvas buffer. Let the thread draw into a buffer that Rust owns, and swap it with a shared buffer. A defun, which runs on the Lisp thread, copies the shared buffer into the canvas.</p>
+<pre><code class="language-rust">use std::mem;
+use std::sync::Mutex;
+use std::thread;
+use std::time::Duration;
+
+use emacs::{defun, Env, Result, Value};
+
+struct Frame {
+    width: usize,
+    height: usize,
+    pixels: Vec&lt;u32&gt;,
+}
+
+static FRAME: Mutex&lt;Frame&gt; = Mutex::new(Frame { width: 0, height: 0, pixels: Vec::new() });
+
+/// Render frames of WIDTH by HEIGHT pixels in a background thread.
+#[defun]
+fn render_start(width: usize, height: usize) -&gt; Result&lt;()&gt; {
+    thread::spawn(move || {
+        let mut back = Frame { width, height, pixels: Vec::new() };
+        for tick in 0u32.. {
+            back.width = width;
+            back.height = height;
+            back.pixels.resize(width * height, 0);
+            for (index, pixel) in back.pixels.iter_mut().enumerate() {
+                *pixel = 0xFF00_0000 | (index as u32).wrapping_add(tick.wrapping_mul(1000));
+            }
+            let Ok(mut front) = FRAME.lock() else { return };
+            mem::swap(&amp;mut *front, &amp;mut back);
+            drop(front);
+            thread::sleep(Duration::from_millis(16));
+        }
+    });
+    Ok(())
+}
+
+/// Copy the latest frame into CANVAS, and refresh it.
+#[defun]
+fn render_present(env: &amp;Env, canvas: Value&lt;'_&gt;) -&gt; Result&lt;()&gt; {
+    let copied = canvas.with_canvas_data(|data| {
+        let Ok(frame) = FRAME.lock() else { return false };
+        if frame.width != data.width || frame.height != data.height {
+            return false;
+        }
+        data.buffer.copy_from_slice(&amp;frame.pixels);
+        true
+    })?;
+    if copied {
+        env.call("canvas-refresh", [canvas])?;
+    }
+    Ok(())
+}</code></pre>
+<pre><code class="language-elisp">(my-module-render-start 320 240)
+(run-with-timer 0 (/ 1.0 30) (lambda () (my-module-render-present my-canvas)))
+</code></pre>
+<ul>
+<li>The render thread draws without the lock. It holds the lock only to swap, so a copy in <code>render_present</code> does not stop the drawing.</li>
+<li>The mutex guards only the Rust-owned buffers. Emacs needs no lock.</li>
+<li><code>render_present</code> compares dimensions first. Lisp can resize the canvas while the thread renders a frame. Without the check, <code>copy_from_slice</code> panics on a length mismatch.</li>
+</ul>
+<h2 id="known-gap"><a class="header" href="#known-gap">Known Gap</a></h2>
+<p>If Lisp code that runs during the call resizes the same canvas, <code>buffer</code> has the wrong length. This code includes <code>post-gc-hook</code>, the debugger, file name handlers for <code>:file</code>, and <code>*Messages*</code> updates (<code>messages-buffer-mode</code> and its hooks) when Emacs reports an image error. Do not resize a canvas from such code.</p>
+<p>The length is also wrong if Lisp redefines <code>cdr</code> or <code>plist-get</code> to return false values before the module loads. The module calls the definitions that exist at load time. Advice that passes the real results through, such as <code>trace-function</code>, is harmless.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="hello.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="open-channel.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                             </a>
 
-                            <a rel="next prefetch" href="functions.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="testing.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
@@ -245,11 +307,11 @@ fn init(_: &amp;Env) -&gt; Result&lt;()&gt; { Ok(()) }</code></pre>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="hello.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="open-channel.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
-                    <a rel="next prefetch" href="functions.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="testing.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>
