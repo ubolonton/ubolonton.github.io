@@ -1,0 +1,1145 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>emacs-module-rs 0.23</title>
+        <meta name="robots" content="noindex">
+
+
+        <!-- Custom HTML head -->
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-FZ02QK1Q0C"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-FZ02QK1Q0C');
+        </script>
+        <!-- The publish task puts the version menu at the site root, next to versions.json, so that all
+        versions share it. Local builds have neither, so they show no menu. -->
+        <script src="../version-switcher.js" defer></script>
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-2459343d.css">
+        <link rel="stylesheet" href="css/chrome-ae938929.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="custom-eebcdf60.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "coal";
+            window.path_to_searchindex_js = "searchindex-d4407985.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-d33bda34.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">emacs-module-rs 0.23</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/ubolonton/emacs-module-rs" title="Git repository" aria-label="Git repository">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="overview"><a class="header" href="#overview">Overview</a></h1>
+<p><code>emacs-module-rs</code> provides high-level Rust binding and tools to write Emacs’s dynamic modules. It is easy to use if you know either Rust or Emacs.</p>
+<p>It currently supports:</p>
+<ul>
+<li>Stable Rust (latest stable recommended; 1.87 minimum).</li>
+<li>Emacs 25 or above, built with module support.</li>
+<li>Linux, macOS, FreeBSD, Windows.</li>
+</ul>
+<h2 id="setting-up"><a class="header" href="#setting-up">Setting up</a></h2>
+<ul>
+<li>Make sure your Emacs was compiled with module support. Check that <code>module-file-suffix</code> is not <code>nil</code>, and the function <code>module-load</code> is defined.
+<ul>
+<li>On macOS, the recommended installation method is MacPorts (<code>emacs-app</code> and <code>emacs-mac-app</code>).</li>
+<li>On Windows, use either an <a href="https://ftp.gnu.org/gnu/emacs/windows/">official GNU build</a>, or MSYS2’s package: <code>pacman -S mingw-w64-ucrt-x86_64-emacs</code>.</li>
+</ul>
+</li>
+<li>Install the Rust toolchain with <a href="https://www.rustup.rs/">rustup</a>.
+<ul>
+<li>On Windows, use the <code>stable-gnu</code> toolchain. Build in the MSYS2 shell that matches the C runtime (CRT) of your Emacs:
+<ul>
+<li>MINGW64 (<code>mingw-w64-x86_64-toolchain</code>) for official GNU builds, which use MSVCRT.</li>
+<li>UCRT64 (<code>mingw-w64-ucrt-x86_64-toolchain</code>) for official <code>-UCRT64</code> builds (Emacs 31+) and MSYS2’s package, which use UCRT.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="notes"><a class="header" href="#notes">Notes</a></h3>
+<ul>
+<li>When the optional feature <code>bindgen</code> is enabled, the raw binding will be generated from <code>emacs-module.h</code> at build time. You will also need to install <code>clang</code>. (This is recommended only for troubleshooting.) For example, on Windows:
+<pre><code class="language-powershell"># In Powershell
+scoop install llvm
+
+$env:LIBCLANG_PATH = "$(scoop prefix llvm)\bin"
+cargo build --all
+</code></pre>
+</li>
+</ul>
+<h2 id="known-issues"><a class="header" href="#known-issues">Known Issues</a></h2>
+<p>There is a bug (see <a href="https://github.com/ubolonton/emacs-module-rs/issues/1">issue #1</a>) with Emacs 26 on Linux that prevents it from loading <em>any dynamic modules</em> (even those written in C), if:</p>
+<ul>
+<li>Emacs is built without thread support.</li>
+<li>The OS is Ubuntu 16.04 (Xenial).</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="hello-emacs"><a class="header" href="#hello-emacs">Hello, Emacs!</a></h1>
+<p>Create a new project:</p>
+<pre><code class="language-bash">cargo new --lib greeting
+cd greeting
+cargo add emacs
+</code></pre>
+<p>Add to <code>Cargo.toml</code>:</p>
+<pre><code class="language-toml">[lib]
+crate-type = ["cdylib"]
+</code></pre>
+<p>Write code in <code>src/lib.rs</code>:</p>
+<pre><code class="language-rust">use emacs::{defun, Env, Result, Value};
+
+// Emacs won't load the module without this.
+emacs::plugin_is_GPL_compatible!();
+
+// Register the initialization hook that Emacs will call when it loads the module.
+#[emacs::module]
+fn init(env: &amp;Env) -&gt; Result&lt;Value&lt;'_&gt;&gt; {
+    env.message("Done loading!")
+}
+
+// Define a function callable by Lisp code.
+#[defun]
+fn say_hello(env: &amp;Env, name: String) -&gt; Result&lt;Value&lt;'_&gt;&gt; {
+    env.message(format!("Hello, {}!", name))
+}</code></pre>
+<p>Build the module and create a symlink with <code>.so</code> extension so that Emacs can recognize it:</p>
+<pre><code class="language-bash">cargo build
+cd target/debug
+
+# If you are on Linux
+ln -s libgreeting.so greeting.so
+
+# If you are on macOS
+ln -s libgreeting.dylib greeting.so
+</code></pre>
+<p>Add <code>target/debug</code> to your Emacs’s <code>load-path</code>, then load the module:</p>
+<pre><code class="language-elisp">(add-to-list 'load-path "/path/to/target/debug")
+(require 'greeting)
+(greeting-say-hello "Emacs")
+</code></pre>
+<p>The minibuffer should display the message <code>Hello, Emacs!</code>.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="declaring-a-module"><a class="header" href="#declaring-a-module">Declaring a Module</a></h1>
+<p>Each dynamic module must have an initialization function, marked by the attribute macro <code>#[emacs::module]</code>. The function’s type must be <code>fn(&amp;Env) -&gt; Result&lt;()&gt;</code>.</p>
+<p>In addition, in order to be loadable by Emacs, the module must be declared GPL-compatible.</p>
+<pre><code class="language-rust">emacs::plugin_is_GPL_compatible!();
+
+#[emacs::module]
+fn init(env: &amp;Env) -&gt; Result&lt;()&gt; {
+    // This is run when Emacs loads the module.
+    // More concretely, it is run after all the functions it defines are exported,
+    // but before `(provide 'feature-name)` is (automatically) called.
+    Ok(())
+}</code></pre>
+<h2 id="options"><a class="header" href="#options">Options</a></h2>
+<ul>
+<li>
+<p><code>name</code>: By default, the name of the feature provided by the module is the crate’s name (with <code>_</code> replaced by <code>-</code>). There is no need to explicitly call <code>provide</code> inside the initialization function. This option allows the function’s name, or a string, to be used instead.</p>
+<pre><code class="language-rust">// Putting `rs` in crate's name is discouraged so we use the function's name
+// instead. The feature will be `rs-module-helper`.
+#[emacs::module(name(fn))]
+fn rs_module_helper(_: &amp;Env) -&gt; Result&lt;()&gt; { Ok(()) }</code></pre>
+</li>
+<li>
+<p><code>defun_prefix</code> and <code>separator</code>: Function names in Emacs are conventionally prefixed with the feature name followed by <code>-</code>. These 2 options allow a different prefix and separator to be used.</p>
+<pre><code class="language-rust">// Use `/` as the separator that goes after feature name, like some other packages.
+#[emacs::module(separator = "/")]
+fn init(_: &amp;Env) -&gt; Result&lt;()&gt; { Ok(()) }</code></pre>
+<pre><code class="language-rust">// The whole package contains other Lisp files, so the module is named
+// `tree-sitter-dyn`. But we want functions to be `tree-sitter-something`,
+// not `tree-sitter-dyn-something`.
+#[emacs::module(name = "tree-sitter-dyn", defun_prefix = "tree-sitter")]
+fn init(_: &amp;Env) -&gt; Result&lt;()&gt; { Ok(()) }</code></pre>
+</li>
+<li>
+<p><code>mod_in_name</code>: Whether to use Rust’s <code>mod</code> path to construct <a href="#naming">function names</a>. Default to <code>true</code>. For example, supposed that the crate is named <code>parser</code>, a <code>#[defun]</code> named <code>next_child</code> inside <code>mod cursor</code> will have the Lisp name of <code>parser-cursor-next-child</code>. This can also be overridden for each individual function, by an option of the same name on <code>#[defun]</code>.</p>
+</li>
+</ul>
+<p><strong>Note</strong>: Often time, there’s no initialization logic needed. A future version of this crate will support putting <code>#![emacs::module]</code> on the crate, without having to define a no-op function. See Rust’s <a href="https://github.com/rust-lang/rust/issues/54726">issue #54726</a>.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="writing-functions"><a class="header" href="#writing-functions">Writing Functions</a></h1>
+<p>You can use the attribute macro <code>#[defun]</code> to export Rust functions to the Lisp runtime, so that Lisp code can call them. The exporting process happens when the module is loaded, even if the definitions are inside another function that is never called, or inside a private <code>mod</code>.</p>
+<h2 id="input-parameters"><a class="header" href="#input-parameters">Input Parameters</a></h2>
+<p>Each parameter must be one of the following:</p>
+<ul>
+<li>An owned value of a type that implements <code>FromLisp</code>. This is for simple data types that have an equivalent in Lisp.
+<pre><code class="language-rust">/// This docstring will appear in Lisp too!
+#[defun]
+fn inc(x: i64) -&gt; Result&lt;i64&gt; {
+    Ok(x + 1)
+}</code></pre>
+</li>
+<li>A shared/mutable reference. This gives access to data structures that other module functions have created and embedded in the Lisp runtime (through <code>user-ptr</code> objects).
+<pre><code class="language-rust">#[defun]
+fn stash_pop(repo: &amp;mut git2::Repository) -&gt; Result&lt;()&gt; {
+    repo.stash_pop(0, None)?;
+    Ok(())
+}</code></pre>
+</li>
+<li>A Lisp <code>Value</code>, or one of its “sub-types” (e.g. <code>Vector</code>). This allows holding off the conversion to Rust data structures until necessary, or working with values that don’t have a meaningful representation in Rust, like Lisp lambdas.
+<pre><code class="language-rust">#[defun]
+fn maybe_call(lambda: Value) -&gt; Result&lt;()&gt; {
+    if some_hidden_native_logic() {
+        lambda.call([])?;
+    }
+    Ok(())
+}
+
+#[defun(user_ptr)]
+fn to_rust_vec_string(input: Vector) -&gt; Result&lt;Vec&lt;String&gt;&gt; {
+    let mut vec = vec![];
+    for e in input {
+        vec.push(e.into_rust()?);
+    }
+    Ok(vec)
+}</code></pre>
+</li>
+<li>An <code>&amp;Env</code>. This enables interaction with the Lisp runtime. It does not appear in the function’s Lisp signature. This is unnecessary if there is already another parameter with type <code>Value</code>, which allows accessing the runtime through <code>Value.env</code>.
+<pre><code class="language-rust">// Note that the function takes an owned `String`, not a reference, which would
+// have been understood as a `user-ptr` object containing a Rust string.
+#[defun]
+fn hello(env: &amp;Env, name: String) -&gt; Result&lt;Value&lt;'_&gt;&gt; {
+    env.message(format!("Hello, {}!", name))
+}</code></pre>
+</li>
+</ul>
+<h2 id="return-value"><a class="header" href="#return-value">Return Value</a></h2>
+<p>The return type must be <code>Result&lt;T&gt;</code>, where <code>T</code> is one of the following:</p>
+<ul>
+<li>A type that implements <code>IntoLisp</code>. This is for simple data types that have an equivalent in Lisp.
+<pre><code class="language-rust">/// Return the path to the .git dir.
+/// Return `nil' if the given path is not in a repo,
+/// or if the .git path is not valid utf-8.
+#[defun]
+fn dot_git_path(path: String) -&gt; Result&lt;Option&lt;String&gt;&gt; {
+    Ok(git2::Repository::discover(&amp;path).ok().and_then(|repo| {
+        repo.path().to_str().map(|s| s.to_owned())
+    }))
+}</code></pre>
+</li>
+<li>An arbitrary type. This allows embedding a native data structure in a <code>user-ptr</code> object, for read-write use cases. It requires <code>user_ptr</code> option to be specified. If the data is to be shared with background Rust threads, <code>user_ptr(rwlock)</code> or <code>user_ptr(mutex)</code> must be used instead.
+<pre><code class="language-rust">#[defun(user_ptr)]
+fn repo(path: String) -&gt; Result&lt;git2::Repository&gt; {
+    Ok(git2::Repository::discover(&amp;path)?)
+}</code></pre>
+</li>
+<li>A type that implements <code>Transfer</code>. This allows embedding a native data structure in a <code>user-ptr</code> object, for read-only use cases. It requires <code>user_ptr(direct)</code> option to be specified.</li>
+<li><code>Value</code>, or one of its “sub-types” (e.g. <code>Vector</code>). This is mostly useful for returning an input parameter unchanged.</li>
+</ul>
+<p>See <a href="#embedding-rust-values-in-lisp">Custom Types</a> for more details on embedding Rust data structures in Lisp’s <code>user-ptr</code> objects.</p>
+<h2 id="naming"><a class="header" href="#naming">Naming</a></h2>
+<p>By default, the function’s Lisp name has the form <code>&lt;feature-prefix&gt;[mod-prefix]&lt;base-name&gt;</code>.</p>
+<ul>
+<li><code>feature-prefix</code> is the feature name followed by <code>-</code>. This can be customized by the <code>name</code>, <code>defun_prefix</code>, and <code>separator</code> <a href="#options">options</a> on <code>#[emacs::module]</code>.</li>
+<li><code>mod-prefix</code> is constructed from the function’s Rust <code>mod</code> path (with <code>_</code> and <code>::</code> replaced by <code>-</code>). This can be turned off crate-wide, or for individual function, using the option <code>mod_in_name</code>.</li>
+<li><code>base-name</code> is the function’s Rust name (with <code>_</code> replaced by <code>-</code>). This can be overridden with the option <code>name</code>.</li>
+</ul>
+<p>Examples:</p>
+<pre><code class="language-rust">// Assuming crate's name is `native_parallelism`.
+
+#[emacs::module(separator = "/")]
+fn init(_: &amp;Env) -&gt; Result&lt;()&gt; { Ok(()) }
+
+mod shared_state {
+    mod thread {
+        use emacs::{defun, Result};
+
+        // Ignore the nested mod's.
+        // (native-parallelism/make-thread "name")
+        #[defun(mod_in_name = false)]
+        fn make_thread(name: String) -&gt; Result&lt;String&gt; {
+            Ok(name)
+        }
+    }
+
+    mod process {
+        use emacs::{defun, Result};
+
+        // (native-parallelism/shared-state-process-launch "bckgrnd")
+        #[defun]
+        fn launch(name: String) -&gt; Result&lt;String&gt; {
+            Ok(name)
+        }
+
+        // Specify a name explicitly, since Rust identifier cannot contain `:`.
+        // (native-parallelism/process:pool "http-client" 2 8)
+        #[defun(mod_in_name = false, name = "process:pool")]
+        fn pool(name: String, min: i64, max: i64) -&gt; Result&lt;String&gt; {
+            Ok(format!("{name}: {min}..{max}"))
+        }
+    }
+}</code></pre>
+<h2 id="documentation"><a class="header" href="#documentation">Documentation</a></h2>
+<p><code>#[defun]</code> converts Rust’s docstring into Lisp’s docstring. It also automatically constructs and appends the <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Function-Documentation.html#Function-Documentation">function’s signature</a> to the end of the docstring, so that help modes can correctly display it.</p>
+<pre><code class="language-rust">// `(fn X Y)` is automatically appended, so you don't have to manually do so.
+// In help modes, the signature will be (add X Y).
+
+/// Add 2 numbers.
+#[defun]
+fn add(x: usize, y: usize) -&gt; Result&lt;usize&gt; {
+    Ok(x + y)
+}</code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="calling-lisp-functions"><a class="header" href="#calling-lisp-functions">Calling Lisp Functions</a></h1>
+<p>Frequently-used Lisp functions are exposed as methods on <code>env</code>:</p>
+<pre><code class="language-rust">env.intern("defun")?;
+
+env.message("Hello")?;
+
+env.type_of(5.into_lisp(env)?)?;
+
+env.provide("my-module")?;
+
+env.list((1, "str", true))?;</code></pre>
+<p>To call arbitrary Lisp functions, use <code>env.call(func, args)</code>.</p>
+<ul>
+<li><code>func</code> can be:
+<ul>
+<li>A string identifying a named function in Lisp.</li>
+<li>Any Lisp-callable <code>Value</code> (a symbol with a function assigned, a lambda, a subr). This can also be written as <code>func.call(args)</code>.</li>
+</ul>
+</li>
+<li><code>args</code> can be:
+<ul>
+<li>An array, or a slice of <code>Value</code>.</li>
+<li>A tuple of different types, each satisfying the <code>IntoLisp</code> trait.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-rust">// (list "str" 2)
+env.call("list", ("str", 2))?;</code></pre>
+<pre><code class="language-rust">let list = env.intern("list")?;
+// (symbol-function 'list)
+let subr = env.call("symbol-function", [list])?;
+// (funcall 'list "str" 2)
+env.call(list, ("str", 2))?;
+// (funcall (symbol-function 'list) "str" 2)
+env.call(subr, ("str", 2))?;
+subr.call(("str", 2))?; // Like the above, but shorter.</code></pre>
+<pre><code class="language-rust">// (add-hook 'text-mode-hook 'variable-pitch-mode)
+env.call("add-hook", [
+    env.intern("text-mode-hook")?,
+    env.intern("variable-pitch-mode")?,
+])?;</code></pre>
+<pre><code class="language-rust">#[defun]
+fn listify_vec(vector: Vector) -&gt; Result&lt;Value&gt; {
+    let mut args = vec![];
+    for e in vector {
+        args.push(e)
+    }
+    vector.value().env.call("list", &amp;args)
+}</code></pre>
+<h2 id="caching-symbols-and-functions"><a class="header" href="#caching-symbols-and-functions">Caching Symbols and Functions</a></h2>
+<p>Every call to <code>env.intern</code> and every symbol-lookup in <code>env.call("name", ...)</code> does a hash-table lookup inside Emacs. For hot paths, cache the result with <code>use_symbols!</code> or <code>use_functions!</code>.</p>
+<h3 id="use_symbols"><a class="header" href="#use_symbols"><code>use_symbols!</code></a></h3>
+<p><code>use_symbols!</code> declares <code>static</code> variables of type <code>&amp;OnceGlobalRef</code> that hold interned symbol values. The variables are initialized once when the module is loaded.</p>
+<pre><code class="language-rust">use emacs::{defun, use_symbols, Result, Value};
+
+use_symbols! {
+    left right center
+}
+
+#[defun(mod_in_name = false)]
+fn classify(pos: Value&lt;'_&gt;) -&gt; Result&lt;String&gt; {
+    if pos == *left {
+        Ok("left".to_owned())
+    } else if pos == *right {
+        Ok("right".to_owned())
+    } else if pos == *center {
+        Ok("center".to_owned())
+    } else {
+        Ok("unknown".to_owned())
+    }
+}</code></pre>
+<p>The Lisp name for each symbol is derived by replacing <code>_</code> with <code>-</code>. Use <code>=&gt; "lisp-name"</code> to override:</p>
+<pre><code class="language-rust">use_symbols! {
+    nil t
+    buffer_read_only =&gt; "buffer-read-only"
+}</code></pre>
+<p>If the symbol is bound to a function, you can call it via <code>env.call(symbol_var, args)</code>. This goes through symbol lookup on each call. Use <code>use_functions!</code> to avoid that indirection.</p>
+<h3 id="use_functions"><a class="header" href="#use_functions"><code>use_functions!</code></a></h3>
+<p><code>use_functions!</code> is like <code>use_symbols!</code>, but stores the function object directly (via <code>indirect-function</code>). Calls through these variables skip symbol lookup entirely.</p>
+<pre><code class="language-rust">use emacs::{defun, use_functions, Env, Result};
+
+use_functions! {
+    message
+    string_to_number =&gt; "string-to-number"
+}
+
+#[defun]
+fn greet_parsed(env: &amp;Env, s: String) -&gt; Result&lt;()&gt; {
+    let n: i64 = env.call(string_to_number, (s,))?.into_rust()?;
+    env.call(message, (format!("Got {}", n),))?;
+    Ok(())
+}</code></pre>
+<p><strong>Trade-off</strong>: <code>use_functions!</code> is faster than <code>use_symbols!</code> for repeated calls because it skips symbol lookup. However, if the symbol is later rebound to a different function, the cached reference still points to the original function. Use <code>use_symbols!</code> when you need to respect runtime rebinding; use <code>use_functions!</code> for built-in and primitive functions where rebinding is not expected.</p>
+<p>Both macros can be used only once per Rust <code>mod</code>. To cover multiple <code>mod</code>s, place one invocation in each.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="type-conversions"><a class="header" href="#type-conversions">Type Conversions</a></h1>
+<p>The type <code>Value</code> represents Lisp values:</p>
+<ul>
+<li>They can be copied around, but cannot outlive the <code>Env</code> they come from.</li>
+<li>They are “proxy values”: only useful when converted to Rust values, or used as arguments when calling Lisp functions.</li>
+</ul>
+<h2 id="converting-a-lisp-value-to-rust"><a class="header" href="#converting-a-lisp-value-to-rust">Converting a Lisp <code>Value</code> to Rust</a></h2>
+<p>This is enabled for types that implement <code>FromLisp</code>. Most built-in types are supported. Note that conversion may fail, so the return type is <code>Result&lt;T&gt;</code>.</p>
+<pre><code class="language-rust">let i: i64 = value.into_rust()?; // error if Lisp value is not an integer
+let f: f64 = value.into_rust()?; // error if Lisp value is nil
+
+let s = value.into_rust::&lt;String&gt;()?;
+let s: Option&lt;String&gt; = value.into_rust()?; // None if Lisp value is nil
+let b: Vec&lt;u8&gt; = value.into_rust()?; // raw bytes of a Lisp string</code></pre>
+<p>It’s better to declare input types for <code>#[defun]</code> than calling <code>.into_rust()</code>, unless delayed conversion is needed.</p>
+<h2 id="converting-a-rust-value-to-lisp"><a class="header" href="#converting-a-rust-value-to-lisp">Converting a Rust Value to Lisp</a></h2>
+<p>This is enabled for types that implement <code>IntoLisp</code>. Most built-in types are supported. Note that conversion may fail, so the return type is <code>Result&lt;Value&lt;'_&gt;&gt;</code>.</p>
+<pre><code class="language-rust">"abc".into_lisp(env)?;
+"a\0bc".into_lisp(env)?;
+b"\xff\0".into_lisp(env)?; // unibyte string, needs feature emacs-28
+
+5.into_lisp(env)?;
+65.3.into_lisp(env)?;
+
+().into_lisp(env)?; // nil
+true.into_lisp(env)?; // t
+false.into_lisp(env)?; // nil</code></pre>
+<p>It’s better to declare return type for <code>#[defun]</code> than calling <code>.into_lisp(env)</code>, whenever possible.</p>
+<h2 id="integers"><a class="header" href="#integers">Integers</a></h2>
+<p>Integer conversion is lossless by default. Rust code signals <code>rust-integer-out-of-range</code> (<code>RustError::IntegerOutOfRange</code>) when a value does not fit the target type, in cases such as:</p>
+<ul>
+<li>A <code>#[defun]</code> expecting <code>u8</code> gets passed <code>-1</code>.</li>
+<li>A <code>#[defun]</code> returning <code>u64</code> returns a value larger than <code>i64::max_value()</code>.</li>
+</ul>
+<p>On Emacs 25 and 26, which have no bignums, the module layer itself can reject a Rust integer that does not fit a fixnum. This signals <code>rust-module-integer-out-of-range</code> (<code>ModuleError::IntegerOutOfRange</code>) instead.</p>
+<p>The reverse also happens. On Emacs 27+, which support bignums, a Lisp integer outside the <code>i64</code> range signals <code>rust-module-integer-out-of-range</code> (<code>ModuleError::IntegerOutOfRange</code>), for every target type, for example <code>i8</code> or <code>u64</code>. This happens even with <code>lossy-integer-conversion</code>: extracting the <code>i64</code> itself fails, before any Rust-side narrowing runs.</p>
+<p>To disable Rust-side narrowing checks, use the <code>lossy-integer-conversion</code> feature:</p>
+<pre><code class="language-toml">[dependencies.emacs]
+features = ["lossy-integer-conversion"]
+</code></pre>
+<p>Support for Rust’s <code>NonZero</code> integer types is disabled by default. To enable it, use the <code>nonzero-integer-conversion</code> feature:</p>
+<pre><code class="language-toml">[dependencies.emacs]
+features = ["nonzero-integer-conversion"]
+</code></pre>
+<h2 id="strings"><a class="header" href="#strings">Strings</a></h2>
+<p>Use <code>String</code> for text. Use <code>Vec&lt;u8&gt;</code> for binary data, or for text in an encoding other than UTF-8.</p>
+<pre><code class="language-rust">// (xor-bytes "\377\0" 1) returns "\376\1". Returning `Vec&lt;u8&gt;` needs feature emacs-28.
+#[defun]
+fn xor_bytes(data: Vec&lt;u8&gt;, key: u8) -&gt; Result&lt;Vec&lt;u8&gt;&gt; {
+    Ok(data.iter().map(|b| b ^ key).collect())
+}</code></pre>
+<p>Lisp to Rust conversion copies the bytes of a unibyte string, or the UTF-8 encoding of a multibyte string. <code>String</code> then validates them as UTF-8. <code>Vec&lt;u8&gt;</code> does not.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Lisp value</th><th><code>String</code></th><th><code>Vec&lt;u8&gt;</code></th></tr>
+</thead>
+<tbody>
+<tr><td><code>"abc"</code> (unibyte)</td><td><code>"abc"</code></td><td><code>b"abc"</code></td></tr>
+<tr><td><code>"\377"</code> (unibyte, not UTF-8)</td><td><code>rust-invalid-utf-8</code></td><td><code>b"\xff"</code></td></tr>
+<tr><td><code>"é"</code> (multibyte)</td><td><code>"é"</code></td><td><code>b"\xc3\xa9"</code></td></tr>
+<tr><td><code>(string-to-multibyte "\377")</code> (raw byte, no UTF-8 encoding)</td><td><code>rust-module-non-unicode-string</code> †</td><td><code>rust-module-non-unicode-string</code> †</td></tr>
+<tr><td><code>5</code></td><td><code>rust-module-wrong-type</code></td><td><code>rust-module-wrong-type</code></td></tr>
+</tbody>
+</table>
+</div>
+<p>† Emacs 25 and 26 do not check this. <code>String</code> signals <code>rust-invalid-utf-8</code>. <code>Vec&lt;u8&gt;</code> gives <code>b"\xff"</code>.</p>
+<p>Rust to Lisp conversion:</p>
+<ul>
+<li><code>&amp;str</code> and <code>String</code> give a multibyte string, even for ASCII text.</li>
+<li><code>&amp;[u8]</code> and <code>Vec&lt;u8&gt;</code> give a unibyte string. They need the <code>emacs-28</code> feature, because the module API before Emacs 28 cannot make a unibyte string.</li>
+</ul>
+<p>Supported byte types: <code>Vec&lt;u8&gt;</code> and <code>Box&lt;[u8]&gt;</code> from Lisp; <code>&amp;[u8]</code>, <code>&amp;Vec&lt;u8&gt;</code>, <code>Vec&lt;u8&gt;</code>, and <code>Box&lt;[u8]&gt;</code> to Lisp. They convert to a Lisp string, not to a vector of integers.</p>
+<p>To squeeze out some performance:</p>
+<ul>
+<li>You can avoid allocating memory for <code>String</code> structs, by using <code>value.copy_string_contents(buffer)</code> with a large enough buffer.</li>
+<li>If you know the string is valid UTF-8, you can skip the Rust-side check with <code>String::from_utf8_unchecked(value.clone_string_contents()?)</code>.</li>
+</ul>
+<h2 id="equality"><a class="header" href="#equality">Equality</a></h2>
+<p><code>Value</code> implements <code>PartialEq</code>, which maps to Lisp’s <code>eq</code> (identity/pointer equality, not <code>equal</code>).</p>
+<pre><code class="language-rust">// Two references to the same interned symbol are eq.
+let a = env.intern("hello")?;
+let b = env.intern("hello")?;
+assert!(a == b);
+
+// Two separately allocated strings with the same content are not eq.
+let s1 = "hi".into_lisp(env)?;
+let s2 = "hi".into_lisp(env)?;
+assert!(s1 != s2);</code></pre>
+<p><code>GlobalRef</code> and <code>OnceGlobalRef</code> implement <code>PartialEq&lt;Value&gt;</code> (and vice versa), so you can compare a cached global against an incoming argument without rebinding:</p>
+<pre><code class="language-rust">use emacs::use_symbols;
+
+use_symbols! { nil }
+
+#[defun]
+fn is_nil(v: Value&lt;'_&gt;) -&gt; Result&lt;bool&gt; {
+    Ok(v == *nil)
+}</code></pre>
+<p>The old <code>value.eq(other)</code> method is deprecated since 0.20.0. Use <code>==</code> instead.</p>
+<h2 id="vectors"><a class="header" href="#vectors">Vectors</a></h2>
+<p>Lisp vectors are represented by the type <code>Vector</code>, which can be considered a “sub-type” of <code>Value</code>.</p>
+<p>To construct Lisp vectors, use <code>env.make_vector</code> and <code>env.vector</code>, which are efficient wrappers of Emacs’s built-in subroutines <code>make-vector</code> and <code>vector</code>.</p>
+<pre><code class="language-rust">env.make_vector(5, ())?;
+
+env.vector((1, "x", true))?;</code></pre>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="embedding-rust-values-in-lisp"><a class="header" href="#embedding-rust-values-in-lisp">Embedding Rust Values in Lisp</a></h1>
+<p>Speeding up Emacs is one of the goals of dynamic modules. Too many back-and-forth conversions between Rust’s data structures and Lisp’s can defeat the purpose. The solution to this is embedding Rust data structures in opaque <code>user-ptr</code> Lisp objects.</p>
+<p>If a type implements <code>Transfer</code>, its heap-allocated (<code>Box</code>-wrapped) values can be moved into the Lisp runtime, where the GC will become its owner.</p>
+<p>Lisp code sees these as opaque “embedded user pointers”, whose printed representation is something like <code>#&lt;user-ptr ptr=0x102e10b60 finalizer=0x103c9c390&gt;</code>. For these values to be useful, a Rust module needs to export additional functions to manipulate them.</p>
+<p>Since these values are owned by the GC, Rust code can only safely access them through immutable references. Therefore, interior mutability is usually needed. As a result, <code>Transfer</code> is implemented for the smart pointer types <code>RefCell</code>, <code>Mutex</code>, <code>RwLock</code>, <code>Rc</code>, and <code>Arc</code>.</p>
+<p>To return an embedded value, a function needs to be exported with a <code>user_ptr</code> option:</p>
+<ul>
+<li><code>user_ptr</code>: Embedding through a <code>RefCell</code>. This is suitable for common use cases, where module functions can borrow the underlying data back for read/write. It is safe because Lisp threads are subjected to the GIL. <code>BorrowError</code>/<code>BorrowMutError</code> may be signaled at runtime, depending on how module functions call back into the Lisp runtime.</li>
+<li><code>user_ptr(rwlock)</code>, <code>user_ptr(mutex)</code>: Embedding through a <code>RwLock</code>/<code>Mutex</code>. This is suitable for sharing data between module functions (on Lisp threads, with <code>Env</code> access) and pure Rust code (on background threads, without access to an <code>Env</code>).</li>
+<li><code>user_ptr(direct)</code>: Embedding a <code>Transfer</code> value directly. This is suitable for immutable data that will only be read back (not written to) by module functions (writing requires <code>unsafe</code> access, and is discouraged).</li>
+</ul>
+<p>As an example, a module that allows Emacs to use Rust’s <code>HashMap</code> may look like this:</p>
+<pre><code class="language-rust">use std::collections::HashMap;
+use emacs::{defun, Env, Result};
+
+#[emacs::module(name = "rs-hash-map", separator = "/")]
+fn init(env: &amp;Env) -&gt; Result&lt;()&gt; {
+    type Map = HashMap&lt;String, String&gt;;
+
+    #[defun(user_ptr)]
+    fn make() -&gt; Result&lt;Map&gt; {
+        Ok(Map::new())
+    }
+
+    #[defun]
+    fn get(map: &amp;Map, key: String) -&gt; Result&lt;Option&lt;&amp;String&gt;&gt; {
+        Ok(map.get(&amp;key))
+    }
+
+    #[defun]
+    fn set(map: &amp;mut Map, key: String, value: String) -&gt; Result&lt;Option&lt;String&gt;&gt; {
+        Ok(map.insert(key, value))
+    }
+
+    Ok(())
+}</code></pre>
+<pre><code class="language-elisp">(let ((m (rs-hash-map/make)))
+  (rs-hash-map/get m "a")     ; -&gt; nil
+
+  (rs-hash-map/set m "a" "1") ; -&gt; nil
+  (rs-hash-map/get m "a")     ; -&gt; "1"
+
+  (rs-hash-map/set m "a" "2") ; -&gt; "1"
+  (rs-hash-map/get m "a"))    ; -&gt; "2"
+</code></pre>
+<p><strong>Notes</strong>:</p>
+<ul>
+<li><code>Value.into_rust()</code> has a runtime type check, which fails with the error <code>'rust-wrong-type-user-ptr</code> if the value is a <code>user-ptr</code> object of a different type.</li>
+<li>Input parameters with reference types are interpreted as <code>RefCell</code>-embedded <code>user-ptr</code> objects. For other kinds of embedding, you will have to use a <code>Value</code> parameter, and acquire the reference manually, since locking strategy (including deadlock avoidance/detection) should be module-specific.
+<pre><code class="language-rust">use std::sync::RwLock;
+
+#[defun(user_ptr(rwlock))]
+fn make() -&gt; Result&lt;Map&gt; {
+    Ok(Map::new())
+}
+
+#[defun]
+fn get(v: Value&lt;'_&gt;, key: String) -&gt; Result&lt;Value&lt;'_&gt;&gt; {
+    let lock: &amp;RwLock&lt;Map&gt; = v.into_rust()?;
+    let map = lock.try_read().map_err(|_| Error::msg("map is busy"))?;
+    map.get(&amp;key).into_lisp(v.env)
+}</code></pre>
+</li>
+</ul>
+<h2 id="lifetime-constrained-types"><a class="header" href="#lifetime-constrained-types">Lifetime-constrained Types</a></h2>
+<p>When a type is constrained by a (non-static) lifetime, its value cannot be embedded unchanged. Before embedding, the lifetime must be <strong>soundly</strong> elided. In other words, static ownership must be correctly given up.</p>
+<p>The typical example is a struct holding a reference to another struct:</p>
+<pre><code class="language-rust">pub struct Tree;
+
+pub struct Node&lt;'t&gt; {
+    pub tree: &amp;'t Tree,
+}
+
+impl Tree {
+    pub fn root_node(&amp;self) -&gt; Node&lt;'_&gt; {
+        ...
+    }
+}
+
+impl&lt;'t&gt; Node&lt;'t&gt; {
+    pub fn child(&amp;self) -&gt; Node&lt;'t&gt; {
+        ...
+    }
+}</code></pre>
+<p>In this case, the lifetime can be elided by turning the static reference into a dynamic ref-counted pointer. The <a href="https://github.com/jpernst/rental">rental crate</a> provides a convenient way to do this:</p>
+<pre><code class="language-rust">#[macro_use]
+extern crate rental;
+
+use std::{rc::Rc, marker::PhantomData};
+use emacs::{defun, Result};
+
+// PhantomData is need because map_suffix requires a type parameter.
+// See https://github.com/jpernst/rental/issues/35.
+pub struct PhantomNode&lt;'t, T&gt;(Node&lt;'t&gt;, PhantomData&lt;T&gt;);
+
+impl&lt;'t&gt; PhantomNode&lt;'t, ()&gt; {
+    fn child(&amp;self) -&gt; Self {
+        PhantomNode(self.0.child(), PhantomData)
+    }
+}
+
+rental! {
+    pub mod inner {
+        use std::rc::Rc;
+
+        // Self-referential struct that holds both
+        // the actual Node and the ref-counted Tree.
+        #[rental(map_suffix = "T")]
+        pub struct RentingNode&lt;T: 'static&gt; {
+            tree: Rc&lt;super::Tree&gt;,
+            node: super::PhantomNode&lt;'tree, T&gt;
+        }
+    }
+}
+
+type RentingNode = inner::RentingNode&lt;()&gt;;
+
+#[defun(user_ptr)]
+fn root_node(tree: Value) -&gt; Result&lt;RentingNode&gt; {
+    let rc: &amp;Rc&lt;Tree&gt; = tree.into_rust()?;
+    Ok(RentingNode::new(rc.clone(), |tree| tree.root_node()))
+}
+
+#[defun(user_ptr)]
+fn child(node: &amp;RentingNode) -&gt; Result&lt;RentingNode&gt; {
+    node.map(|n| n.child())
+}</code></pre>
+<p>Note that there’s no <code>unsafe</code> involved directly, as the soundness proofs are already encapsulated in <code>rental</code> macros.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="error-handling-and-signaling"><a class="header" href="#error-handling-and-signaling">Error Handling and Signaling</a></h1>
+<p>Emacs Lisp’s <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Handling-Errors.html">error handling mechanism</a> uses <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Nonlocal-Exits.html">non-local exits</a>. Rust uses <code>Result</code> enum. <code>emacs-module-rs</code> converts between the 2 at the Rust-Lisp boundaries (more precisely, Rust-C).</p>
+<p>The chosen error type is the <code>Error</code> struct from <a href="https://github.com/dtolnay/anyhow"><code>anyhow</code> crate</a>:</p>
+<pre><code class="language-rust">pub type Result&lt;T&gt; = result::Result&lt;T, anyhow::Error&gt;;</code></pre>
+<h2 id="handling-lisp-errors-in-rust"><a class="header" href="#handling-lisp-errors-in-rust">Handling Lisp Errors in Rust</a></h2>
+<p>Lisp code exits in 2 ways: it signals an error, or it throws a value. Calling it (<code>env.call</code>, <code>Value::call</code>) surfaces these as <code>ErrorKind::Signal</code> and <code>ErrorKind::Throw</code>.</p>
+<p>When calling a Lisp function, it’s usually a good idea to propagate signaled errors with the <code>?</code> operator, letting higher level (Lisp) code handle them. If you want to handle a specific error, you can use <code>error.downcast_ref</code>:</p>
+<pre><code class="language-rust">match env.call("insert", [some_text]) {
+    Err(error) =&gt; {
+        // Handle `buffer-read-only` error.
+        if let Some(ErrorKind::Signal { symbol, .. }) = error.downcast_ref::&lt;ErrorKind&gt;() {
+            let buffer_read_only = env.intern("buffer-read-only")?;
+            // `symbol` is a `TempValue` that must be converted to `Value`.
+            let symbol = unsafe { symbol.value(env) };
+            if symbol == buffer_read_only {
+                env.message("This buffer is not writable!")?;
+                return Ok(());
+            }
+        }
+        // Propagate other errors.
+        Err(error)
+    }
+    Ok(_) =&gt; Ok(()),
+}</code></pre>
+<p>Note the use of <code>unsafe</code> to extract the error symbol as a <code>Value</code>. The reason is that, <code>ErrorKind::Signal</code> is marked <code>Send+Sync</code>, for compatibility with <code>anyhow</code>, while <code>Value</code> is lifetime-bound by <code>env</code>. The <code>unsafe</code> contract here requires the error being handled (and its <code>TempValue</code>) to come from this <code>env</code>, not from another thread, or from a global/thread-local storage.</p>
+<h3 id="catching-values-thrown-by-lisp"><a class="header" href="#catching-values-thrown-by-lisp">Catching Values Thrown by Lisp</a></h3>
+<p>This is similar to handling Lisp errors. The only difference is <code>ErrorKind::Throw</code> being used instead of <code>ErrorKind::Signal</code>.</p>
+<h2 id="handling-module-layer-and-rust-layer-errors-in-rust"><a class="header" href="#handling-module-layer-and-rust-layer-errors-in-rust">Handling Module-layer and Rust-layer Errors in Rust</a></h2>
+<p>Two more origins exist.</p>
+<ul>
+<li><code>ErrorKind::Module</code>: The module layer (<code>emacs-module.c</code>) rejects some calls, for example <code>extract_integer</code> on a string.</li>
+<li><code>ErrorKind::Rust</code>: The Rust layer (i.e. this crate) rejects some values, for example converting a <code>String</code> from bytes that are not valid UTF-8.</li>
+</ul>
+<pre><code class="language-rust">match error.downcast_ref::&lt;ErrorKind&gt;() {
+    Some(ErrorKind::Signal { .. } | ErrorKind::Throw { .. }) =&gt; {
+        // Lisp code signaled or threw.
+    }
+    Some(ErrorKind::Module(_)) =&gt; {
+        // The module layer rejected the call.
+    }
+    Some(ErrorKind::Rust(_)) =&gt; {
+        // Rust code in this crate rejected the value.
+    }
+    None =&gt; {
+        // Not an `ErrorKind`.
+    }
+}</code></pre>
+<p><code>ModuleError</code> and <code>RustError</code> are <code>#[non_exhaustive]</code>, so a match on their variants needs an <code>_</code> arm:</p>
+<pre><code class="language-rust">match error.downcast_ref::&lt;ErrorKind&gt;() {
+    Some(ErrorKind::Module(ModuleError::WrongType { expected: LispType::Integer, .. })) =&gt; {
+        env.message("Expected an integer")?;
+    }
+    Some(ErrorKind::Rust(RustError::InvalidUtf8 { .. })) =&gt; {
+        env.message("Not valid UTF-8")?;
+    }
+    // `ModuleError` and `RustError` can grow new variants in a minor release.
+    _ =&gt; return Err(error),
+}</code></pre>
+<h2 id="signaling-lisp-errors-from-rust"><a class="header" href="#signaling-lisp-errors-from-rust">Signaling Lisp Errors from Rust</a></h2>
+<p>The function <code>env.signal</code> allows signaling a Lisp error from Rust code. The error symbol must have been defined, e.g. by the macro <code>define_errors!</code>:</p>
+<pre><code class="language-rust">// The parentheses denote parent error signals.
+// If unspecified, the parent error signal is `error`.
+emacs::define_errors! {
+    my_custom_error "This number should not be negative" (arith_error range_error)
+}
+
+#[defun]
+fn signal_if_negative(env: &amp;Env, x: i16) -&gt; Result&lt;()&gt; {
+    if x &lt; 0 {
+        return env.signal(my_custom_error, ("associated", "DATA", 7))
+    }
+    Ok(())
+}</code></pre>
+<h2 id="handling-module-layer-and-rust-layer-errors-in-lisp"><a class="header" href="#handling-module-layer-and-rust-layer-errors-in-lisp">Handling Module-layer and Rust-layer Errors in Lisp</a></h2>
+<p>Instead of handling the module-layer and Rust-layer errors above, Rust module functions can propagate them to Lisp. When that happens, the error is “wrapped” in a way that is compatible with using <code>condition-case</code> on <a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Standard-Errors.html">standard errors</a>.</p>
+<ul>
+<li>The error symbol has 2 parent symbols: the origin symbol and the standard symbol.
+<ul>
+<li>For module-layer errors, the origin symbol is <code>rust-module-error</code>, and the standard symbol is the original symbol that <code>emacs-module.c</code> uses.</li>
+<li>For Rust-layer errors, the origin symbol is <code>rust-error</code>.</li>
+</ul>
+</li>
+<li>The signal data has the same shape as the standard symbol’s data shape in Emacs 31. For example, <code>rust-module-wrong-type</code> data is <code>(integerp "3")</code>, like <code>wrong-type-argument</code>, <code>rust-invalid-utf-8</code> data is <code>(utf-8-string-p "\377")</code>.</li>
+</ul>
+<p><code>Signal</code>, <code>Throw</code>, and <code>ModuleError::Signal</code> are raised again unchanged. Lisp code sees the original symbol and data. <code>ModuleError::Signal</code> has no <code>rust-</code> symbol.</p>
+<pre><code>ErrorKind
+├── Signal, Throw            from Lisp code
+├── Module(ModuleError)      the module layer (emacs-module.c) rejected the call
+│   ├── WrongType            expected: LispType
+│   ├── NonUnicodeString
+│   ├── InvalidUtf8
+│   ├── BufferTooSmall
+│   ├── IndexOutOfRange
+│   ├── IntegerOutOfRange
+│   └── Signal               no typed variant
+└── Rust(RustError)          this crate's Rust layer rejected the value
+    ├── WrongTypeUserPtr
+    ├── InvalidUtf8
+    └── IntegerOutOfRange
+</code></pre>
+<pre><code>error                                      + standard symbol
+├── rust-module-error
+│   ├── rust-module-wrong-type             + wrong-type-argument
+│   ├── rust-module-non-unicode-string     + wrong-type-argument
+│   ├── rust-module-invalid-utf-8          + wrong-type-argument
+│   ├── rust-module-buffer-too-small       + args-out-of-range, memory-buffer-too-small (31+)
+│   ├── rust-module-index-out-of-range     + args-out-of-range
+│   └── rust-module-integer-out-of-range   + overflow-error
+├── rust-error
+│   ├── rust-wrong-type-user-ptr           + wrong-type-argument
+│   ├── rust-invalid-utf-8                 + wrong-type-argument
+│   └── rust-integer-out-of-range          + overflow-error
+└── rust-panic
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Variant</th><th>Data</th></tr>
+</thead>
+<tbody>
+<tr><td><code>WrongType</code></td><td><code>(PREDICATE VALUE)</code></td></tr>
+<tr><td><code>BufferTooSmall</code></td><td><code>(ACTUAL REQUIRED)</code></td></tr>
+<tr><td><code>IndexOutOfRange</code></td><td><code>(VECTOR INDEX)</code></td></tr>
+<tr><td><code>IntegerOutOfRange</code></td><td><code>(VALUE)</code>, or no data</td></tr>
+<tr><td><code>WrongTypeUserPtr</code></td><td><code>(EXPECTED VALUE)</code></td></tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li><code>EXPECTED</code> is the Rust type name, not a predicate.</li>
+<li><code>PREDICATE</code> is the Lisp type predicate that the value failed, for example <code>integerp</code> or <code>user-ptrp</code>. Some, for example <code>utf-8-string-p</code>, are not functions.</li>
+</ul>
+<pre><code class="language-rust">// May signal `rust-wrong-type-user-ptr` if `value` holds a different type of hash map,
+// or is a `user-ptr` defined in a non-Rust module.
+let r: &amp;RefCell&lt;HashMap&lt;String, String&gt;&gt; = value.into_rust()?;</code></pre>
+<h3 id="panics"><a class="header" href="#panics">Panics</a></h3>
+<p>Unwinding from Rust into C is undefined behavior. <code>emacs-module-rs</code> prevents that by using <code>catch_unwind</code> at the Rust-to-C boundary to convert a panic into a Lisp’s signal/throw of the appropriate type:</p>
+<ul>
+<li>Normally the panic is converted into a Lisp’s error signal of the type <code>rust-panic</code>. Note that it is <strong>not a sub-type</strong> of <code>rust-error</code>.</li>
+<li>If the panic value is an <code>ErrorKind</code>, it is converted to the corresponding signal/throw, as if a <code>Result</code> was returned. This allows propagating Lisp’s non-local exits through contexts where <code>Result</code> is not appropriate, e.g. callbacks whose types are dictated by 3rd-party libraries, such as <code>tree-sitter</code>.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="communicating-with-emacs-from-background-threads"><a class="header" href="#communicating-with-emacs-from-background-threads">Communicating with Emacs from Background Threads</a></h1>
+<p><code>open_channel</code> lets a background Rust thread send data to Emacs by writing into a pipe process’s input stream. It requires the <code>emacs-28</code> feature and Emacs 28+.</p>
+<h2 id="setup"><a class="header" href="#setup">Setup</a></h2>
+<p>Enable the feature:</p>
+<pre><code class="language-bash">cargo add emacs --features emacs-28
+</code></pre>
+<h2 id="how-it-works"><a class="header" href="#how-it-works">How It Works</a></h2>
+<p>Emacs’s <code>make-pipe-process</code> returns a process object backed by a pair of OS pipes. <code>env.open_channel(pipe_process)</code> opens the write end of that pipe and returns an <code>impl Write + Send + Sync</code>. You can move it to any thread and write to it; Emacs’s process filter function receives the data on the main thread.</p>
+<pre><code class="language-rust">use std::io::Write;
+use emacs::{defun, Env, Result, Value};
+
+/// Send DATA to PROCESS from the calling thread.
+#[defun]
+fn channel_send(env: &amp;Env, process: Value&lt;'_&gt;, data: String) -&gt; Result&lt;()&gt; {
+    let mut writer = env.open_channel(process)?;
+    writer.write_all(data.as_bytes())?;
+    Ok(())
+}
+
+/// Spawn a thread that sends DATA to PROCESS, then wait for it.
+#[defun]
+fn channel_send_from_thread(env: &amp;Env, process: Value&lt;'_&gt;, data: String) -&gt; Result&lt;()&gt; {
+    let mut writer = env.open_channel(process)?;
+    let handle = std::thread::spawn(move || -&gt; std::io::Result&lt;()&gt; {
+        writer.write_all(data.as_bytes())?;
+        Ok(())
+    });
+    handle.join().expect("thread panicked")?;
+    Ok(())
+}</code></pre>
+<p>On the Emacs side, create the pipe process and attach a filter:</p>
+<pre><code class="language-elisp">(let ((proc (make-pipe-process
+             :name "my-pipe"
+             :filter (lambda (_proc data)
+                       (message "Received: %s" data)))))
+  (my-module-channel-send proc "hello from Rust"))
+</code></pre>
+<p>Dropping the writer closes the write end of the pipe. Emacs’s process sentinel fires when the last writer closes.</p>
+<h2 id="windows-note"><a class="header" href="#windows-note">Windows Note</a></h2>
+<p>On Windows, the write end of the pipe is a CRT (C runtime) file descriptor created by Emacs. Your module must link against the same CRT as Emacs. Otherwise, <code>open_channel</code> crashes inside <code>get_osfhandle</code>.</p>
+<ul>
+<li>Official GNU builds use MSVCRT. Build your module in the MSYS2 MINGW64 shell.</li>
+<li>Official <code>-UCRT64</code> builds (Emacs 31+) and MSYS2’s <code>mingw-w64-ucrt-x86_64-emacs</code> use UCRT. Build your module in the MSYS2 UCRT64 shell.</li>
+</ul>
+<p>The GNU toolchain uses <code>gcc</code> as the linker, so the first <code>gcc</code> in <code>PATH</code> selects the CRT. To check a binary’s CRT, list its imported DLLs:</p>
+<pre><code class="language-bash">objdump -p "$(which emacs)" | grep 'DLL Name'
+</code></pre>
+<p><code>msvcrt.dll</code> means MSVCRT. <code>ucrtbase.dll</code> or <code>api-ms-win-crt-*.dll</code> means UCRT. See <a href="#setting-up">Overview</a> for the setup steps.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="canvas-images"><a class="header" href="#canvas-images">Canvas Images</a></h1>
+<p><code>Value::with_canvas_data</code> lends your module the pixel buffer of an Emacs 32 canvas image. You draw into the buffer from Rust, then ask Lisp to show it.</p>
+<h2 id="setup-1"><a class="header" href="#setup-1">Setup</a></h2>
+<p>This feature is <strong>experimental</strong>. It tracks an unreleased module ABI.</p>
+<p>Enable the feature:</p>
+<pre><code class="language-bash">cargo add emacs --features emacs-32-experimental
+</code></pre>
+<p>The module needs Emacs 32, built with a window system. Older Emacs versions refuse to load it. Without a window system, <code>with_canvas_data</code> signals <code>error</code>.</p>
+<h2 id="drawing"><a class="header" href="#drawing">Drawing</a></h2>
+<p>A canvas is an image spec with <code>:type canvas</code>. <code>:id</code>, <code>:data-width</code> and <code>:data-height</code> are mandatory. The spec object (not an <code>equal</code> copy) identifies the canvas.</p>
+<pre><code class="language-rust">use emacs::{defun, Env, Result, Value};
+
+/// Fill CANVAS with PIXEL.
+#[defun]
+fn fill(env: &amp;Env, canvas: Value&lt;'_&gt;, pixel: u32) -&gt; Result&lt;()&gt; {
+    canvas.with_canvas_data(|data| data.buffer.fill(pixel))?;
+    env.call("canvas-refresh", [canvas])?;
+    Ok(())
+}</code></pre>
+<pre><code class="language-elisp">(defvar my-canvas (list 'image :type 'canvas :id 'my-canvas :data-width 320 :data-height 240))
+(insert-image my-canvas)
+(my-module-fill my-canvas #xFF3366CC)
+</code></pre>
+<p>Emacs does not show the changes until Lisp calls <code>canvas-refresh</code> on the spec. In a loop, call <code>redisplay</code> as well.</p>
+<h2 id="rules"><a class="header" href="#rules">Rules</a></h2>
+<p>The closure receives a <code>CanvasData</code> with the fields <code>buffer</code>, <code>width</code> and <code>height</code>.</p>
+<ul>
+<li><code>buffer</code> is a <code>&amp;mut [u32]</code> with <code>width * height</code> elements. Pixels are in row-major order. Use <code>buffer.chunks_exact_mut(width)</code> to get rows.</li>
+<li>Each pixel is a native-endian <code>0xAARRGGBB</code> value. Emacs ignores alpha when it displays the canvas.</li>
+<li>A resize zeroes the buffer. Lisp resizes a canvas when it changes <code>:data-width</code> or <code>:data-height</code>. Pixels from before are lost.</li>
+<li>The closure must be <code>Send</code>, so it cannot capture <code>&amp;Env</code> or <code>Value</code>. Thus it cannot call Lisp.</li>
+</ul>
+<p>The last rule is the safety argument. Lisp code can resize or free the canvas, and redisplay reads the buffer. The buffer is valid only while no Lisp code runs. Call <code>canvas-refresh</code> after <code>with_canvas_data</code> returns, as <code>fill</code> does.</p>
+<p>The bound also rejects other non-<code>Send</code> captures, such as <code>Rc</code>. Copy the data out of them first.</p>
+<h2 id="background-rendering"><a class="header" href="#background-rendering">Background Rendering</a></h2>
+<p>Emacs reads the buffer only on the Lisp thread. So a render thread must not hold the canvas buffer. Let the thread draw into a buffer that Rust owns, and swap it with a shared buffer. A defun, which runs on the Lisp thread, copies the shared buffer into the canvas.</p>
+<pre><code class="language-rust">use std::mem;
+use std::sync::Mutex;
+use std::thread;
+use std::time::Duration;
+
+use emacs::{defun, Env, Result, Value};
+
+struct Frame {
+    width: usize,
+    height: usize,
+    pixels: Vec&lt;u32&gt;,
+}
+
+static FRAME: Mutex&lt;Frame&gt; = Mutex::new(Frame { width: 0, height: 0, pixels: Vec::new() });
+
+/// Render frames of WIDTH by HEIGHT pixels in a background thread.
+#[defun]
+fn render_start(width: usize, height: usize) -&gt; Result&lt;()&gt; {
+    thread::spawn(move || {
+        let mut back = Frame { width, height, pixels: Vec::new() };
+        for tick in 0u32.. {
+            back.width = width;
+            back.height = height;
+            back.pixels.resize(width * height, 0);
+            for (index, pixel) in back.pixels.iter_mut().enumerate() {
+                *pixel = 0xFF00_0000 | (index as u32).wrapping_add(tick.wrapping_mul(1000));
+            }
+            let Ok(mut front) = FRAME.lock() else { return };
+            mem::swap(&amp;mut *front, &amp;mut back);
+            drop(front);
+            thread::sleep(Duration::from_millis(16));
+        }
+    });
+    Ok(())
+}
+
+/// Copy the latest frame into CANVAS, and refresh it.
+#[defun]
+fn render_present(env: &amp;Env, canvas: Value&lt;'_&gt;) -&gt; Result&lt;()&gt; {
+    let copied = canvas.with_canvas_data(|data| {
+        let Ok(frame) = FRAME.lock() else { return false };
+        if frame.width != data.width || frame.height != data.height {
+            return false;
+        }
+        data.buffer.copy_from_slice(&amp;frame.pixels);
+        true
+    })?;
+    if copied {
+        env.call("canvas-refresh", [canvas])?;
+    }
+    Ok(())
+}</code></pre>
+<pre><code class="language-elisp">(my-module-render-start 320 240)
+(run-with-timer 0 (/ 1.0 30) (lambda () (my-module-render-present my-canvas)))
+</code></pre>
+<ul>
+<li>The render thread draws without the lock. It holds the lock only to swap, so a copy in <code>render_present</code> does not stop the drawing.</li>
+<li>The mutex guards only the Rust-owned buffers. Emacs needs no lock.</li>
+<li><code>render_present</code> compares dimensions first. Lisp can resize the canvas while the thread renders a frame. Without the check, <code>copy_from_slice</code> panics on a length mismatch.</li>
+</ul>
+<h2 id="known-gap"><a class="header" href="#known-gap">Known Gap</a></h2>
+<p>If Lisp code that runs during the call resizes the same canvas, <code>buffer</code> has the wrong length. This code includes <code>post-gc-hook</code>, the debugger, file name handlers for <code>:file</code>, and <code>*Messages*</code> updates (<code>messages-buffer-mode</code> and its hooks) when Emacs reports an image error. Do not resize a canvas from such code.</p>
+<p>The length is also wrong if Lisp redefines <code>cdr</code> or <code>plist-get</code> to return false values before the module loads. The module calls the definitions that exist at load time. Advice that passes the real results through, such as <code>trace-function</code>, is harmless.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="testing"><a class="header" href="#testing">Testing</a></h1>
+<p>You can define tests using <a href="https://www.gnu.org/software/emacs/manual/html_node/ert/index.html">ert</a>, then use a script to load the module and run the tests. Examples:</p>
+<ul>
+<li>emacs-module-rs’s own <a href="https://github.com/ubolonton/emacs-module-rs/tree/master/tests/test-module/tests">tests</a> and <a href="https://github.com/ubolonton/emacs-module-rs/blob/master/xtask/src/main.rs">script</a>.</li>
+<li>emacs-tree-sitter’s <a href="https://github.com/ubolonton/emacs-tree-sitter/blob/master/tree-sitter-tests.el">tests</a> and <a href="https://github.com/ubolonton/emacs-tree-sitter/blob/master/bin/test">script</a>.</li>
+</ul>
+<p>For continuous testing during development, use <a href="https://crates.io/crates/cargo-watch"><code>cargo-watch</code></a> to rebuild the module and rerun the tests on file changes. emacs-module-rs’s script wraps it:</p>
+<pre><code class="language-bash">cargo xtask test --watch
+</code></pre>
+<p>A future version will have tighter integration with either <code>cargo</code> or <a href="https://github.com/cask/cask">Cask</a>.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="live-reloading"><a class="header" href="#live-reloading">Live Reloading</a></h1>
+<p>Live code reloading is very useful during development. However, Emacs does not support unloading modules. Live reloading thus requires a custom module loader, e.g. <a href="https://crates.io/crates/emacs-rs-module">emacs-rs-module</a>, which is itself a dynamic module.</p>
+<p>To use it, load it in Emacs:</p>
+<pre><code class="language-elisp">(require 'rs-module)
+</code></pre>
+<p>Then use it to load other modules instead of <code>require</code> or <code>module-load</code>:</p>
+<pre><code class="language-elisp">;; Will unload the old version of the module first.
+(rs-module/load "full/path/to/module.so")
+</code></pre>
+<p><code>cargo</code> doesn’t support installing dynamic libs yet, so you have to include <code>emacs-rs-module</code> as a dev dependency to compile it on your own:</p>
+<pre><code class="language-bash">cargo add --dev emacs-rs-module
+</code></pre>
+<p><a href="https://github.com/ubolonton/magit-libgit2#interactive-development">magit-libgit2</a> is an example of how to set this all up, to have live-reloading on-save.</p>
+<p>A future version will have tighter integration with <code>cargo</code>.</p>
+<p><strong>Notes</strong>:</p>
+<ul>
+<li>It mainly works on Linux, but potentially because Linux’s dynamic loading system is unsafe (i.e. ridden with UB traps).</li>
+<li>It doesn’t work on macOS 10.13+ (High Sierra and up), because macOS doesn’t unload dynamic libraries that use TLS (thread-local storage), for safety reason. See Rust’s <a href="https://github.com/rust-lang/rust/issues/28794#issuecomment-368693049">issue #28794</a>.</li>
+<li>It doesn’t work on Windows, since loading the dll prevents writing to its file.</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-c2a407aa.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-185a8220.js"></script>
+        <script src="book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+
+
+    </div>
+    </body>
+</html>

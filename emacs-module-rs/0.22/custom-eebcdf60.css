@@ -1,0 +1,17 @@
+code {
+  font-family: "Fira Code", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, "DejaVu Sans Mono", "Source Code Pro", "Ubuntu Mono", monospace, monospace !important;
+}
+
+.hljs-comment {
+  font-style: italic;
+}
+
+.version-switcher {
+  margin-inline-end: 0.5rem;
+  padding: 0.2rem;
+  color: var(--icons);
+  background-color: var(--bg);
+  border: 1px solid var(--icons);
+  border-radius: 4px;
+  font-size: 1.4rem;
+}
